@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon_cat.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon_cat.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon_cat.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fxmaoyuzzz.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="SpringBoot相关知识点备忘录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot相关知识点">
+<meta property="og:url" content="http://fxmaoyuzzz.cn/2019/11/20/SpringBoot%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="敲代码就像在弹钢琴OuO">
+<meta property="og:description" content="SpringBoot相关知识点备忘录">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-20T15:40:22.000Z">
+<meta property="article:modified_time" content="2020-03-06T10:14:33.474Z">
+<meta property="article:author" content="李增海">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fxmaoyuzzz.cn/2019/11/20/SpringBoot%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SpringBoot相关知识点 | 敲代码就像在弹钢琴OuO</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">敲代码就像在弹钢琴OuO</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://fxmaoyuzzz.cn/2019/11/20/SpringBoot%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/tx.jpg">
+      <meta itemprop="name" content="李增海">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="敲代码就像在弹钢琴OuO">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringBoot相关知识点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-20 23:40:22" itemprop="dateCreated datePublished" datetime="2019-11-20T23:40:22+08:00">2019-11-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-06 18:14:33" itemprop="dateModified" datetime="2020-03-06T18:14:33+08:00">2020-03-06</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>SpringBoot相关知识点备忘录</p>
+<a id="more"></a>
+
+
+
+
+<hr>
+<h5 id="核心配置文件："><a href="#核心配置文件：" class="headerlink" title="核心配置文件："></a>核心配置文件：</h5><p>application：SpringBoot项目的自动化配置</p>
+<p>bootstrap：使用SpringCloud config配置中心时，需要在bootstrap配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；包括一些固定的不能被覆盖的属性和一些加密/解密的场景。</p>
+<h5 id="配置文件的两种格式："><a href="#配置文件的两种格式：" class="headerlink" title="配置文件的两种格式："></a>配置文件的两种格式：</h5><p>.properties和.yml</p>
+<h5 id="核心注解："><a href="#核心注解：" class="headerlink" title="核心注解："></a>核心注解：</h5><p>启动类上面的注解是SpringBootApplication</p>
+<p>包含三个注解：</p>
+<p>​        SpringBootConfiguration：组合Configuration注解，实现配置文件功能</p>
+<p>​        EnableAutoConfiguration：打开了自动配置的功能，也可以关闭某个自动配置的选项</p>
+<p>​        ComponentScan：Spring组件扫描</p>
+<h5 id="开启SpringBoot特性的方法："><a href="#开启SpringBoot特性的方法：" class="headerlink" title="开启SpringBoot特性的方法："></a>开启SpringBoot特性的方法：</h5><p>1、继承spring-boot-parent父项目</p>
+<p>2、导入dependencies项目依赖</p>
+<h5 id="SpringBoot自动配置原理是什么："><a href="#SpringBoot自动配置原理是什么：" class="headerlink" title="SpringBoot自动配置原理是什么："></a>SpringBoot自动配置原理是什么：</h5><p>注解EnableAutoConfiguration，Configuration，ConditionalOnClass是自动配置核心，首先他得是一个配置文件，其次根据类路径下是否有这个类去自动配置</p>
+<h5 id="如何集成SpringBoot和activeMQ："><a href="#如何集成SpringBoot和activeMQ：" class="headerlink" title="如何集成SpringBoot和activeMQ："></a>如何集成SpringBoot和activeMQ：</h5><p>使用spring-boot-starter-activemq依赖</p>
+<h5 id="如何使用SpringBoot实现异常处理："><a href="#如何使用SpringBoot实现异常处理：" class="headerlink" title="如何使用SpringBoot实现异常处理："></a>如何使用SpringBoot实现异常处理：</h5><p>实现ControllerAdvice类来处理控制类抛出的所有异常</p>
+<h5 id="RequestMapping和-GetMapping的不同之处："><a href="#RequestMapping和-GetMapping的不同之处：" class="headerlink" title="@RequestMapping和@GetMapping的不同之处："></a>@RequestMapping和@GetMapping的不同之处：</h5><p>@RequestMapping具有类属性，可以进行get、post、put或者其他注释中具有的请求方法</p>
+<p>@GetMapping是get请求方法中的一个特例，只是@RequestMapping的一个延伸，目的是为了提高清晰度</p>
+<h5 id="SpringBoot支持哪些日志框架："><a href="#SpringBoot支持哪些日志框架：" class="headerlink" title="SpringBoot支持哪些日志框架："></a>SpringBoot支持哪些日志框架：</h5><p>SpringBoot支持JavaUtil logging、log4j2、lockback作为日志框架，如果使用starters启动器SpringBoot将使用logback作为默认的日志框架。</p>
+<h5 id="SpringBoot实现热部署的方式："><a href="#SpringBoot实现热部署的方式：" class="headerlink" title="SpringBoot实现热部署的方式："></a>SpringBoot实现热部署的方式：</h5><p>1、引用devtools依赖（生产环境将被禁用）如java -jar/自定义类加载器等</p>
+<p>2、在properties中自定义配置热部署</p>
+<h5 id="SpringBoot如何定义多套不同环境配置："><a href="#SpringBoot如何定义多套不同环境配置：" class="headerlink" title="SpringBoot如何定义多套不同环境配置："></a>SpringBoot如何定义多套不同环境配置：</h5><p>1、建立多个环境下的配置文件</p>
+<p>2、基于yml文件类型，指定profiles模式</p>
+<h5 id="如何在SpringBoot中添加通用Js代码："><a href="#如何在SpringBoot中添加通用Js代码：" class="headerlink" title="如何在SpringBoot中添加通用Js代码："></a>如何在SpringBoot中添加通用Js代码：</h5><p>在源文件夹下，创建static文件夹，将静态内容放在此目录下</p>
+<h5 id="SpringCloud如何实现服务的注册和发现："><a href="#SpringCloud如何实现服务的注册和发现：" class="headerlink" title="SpringCloud如何实现服务的注册和发现："></a>SpringCloud如何实现服务的注册和发现：</h5><p>服务在发布时，指定对应的服务名（服务名包含了IP地址和端口），将服务注册到注册中心（eureka或zookeeper）,这一过程是SpringCloud自动实现，只需在main方法中添加EnableDisscoveryClient</p>
+<p>​     同一服务修改端口就可以启动多个实例</p>
+<p>​     调用方法：传递服务名称通过注册中心获取所有的可用实例，通过负载均衡策略调用（ribbon或feign）对应服务</p>
+<h5 id="Ribbon和Feign的区别："><a href="#Ribbon和Feign的区别：" class="headerlink" title="Ribbon和Feign的区别："></a>Ribbon和Feign的区别：</h5><h6 id="1、启动类使用注释不同："><a href="#1、启动类使用注释不同：" class="headerlink" title="1、启动类使用注释不同："></a>1、启动类使用注释不同：</h6><p>​        @RibbonClient/EnableFeignClients</p>
+<h6 id="2、服务指定位置不同："><a href="#2、服务指定位置不同：" class="headerlink" title="2、服务指定位置不同："></a>2、服务指定位置不同：</h6><p>​        Ribbon是在RibbonClient注释上声明</p>
+<p>​        Feign是在定义抽象方法的接口中使用FeignClient声明</p>
+<h6 id="3、调用方式不同："><a href="#3、调用方式不同：" class="headerlink" title="3、调用方式不同："></a>3、调用方式不同：</h6><p>​        Ribbon需要自己构建http请求，模拟http请求然后使用RestTemplate发送给其他服务</p>
+<p>​        Feign采用接口方式，将需要调用的其他方法定义成抽象方法即可</p>
+<h5 id="SpringBoot集成Mybatis过程："><a href="#SpringBoot集成Mybatis过程：" class="headerlink" title="SpringBoot集成Mybatis过程："></a>SpringBoot集成Mybatis过程：</h5><p>1、添加maven依赖</p>
+<p>2、在mybatis接口中，添加Mapper注解</p>
+<p>3、在application.yml配置数据源信息</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/07/28/SpringBoot%E4%B8%AD%E7%9A%84jackon%E9%85%8D%E7%BD%AE/" rel="prev" title="SpringBoot中的jackon配置">
+      <i class="fa fa-chevron-left"></i> SpringBoot中的jackon配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/26/%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81RabbitMQ%E4%B8%8D%E8%A2%AB%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9/" rel="next" title="如何保证RabbitMQ不被重复消费">
+      如何保证RabbitMQ不被重复消费 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">核心配置文件：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%A0%BC%E5%BC%8F%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">配置文件的两种格式：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%B3%A8%E8%A7%A3%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">核心注解：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%80%E5%90%AFSpringBoot%E7%89%B9%E6%80%A7%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">开启SpringBoot特性的方法：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">SpringBoot自动配置原理是什么：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%9B%86%E6%88%90SpringBoot%E5%92%8CactiveMQ%EF%BC%9A"><span class="nav-number">6.</span> <span class="nav-text">如何集成SpringBoot和activeMQ：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8SpringBoot%E5%AE%9E%E7%8E%B0%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%EF%BC%9A"><span class="nav-number">7.</span> <span class="nav-text">如何使用SpringBoot实现异常处理：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RequestMapping%E5%92%8C-GetMapping%E7%9A%84%E4%B8%8D%E5%90%8C%E4%B9%8B%E5%A4%84%EF%BC%9A"><span class="nav-number">8.</span> <span class="nav-text">@RequestMapping和@GetMapping的不同之处：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SpringBoot%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9B%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%EF%BC%9A"><span class="nav-number">9.</span> <span class="nav-text">SpringBoot支持哪些日志框架：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SpringBoot%E5%AE%9E%E7%8E%B0%E7%83%AD%E9%83%A8%E7%BD%B2%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="nav-number">10.</span> <span class="nav-text">SpringBoot实现热部署的方式：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SpringBoot%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89%E5%A4%9A%E5%A5%97%E4%B8%8D%E5%90%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="nav-number">11.</span> <span class="nav-text">SpringBoot如何定义多套不同环境配置：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8SpringBoot%E4%B8%AD%E6%B7%BB%E5%8A%A0%E9%80%9A%E7%94%A8Js%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="nav-number">12.</span> <span class="nav-text">如何在SpringBoot中添加通用Js代码：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SpringCloud%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0%EF%BC%9A"><span class="nav-number">13.</span> <span class="nav-text">SpringCloud如何实现服务的注册和发现：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Ribbon%E5%92%8CFeign%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="nav-number">14.</span> <span class="nav-text">Ribbon和Feign的区别：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1%E3%80%81%E5%90%AF%E5%8A%A8%E7%B1%BB%E4%BD%BF%E7%94%A8%E6%B3%A8%E9%87%8A%E4%B8%8D%E5%90%8C%EF%BC%9A"><span class="nav-number">14.1.</span> <span class="nav-text">1、启动类使用注释不同：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2%E3%80%81%E6%9C%8D%E5%8A%A1%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E4%B8%8D%E5%90%8C%EF%BC%9A"><span class="nav-number">14.2.</span> <span class="nav-text">2、服务指定位置不同：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3%E3%80%81%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F%E4%B8%8D%E5%90%8C%EF%BC%9A"><span class="nav-number">14.3.</span> <span class="nav-text">3、调用方式不同：</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SpringBoot%E9%9B%86%E6%88%90Mybatis%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="nav-number">15.</span> <span class="nav-text">SpringBoot集成Mybatis过程：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李增海"
+      src="/images/tx.jpg">
+  <p class="site-author-name" itemprop="name">李增海</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">null </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=%E8%8B%8F" rel="noopener" target="_blank">20006740 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李增海</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i>
+<span id="busuanzi_container_site_uv">
+  本站总访客数:<span id="busuanzi_value_site_uv"></span>&nbsp;&nbsp;| 
+</span>
+<span id="busuanzi_container_site_pv">
+    &nbsp;本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</div>
+
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("03/12/2019 12:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

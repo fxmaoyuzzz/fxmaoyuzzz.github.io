@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon_cat.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon_cat.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon_cat.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fxmaoyuzzz.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Java多线程相关知识点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程">
+<meta property="og:url" content="http://fxmaoyuzzz.cn/2017/11/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="敲代码就像在弹钢琴OuO">
+<meta property="og:description" content="Java多线程相关知识点">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-11-02T07:44:02.000Z">
+<meta property="article:modified_time" content="2020-03-06T12:10:30.578Z">
+<meta property="article:author" content="李增海">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="多线程">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fxmaoyuzzz.cn/2017/11/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java多线程 | 敲代码就像在弹钢琴OuO</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">敲代码就像在弹钢琴OuO</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://fxmaoyuzzz.cn/2017/11/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/tx.jpg">
+      <meta itemprop="name" content="李增海">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="敲代码就像在弹钢琴OuO">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java多线程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-11-02 15:44:02" itemprop="dateCreated datePublished" datetime="2017-11-02T15:44:02+08:00">2017-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-06 20:10:30" itemprop="dateModified" datetime="2020-03-06T20:10:30+08:00">2020-03-06</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Java多线程相关知识点</p>
+<a id="more"></a>
+
+
+<h4 id="创建多线程的三种方式："><a href="#创建多线程的三种方式：" class="headerlink" title="创建多线程的三种方式："></a>创建多线程的三种方式：</h4><hr>
+<h5 id="通过继承Thread接口："><a href="#通过继承Thread接口：" class="headerlink" title="通过继承Thread接口："></a>通过继承Thread接口：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard1</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#1===&quot;</span> +i);</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="通过实现Runnable接口："><a href="#通过实现Runnable接口：" class="headerlink" title="通过实现Runnable接口："></a>通过实现Runnable接口：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard2</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#2===&quot;</span> +i);</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="通过实现Callable接口："><a href="#通过实现Callable接口：" class="headerlink" title="通过实现Callable接口："></a>通过实现Callable接口：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard3</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#3===&quot;</span> + i);</span><br><span class="line">            sum += i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="启动上面三个线程："><a href="#启动上面三个线程：" class="headerlink" title="启动上面三个线程："></a>启动上面三个线程：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">    <span class="comment">//通过主线程启动自己的线程</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过继承thread类</span></span><br><span class="line">    Mythread1 thread1 = <span class="keyword">new</span> Mythread1();</span><br><span class="line">    thread1.start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过实现runnable接口</span></span><br><span class="line">    Thread thread2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Mythread2());</span><br><span class="line">    thread2.start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过实现callable接口</span></span><br><span class="line">    Mythread3 th = <span class="keyword">new</span> Mythread3();</span><br><span class="line">    FutureTask&lt;Integer&gt; result = <span class="keyword">new</span> FutureTask&lt;&gt;(th);</span><br><span class="line">    <span class="keyword">new</span> Thread(result).start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* 注意这里都不是直接调用 run() 方法，而是调运线程类 Thread 的 start 方法，</span></span><br><span class="line"><span class="comment">     *在 Thread 方法内部，会调运本地系统方法，最终会自动调运自己线程类的 run 方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//让主线程睡眠</span></span><br><span class="line">    Thread.sleep(<span class="number">1000L</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;主线程结束！用时：&quot;</span></span><br><span class="line">                      +（System.currentTimeMillis() - startTime));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<blockquote>
+<p>更推荐的是实现Runnable接口和实现 Callable接口，因为面向接口编程拓展性更好，而且可以防止 java 单继承的限制。</p>
+</blockquote>
+</blockquote>
+<h4 id="线程类型"><a href="#线程类型" class="headerlink" title="线程类型"></a>线程类型</h4><p>Java中有两种类型：守护线程和用户线程（非守护线程）</p>
+<h5 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h5><p>​        可以通过 thread.setDaemon(true) 方法设置线程是否为守护线程， thread.setDaemon(true) 必须在 thread.start()之前设置，否则会抛出一个 IllegalThreadStateException 异常。在守护线程中开启的新线程也将是守护线程。守护线程顾名思义是用来守护的，是给所有得非守护进程提供服务的，所以在 jvm 执行完所有的非守护进程之后， jvm就会停止，守护线程也不会再运行，最典型的守护线程就是 java 的垃圾回收机制 ( GC)。</p>
+<h5 id="非守护线程"><a href="#非守护线程" class="headerlink" title="非守护线程"></a>非守护线程</h5><p>​        java 线程默认设置是非守护线程 thread.setDaemon(false)。当主线程运行完之后，只要主线程里面有非守护线程 jvm 就不会退出，直到所有的非守护线程执行完之后 jvm 才会退出。</p>
+<blockquote>
+<blockquote>
+<p>如果把一个线程设置成守护线程，则 jvm 的退出就不会关心当前线程的执行状态</p>
+</blockquote>
+</blockquote>
+<hr>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><h5 id="好处："><a href="#好处：" class="headerlink" title="好处："></a>好处：</h5><p>​    1、减少在创建和销毁线程上所花的时间以及系统资源的开销 </p>
+<p>​    2、如不使用线程池，有可能造成系统创建大量线程而导致消耗完系统内存 。</p>
+<h5 id="自定义线程池："><a href="#自定义线程池：" class="headerlink" title="自定义线程池："></a>自定义线程池：</h5><p>定义单例线程池</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPool</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Mypool myPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//单例线程池中有两种具体的线程池</span></span><br><span class="line">    <span class="keyword">private</span> ThreadPoolExecutor threadPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> ScheduledThreadPoolExecutor scheduledPool = <span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ThreadPoolExecutor <span class="title">getThreadPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ScheduledThreadPoolExecutor <span class="title">getScheduledPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> scheduledPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//设置线程池的各个参数的大小</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> corePoolSize = <span class="number">10</span>;  <span class="comment">//池中所保存的线程数，包括空闲线程</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maximumPoolSize = <span class="number">20</span>;  <span class="comment">//池中允许的最大线程数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> keepAliveTime =<span class="number">3</span>;  <span class="comment">//当线程数大于核心数时，终止前多余的空闲线程等待新任务的最长时间</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> scheduledPoolSize = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (myPool == <span class="keyword">null</span>)</span><br><span class="line">            myPool = <span class="keyword">new</span> MyPool();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MyPool <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (myPool == <span class="keyword">null</span>)</span><br><span class="line">            create();</span><br><span class="line">        <span class="keyword">return</span> myPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">MyPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//实例化线程池，这里使用的LinkedBlockingQueue作为workQueue，使用DiscardOldestPolicy作为handler</span></span><br><span class="line">        <span class="keyword">this</span>。threadPool = <span class="keyword">new</span> ThreadPoolExecutor(corePoolSize, maximumPoolSize,</span><br><span class="line">                                                keepAliveTime, TimeUnit.SECONDS,</span><br><span class="line">                                                <span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;(),</span><br><span class="line">                                                <span class="keyword">new</span> ThreadPoolExecutor.CallerRunsPolicy());  <span class="comment">//不在新线程中执行任务，而是由调用者所在的线程来执行</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//实例化计划任务线程池</span></span><br><span class="line">        <span class="keyword">this</span>.scheduledPool = <span class="keyword">new</span> ScheduledThreadPoolExecutor(scheduledPoolSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="创建线程池的主要参数说明："><a href="#创建线程池的主要参数说明：" class="headerlink" title="创建线程池的主要参数说明："></a>创建线程池的主要参数说明：</h6><p>1、corePoolSize（int）：线程池中保持的线程数量，包括空闲线程在内。也就是线程池释放的最小线程数量界限</p>
+<p>2、maximumPoolSize（int）: 线程池中嫩容纳最大线程数量</p>
+<p>3、keepAliveTime(long): 空闲线程保持在线程池中的时间，当线程池中线程数量大于 corePoolSize 的时候</p>
+<p>4、unit(TimeUnit枚举类): 上面参数时间的单位，可以是分钟，秒，毫秒等等</p>
+<p>5、workQueue（BlockingQueue）: 任务队列，当线程任务提交到线程池以后，首先放入队列中，然后线程池按照该任务队列依次执行相应的任务。可以使用的 workQueue 有很多，比如：LinkedBlockingQueue 等等</p>
+<p>6、threadFactory(ThreadFactory类): 新线程产生工厂类</p>
+<p>7、handler（RejectedExecutionHandler类）: 当提交线程拒绝执行、异常的时候，处理异常的类。</p>
+<p>​            该类取值如下：(注意都是内部类) </p>
+<p>​                    ThreadPoolExecutor.AbortPolicy: 丢弃任务并抛出RejectedExecutionException 异常。 </p>
+<p>​                    ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。</p>
+<p>​                    ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务，重复此过程。 </p>
+<p>​                    ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务。</p>
+<hr>
+<p>获取线程池并添加任务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testThreadPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    ThreadPoolExecutor pool1 = (ThreadPoolExecutor) Exectors.newCachedThreadPool();</span><br><span class="line">    pool1.execute(() -&gt; System.out.println(<span class="string">&quot;快捷线程池中的线程&quot;</span>));</span><br><span class="line">    </span><br><span class="line">    ThreadPoolExecutor pool2 = MyPool.getInstance().getThreadPool();</span><br><span class="line">    pool2.execute(() -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;pool2普通线程池中的线程&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Thread.sleep(<span class="number">30</span>*<span class="number">1000</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 poolSize:&quot;</span> +pool2.getPoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 corePoolSize:&quot;</span> +pool2.getCorePoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 largestPoolSize:&quot;</span> +pool2.getLargestPoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 maximumPoolSize:&quot;</span> +pool2.getMaximumPoolSize());</span><br><span class="line">    </span><br><span class="line">    ScheduledThreadPoolExecutor pool3 = MyPool.getInstance().getScheduledPool();</span><br><span class="line">    pool3.scheduleAtFixedRate(() -&gt; System.out.println(<span class="string">&quot;计划任务线程池中的线程&quot;</span>),<span class="number">0</span>,<span class="number">5000</span>,TimeUnit.MILLISECONDS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="JDK提供的常用线程池："><a href="#JDK提供的常用线程池：" class="headerlink" title="JDK提供的常用线程池："></a>JDK提供的常用线程池：</h4><p>1、newFixedThreadPool创建固定大小数量线程池，数量通过传入的参数决定</p>
+<p>2、newSingleThreadExecutor创建一个线程容量的线程池，所有的线程依次执行，相当于创建固定数量为 1 的线程池</p>
+<p>3、newCachedThreadPool创建可缓存的线程池，没有最大线程限制（实际上是 Integer.MAX_VALUE）。如果用空闲线程等待时间超过一分钟，就关闭该线程</p>
+<p>4、newScheduledThreadPool创建计划 (延迟) 任务线程池, 线程池中的线程可以让其在特定的延迟时间之后执行，也可以以固定的时间重复执行（周期性执行）。相当于以前的 Timer 类的使用</p>
+<p>5、newSingleThreadScheduledExecutor创建单线程池延迟任务，创建一个线程容量的计划任务</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag"># 多线程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/09/24/Linux%E5%91%BD%E4%BB%A4/" rel="prev" title="Linux命令">
+      <i class="fa fa-chevron-left"></i> Linux命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/10/idea%E4%B8%ADlombok%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="next" title="IDEA中lombok的使用">
+      IDEA中lombok的使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">创建多线程的三种方式：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E7%BB%A7%E6%89%BFThread%E6%8E%A5%E5%8F%A3%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">通过继承Thread接口：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%AE%9E%E7%8E%B0Runnable%E6%8E%A5%E5%8F%A3%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">通过实现Runnable接口：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%AE%9E%E7%8E%B0Callable%E6%8E%A5%E5%8F%A3%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">通过实现Callable接口：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E4%B8%8A%E9%9D%A2%E4%B8%89%E4%B8%AA%E7%BA%BF%E7%A8%8B%EF%BC%9A"><span class="nav-number">1.4.</span> <span class="nav-text">启动上面三个线程：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">线程类型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">守护线程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%9E%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">非守护线程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">3.</span> <span class="nav-text">线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A5%BD%E5%A4%84%EF%BC%9A"><span class="nav-number">3.1.</span> <span class="nav-text">好处：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9A"><span class="nav-number">3.2.</span> <span class="nav-text">自定义线程池：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E%EF%BC%9A"><span class="nav-number">3.2.1.</span> <span class="nav-text">创建线程池的主要参数说明：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JDK%E6%8F%90%E4%BE%9B%E7%9A%84%E5%B8%B8%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">JDK提供的常用线程池：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李增海"
+      src="/images/tx.jpg">
+  <p class="site-author-name" itemprop="name">李增海</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">null </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=%E8%8B%8F" rel="noopener" target="_blank">20006740 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李增海</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i>
+<span id="busuanzi_container_site_uv">
+  本站总访客数:<span id="busuanzi_value_site_uv"></span>&nbsp;&nbsp;| 
+</span>
+<span id="busuanzi_container_site_pv">
+    &nbsp;本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</div>
+
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("03/12/2019 12:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
