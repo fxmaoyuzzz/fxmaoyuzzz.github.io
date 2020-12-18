@@ -100,6 +100,32 @@
       </tags>
   </entry>
   <entry>
+    <title>DynamicUpdate注解</title>
+    <url>/2018/04/05/DynamicUpdate%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<p>MySQL中的字段updatetime，如果想每次操作更改数据表的时候更改update字段需要使用此注解</p>
+<a id="more"></a>
+
+<p>首先修改该字段的属性</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">Alter</span> <span class="keyword">Table</span> product_category <span class="keyword">MODIFY</span> <span class="keyword">COLUMN</span> update_time <span class="built_in">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="literal">null</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span></span><br><span class="line"><span class="keyword">on</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span></span><br></pre></td></tr></table></figure>
+
+<p>在实体类在加入@updatetime注解</p>
+<p>在测试单元中添加对字段的修改**(必须)**</p>
+<hr>
+<p>DynamicUpdate注解默认为true</p>
+<p>当把属性值更改为false时，只修改mysql字段为非空的属性，自动更新的字段updatetime不会更新。</p>
+<hr>
+<p>比如我们的 updateTime 这个属性对应的是数据表中 update_time 字段，这个字段虽然在数据库里写了自动更新的代码</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">`update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">COMMENT</span> <span class="string">&#x27;修改时间&#x27;</span>,</span><br></pre></td></tr></table></figure>
+
+<p>但是如果你对记录更新的时候，没有给 updateTime 属性赋值，它是不会改变的，这时我们不想看到的。</p>
+<p>如果我们给这个类加上 <strong>@DynamicUpdate</strong> 注解，那么我们的 update_time 字段就会随更改时间而改变了。</p>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>JPA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Babel的使用</title>
     <url>/2020/10/15/Babel%E8%BD%AC%E7%A0%81%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>Babel的使用及使用示例</p>
@@ -136,32 +162,6 @@
       <tags>
         <tag>前端</tag>
         <tag>Babel</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>DynamicUpdate注解</title>
-    <url>/2018/04/05/DynamicUpdate%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[<p>MySQL中的字段updatetime，如果想每次操作更改数据表的时候更改update字段需要使用此注解</p>
-<a id="more"></a>
-
-<p>首先修改该字段的属性</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">Alter</span> <span class="keyword">Table</span> product_category <span class="keyword">MODIFY</span> <span class="keyword">COLUMN</span> update_time <span class="built_in">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="literal">null</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span></span><br><span class="line"><span class="keyword">on</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span></span><br></pre></td></tr></table></figure>
-
-<p>在实体类在加入@updatetime注解</p>
-<p>在测试单元中添加对字段的修改**(必须)**</p>
-<hr>
-<p>DynamicUpdate注解默认为true</p>
-<p>当把属性值更改为false时，只修改mysql字段为非空的属性，自动更新的字段updatetime不会更新。</p>
-<hr>
-<p>比如我们的 updateTime 这个属性对应的是数据表中 update_time 字段，这个字段虽然在数据库里写了自动更新的代码</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">`update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">COMMENT</span> <span class="string">&#x27;修改时间&#x27;</span>,</span><br></pre></td></tr></table></figure>
-
-<p>但是如果你对记录更新的时候，没有给 updateTime 属性赋值，它是不会改变的，这时我们不想看到的。</p>
-<p>如果我们给这个类加上 <strong>@DynamicUpdate</strong> 注解，那么我们的 update_time 字段就会随更改时间而改变了。</p>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-        <tag>JPA</tag>
       </tags>
   </entry>
   <entry>
@@ -377,6 +377,26 @@
       </tags>
   </entry>
   <entry>
+    <title>JPA实体类中主键自增的注解</title>
+    <url>/2018/04/02/JPA%E5%AE%9E%E4%BD%93%E7%B1%BB%E4%B8%AD%E4%B8%BB%E9%94%AE%E8%87%AA%E5%A2%9E%E7%9A%84%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<p>JPA的注解来定义实体的时候，使用@Id来注解主键属性即可。如果数据库主键是自增长的，需要在增加一个注解@GeneratedValue</p>
+<a id="more"></a>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>     <span class="meta">@GeneratedValue(strategy=GenerationType.IDENTITY)</span></span><br><span class="line"><span class="number">2</span>     <span class="meta">@Id</span></span><br><span class="line"><span class="number">3</span>     <span class="keyword">private</span> String id;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="GeneratedValue注解的strategy属性提供四种值："><a href="#GeneratedValue注解的strategy属性提供四种值：" class="headerlink" title="@GeneratedValue注解的strategy属性提供四种值："></a>@GeneratedValue注解的strategy属性提供四种值：</h5><h6 id="–AUTO："><a href="#–AUTO：" class="headerlink" title="–AUTO："></a>–AUTO：</h6><p> 主键由程序控制，是默认选项，不设置即此项。</p>
+<h6 id="–IDENTITY："><a href="#–IDENTITY：" class="headerlink" title="–IDENTITY："></a>–IDENTITY：</h6><p>主键由数据库自动生成，即采用数据库ID自增长的方式，Oracle不支持这种方式。</p>
+<h6 id="–SEQUENCE："><a href="#–SEQUENCE：" class="headerlink" title="–SEQUENCE："></a>–SEQUENCE：</h6><p>通过数据库的序列产生主键，通过@SequenceGenerator 注解指定序列名，mysql不支持这种方式。</p>
+<h6 id="–TABLE："><a href="#–TABLE：" class="headerlink" title="–TABLE："></a>–TABLE：</h6><p>通过特定的数据库表产生主键，使用该策略可以使应用更易于数据库移植。</p>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>JPA</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java中BigDecimal类型的加减乘除运算</title>
     <url>/2018/10/22/Java%E4%B8%ADBigDecimal%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E8%BF%90%E7%AE%97/</url>
     <content><![CDATA[<p>Java中BigDecimal类型的加减乘除运算</p>
@@ -410,119 +430,6 @@
 ]]></content>
       <tags>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JPA实体类中主键自增的注解</title>
-    <url>/2018/04/02/JPA%E5%AE%9E%E4%BD%93%E7%B1%BB%E4%B8%AD%E4%B8%BB%E9%94%AE%E8%87%AA%E5%A2%9E%E7%9A%84%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[<p>JPA的注解来定义实体的时候，使用@Id来注解主键属性即可。如果数据库主键是自增长的，需要在增加一个注解@GeneratedValue</p>
-<a id="more"></a>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>     <span class="meta">@GeneratedValue(strategy=GenerationType.IDENTITY)</span></span><br><span class="line"><span class="number">2</span>     <span class="meta">@Id</span></span><br><span class="line"><span class="number">3</span>     <span class="keyword">private</span> String id;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="GeneratedValue注解的strategy属性提供四种值："><a href="#GeneratedValue注解的strategy属性提供四种值：" class="headerlink" title="@GeneratedValue注解的strategy属性提供四种值："></a>@GeneratedValue注解的strategy属性提供四种值：</h5><h6 id="–AUTO："><a href="#–AUTO：" class="headerlink" title="–AUTO："></a>–AUTO：</h6><p> 主键由程序控制，是默认选项，不设置即此项。</p>
-<h6 id="–IDENTITY："><a href="#–IDENTITY：" class="headerlink" title="–IDENTITY："></a>–IDENTITY：</h6><p>主键由数据库自动生成，即采用数据库ID自增长的方式，Oracle不支持这种方式。</p>
-<h6 id="–SEQUENCE："><a href="#–SEQUENCE：" class="headerlink" title="–SEQUENCE："></a>–SEQUENCE：</h6><p>通过数据库的序列产生主键，通过@SequenceGenerator 注解指定序列名，mysql不支持这种方式。</p>
-<h6 id="–TABLE："><a href="#–TABLE：" class="headerlink" title="–TABLE："></a>–TABLE：</h6><p>通过特定的数据库表产生主键，使用该策略可以使应用更易于数据库移植。</p>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-        <tag>JPA</tag>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java中JsonSerializer用法</title>
-    <url>/2018/08/02/Java%E4%B8%ADJsonSerializer%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<p>前后端单位不统一时进行转换</p>
-<a id="more"></a>
-
-<h5 id="问题举例："><a href="#问题举例：" class="headerlink" title="问题举例："></a>问题举例：</h5><p>后端用的时间单位是Date，前端用的秒</p>
-<p>后端用的金额单位是分，前端用的是元</p>
-<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><h5 id="1-写一个负责转换的类，里面写好规则"><a href="#1-写一个负责转换的类，里面写好规则" class="headerlink" title="1. 写一个负责转换的类，里面写好规则"></a>1. 写一个负责转换的类，里面写好规则</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Date2LongSerialize</span> <span class="keyword">extends</span> <span class="title">JsonSerializer</span>&lt;<span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)</span> <span class="keyword">throws</span> IOException, JsonProcessingException </span>&#123;</span><br><span class="line">        jsonGenerator.writeNumber(date.getTime() / <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-在返回的参数里加上注解"><a href="#2-在返回的参数里加上注解" class="headerlink" title="2. 在返回的参数里加上注解"></a>2. 在返回的参数里加上注解</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PledgeDetailItemVO</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">2308418084162500432L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JsonSerialize(using = Date2LongSerialize.class)</span></span><br><span class="line">    <span class="keyword">private</span> Date addTime;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>Java</tag>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java多线程</title>
-    <url>/2017/11/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
-    <content><![CDATA[<p>Java多线程相关知识点</p>
-<a id="more"></a>
-
-
-<h4 id="创建多线程的三种方式："><a href="#创建多线程的三种方式：" class="headerlink" title="创建多线程的三种方式："></a>创建多线程的三种方式：</h4><hr>
-<h5 id="通过继承Thread接口："><a href="#通过继承Thread接口：" class="headerlink" title="通过继承Thread接口："></a>通过继承Thread接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard1</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#1===&quot;</span> +i);</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="通过实现Runnable接口："><a href="#通过实现Runnable接口：" class="headerlink" title="通过实现Runnable接口："></a>通过实现Runnable接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard2</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#2===&quot;</span> +i);</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="通过实现Callable接口："><a href="#通过实现Callable接口：" class="headerlink" title="通过实现Callable接口："></a>通过实现Callable接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard3</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#3===&quot;</span> + i);</span><br><span class="line">            sum += i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="启动上面三个线程："><a href="#启动上面三个线程：" class="headerlink" title="启动上面三个线程："></a>启动上面三个线程：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">    <span class="comment">//通过主线程启动自己的线程</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过继承thread类</span></span><br><span class="line">    Mythread1 thread1 = <span class="keyword">new</span> Mythread1();</span><br><span class="line">    thread1.start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过实现runnable接口</span></span><br><span class="line">    Thread thread2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Mythread2());</span><br><span class="line">    thread2.start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过实现callable接口</span></span><br><span class="line">    Mythread3 th = <span class="keyword">new</span> Mythread3();</span><br><span class="line">    FutureTask&lt;Integer&gt; result = <span class="keyword">new</span> FutureTask&lt;&gt;(th);</span><br><span class="line">    <span class="keyword">new</span> Thread(result).start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* 注意这里都不是直接调用 run() 方法，而是调运线程类 Thread 的 start 方法，</span></span><br><span class="line"><span class="comment">     *在 Thread 方法内部，会调运本地系统方法，最终会自动调运自己线程类的 run 方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//让主线程睡眠</span></span><br><span class="line">    Thread.sleep(<span class="number">1000L</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;主线程结束！用时：&quot;</span></span><br><span class="line">                      +（System.currentTimeMillis() - startTime));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<blockquote>
-<p>更推荐的是实现Runnable接口和实现 Callable接口，因为面向接口编程拓展性更好，而且可以防止 java 单继承的限制。</p>
-</blockquote>
-</blockquote>
-<h4 id="线程类型"><a href="#线程类型" class="headerlink" title="线程类型"></a>线程类型</h4><p>Java中有两种类型：守护线程和用户线程（非守护线程）</p>
-<h5 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h5><p>​        可以通过 thread.setDaemon(true) 方法设置线程是否为守护线程， thread.setDaemon(true) 必须在 thread.start()之前设置，否则会抛出一个 IllegalThreadStateException 异常。在守护线程中开启的新线程也将是守护线程。守护线程顾名思义是用来守护的，是给所有得非守护进程提供服务的，所以在 jvm 执行完所有的非守护进程之后， jvm就会停止，守护线程也不会再运行，最典型的守护线程就是 java 的垃圾回收机制 ( GC)。</p>
-<h5 id="非守护线程"><a href="#非守护线程" class="headerlink" title="非守护线程"></a>非守护线程</h5><p>​        java 线程默认设置是非守护线程 thread.setDaemon(false)。当主线程运行完之后，只要主线程里面有非守护线程 jvm 就不会退出，直到所有的非守护线程执行完之后 jvm 才会退出。</p>
-<blockquote>
-<blockquote>
-<p>如果把一个线程设置成守护线程，则 jvm 的退出就不会关心当前线程的执行状态</p>
-</blockquote>
-</blockquote>
-<hr>
-<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><h5 id="好处："><a href="#好处：" class="headerlink" title="好处："></a>好处：</h5><p>​    1、减少在创建和销毁线程上所花的时间以及系统资源的开销 </p>
-<p>​    2、如不使用线程池，有可能造成系统创建大量线程而导致消耗完系统内存 。</p>
-<h5 id="自定义线程池："><a href="#自定义线程池：" class="headerlink" title="自定义线程池："></a>自定义线程池：</h5><p>定义单例线程池</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPool</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Mypool myPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//单例线程池中有两种具体的线程池</span></span><br><span class="line">    <span class="keyword">private</span> ThreadPoolExecutor threadPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> ScheduledThreadPoolExecutor scheduledPool = <span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ThreadPoolExecutor <span class="title">getThreadPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ScheduledThreadPoolExecutor <span class="title">getScheduledPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> scheduledPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//设置线程池的各个参数的大小</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> corePoolSize = <span class="number">10</span>;  <span class="comment">//池中所保存的线程数，包括空闲线程</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maximumPoolSize = <span class="number">20</span>;  <span class="comment">//池中允许的最大线程数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> keepAliveTime =<span class="number">3</span>;  <span class="comment">//当线程数大于核心数时，终止前多余的空闲线程等待新任务的最长时间</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> scheduledPoolSize = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (myPool == <span class="keyword">null</span>)</span><br><span class="line">            myPool = <span class="keyword">new</span> MyPool();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MyPool <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (myPool == <span class="keyword">null</span>)</span><br><span class="line">            create();</span><br><span class="line">        <span class="keyword">return</span> myPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">MyPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//实例化线程池，这里使用的LinkedBlockingQueue作为workQueue，使用DiscardOldestPolicy作为handler</span></span><br><span class="line">        <span class="keyword">this</span>。threadPool = <span class="keyword">new</span> ThreadPoolExecutor(corePoolSize, maximumPoolSize,</span><br><span class="line">                                                keepAliveTime, TimeUnit.SECONDS,</span><br><span class="line">                                                <span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;(),</span><br><span class="line">                                                <span class="keyword">new</span> ThreadPoolExecutor.CallerRunsPolicy());  <span class="comment">//不在新线程中执行任务，而是由调用者所在的线程来执行</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//实例化计划任务线程池</span></span><br><span class="line">        <span class="keyword">this</span>.scheduledPool = <span class="keyword">new</span> ScheduledThreadPoolExecutor(scheduledPoolSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h6 id="创建线程池的主要参数说明："><a href="#创建线程池的主要参数说明：" class="headerlink" title="创建线程池的主要参数说明："></a>创建线程池的主要参数说明：</h6><p>1、corePoolSize（int）：线程池中保持的线程数量，包括空闲线程在内。也就是线程池释放的最小线程数量界限</p>
-<p>2、maximumPoolSize（int）: 线程池中嫩容纳最大线程数量</p>
-<p>3、keepAliveTime(long): 空闲线程保持在线程池中的时间，当线程池中线程数量大于 corePoolSize 的时候</p>
-<p>4、unit(TimeUnit枚举类): 上面参数时间的单位，可以是分钟，秒，毫秒等等</p>
-<p>5、workQueue（BlockingQueue）: 任务队列，当线程任务提交到线程池以后，首先放入队列中，然后线程池按照该任务队列依次执行相应的任务。可以使用的 workQueue 有很多，比如：LinkedBlockingQueue 等等</p>
-<p>6、threadFactory(ThreadFactory类): 新线程产生工厂类</p>
-<p>7、handler（RejectedExecutionHandler类）: 当提交线程拒绝执行、异常的时候，处理异常的类。</p>
-<p>​            该类取值如下：(注意都是内部类) </p>
-<p>​                    ThreadPoolExecutor.AbortPolicy: 丢弃任务并抛出RejectedExecutionException 异常。 </p>
-<p>​                    ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。</p>
-<p>​                    ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务，重复此过程。 </p>
-<p>​                    ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务。</p>
-<hr>
-<p>获取线程池并添加任务</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testThreadPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    ThreadPoolExecutor pool1 = (ThreadPoolExecutor) Exectors.newCachedThreadPool();</span><br><span class="line">    pool1.execute(() -&gt; System.out.println(<span class="string">&quot;快捷线程池中的线程&quot;</span>));</span><br><span class="line">    </span><br><span class="line">    ThreadPoolExecutor pool2 = MyPool.getInstance().getThreadPool();</span><br><span class="line">    pool2.execute(() -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;pool2普通线程池中的线程&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Thread.sleep(<span class="number">30</span>*<span class="number">1000</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 poolSize:&quot;</span> +pool2.getPoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 corePoolSize:&quot;</span> +pool2.getCorePoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 largestPoolSize:&quot;</span> +pool2.getLargestPoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 maximumPoolSize:&quot;</span> +pool2.getMaximumPoolSize());</span><br><span class="line">    </span><br><span class="line">    ScheduledThreadPoolExecutor pool3 = MyPool.getInstance().getScheduledPool();</span><br><span class="line">    pool3.scheduleAtFixedRate(() -&gt; System.out.println(<span class="string">&quot;计划任务线程池中的线程&quot;</span>),<span class="number">0</span>,<span class="number">5000</span>,TimeUnit.MILLISECONDS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="JDK提供的常用线程池："><a href="#JDK提供的常用线程池：" class="headerlink" title="JDK提供的常用线程池："></a>JDK提供的常用线程池：</h4><p>1、newFixedThreadPool创建固定大小数量线程池，数量通过传入的参数决定</p>
-<p>2、newSingleThreadExecutor创建一个线程容量的线程池，所有的线程依次执行，相当于创建固定数量为 1 的线程池</p>
-<p>3、newCachedThreadPool创建可缓存的线程池，没有最大线程限制（实际上是 Integer.MAX_VALUE）。如果用空闲线程等待时间超过一分钟，就关闭该线程</p>
-<p>4、newScheduledThreadPool创建计划 (延迟) 任务线程池, 线程池中的线程可以让其在特定的延迟时间之后执行，也可以以固定的时间重复执行（周期性执行）。相当于以前的 Timer 类的使用</p>
-<p>5、newSingleThreadScheduledExecutor创建单线程池延迟任务，创建一个线程容量的计划任务</p>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-        <tag>笔记</tag>
-        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -674,33 +581,96 @@
       </tags>
   </entry>
   <entry>
-    <title>SpringBoot中的jackon配置</title>
-    <url>/2019/07/28/SpringBoot%E4%B8%AD%E7%9A%84jackon%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>SpringBoot中jackson的两种配置方式</p>
+    <title>Java多线程</title>
+    <url>/2017/11/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
+    <content><![CDATA[<p>Java多线程相关知识点</p>
 <a id="more"></a>
 
-<h4 id="通过application-yml"><a href="#通过application-yml" class="headerlink" title="通过application.yml"></a>通过application.yml</h4><h5 id="配置属性说明："><a href="#配置属性说明：" class="headerlink" title="配置属性说明："></a>配置属性说明：</h5><p>spring.jackson.date-format：指定日期格式，比如yyyy-MM-dd HH:mm:ss，或者具体的格式化类的全限定名</p>
-<p>spring.jackson.deserialization：是否开启Jackson的反序列化</p>
-<p>spring.jackson.generator：是否开启json的generators.</p>
-<p>spring.jackson.joda-date-time-format：指定Joda date/time的格式，比如yyyy-MM-ddHH:mm:ss). 如果没有配置的话，dateformat会作为backup</p>
-<p>spring.jackson.locale：指定json使用的Locale.</p>
-<p>spring.jackson.mapper：是否开启Jackson通用的特性.</p>
-<p>spring.jackson.parser：是否开启jackson的parser特性.</p>
-<p>spring.jackson.property-naming-strategy：指定PropertyNamingStrategy(CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES)或者指定PropertyNamingStrategy子类的全限定类名.</p>
-<p>spring.jackson.serialization：是否开启jackson的序列化.</p>
-<p>spring.jackson.serialization-inclusion：指定序列化时属性的inclusion方式，具体查看JsonInclude.Include枚举.</p>
-<p>spring.jackson.time-zone：指定日期格式化时区，比如America/Los_Angeles或者GMT+10.</p>
-<h5 id="常用配置："><a href="#常用配置：" class="headerlink" title="常用配置："></a>常用配置：</h5><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">jackson:</span></span><br><span class="line">    <span class="comment">#日期格式化</span></span><br><span class="line">    <span class="attr">date-format:</span> <span class="string">yyyy-MM-dd</span> <span class="string">HH:mm:ss</span></span><br><span class="line">    <span class="attr">serialization:</span></span><br><span class="line">       <span class="comment">#格式化输出 </span></span><br><span class="line">      <span class="attr">indent_output:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment">#忽略无法转换的对象</span></span><br><span class="line">      <span class="attr">fail_on_empty_beans:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment">#设置空如何序列化</span></span><br><span class="line">    <span class="attr">defaultPropertyInclusion:</span> <span class="string">NON_EMPTY</span></span><br><span class="line">    <span class="attr">deserialization:</span></span><br><span class="line">      <span class="comment">#允许对象忽略json中不存在的属性</span></span><br><span class="line">      <span class="attr">fail_on_unknown_properties:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">parser:</span></span><br><span class="line">      <span class="comment">#允许出现特殊字符和转义符</span></span><br><span class="line">      <span class="attr">allow_unquoted_control_chars:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment">#允许出现单引号</span></span><br><span class="line">      <span class="attr">allow_single_quotes:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="创建多线程的三种方式："><a href="#创建多线程的三种方式：" class="headerlink" title="创建多线程的三种方式："></a>创建多线程的三种方式：</h4><hr>
+<h5 id="通过继承Thread接口："><a href="#通过继承Thread接口：" class="headerlink" title="通过继承Thread接口："></a>通过继承Thread接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard1</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#1===&quot;</span> +i);</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="使用重新注入ObjectMapper"><a href="#使用重新注入ObjectMapper" class="headerlink" title="使用重新注入ObjectMapper"></a>使用重新注入ObjectMapper</h4><h5 id="在配置bean中使用下面的配置"><a href="#在配置bean中使用下面的配置" class="headerlink" title="在配置bean中使用下面的配置"></a>在配置bean中使用下面的配置</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@Primary</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean(ObjectMapper.class)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ObjectMapper <span class="title">jacksonObjectMapper</span><span class="params">(Jackson2ObjectMapperBuilder builder)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ObjectMapper objectMapper = builder.createXmlMapper(<span class="keyword">false</span>).build();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 通过该方法对mapper对象进行设置，所有序列化的对象都将按改规则进行系列化</span></span><br><span class="line">        <span class="comment">// Include.Include.ALWAYS 默认</span></span><br><span class="line">        <span class="comment">// Include.NON_DEFAULT 属性为默认值不序列化</span></span><br><span class="line">        <span class="comment">// Include.NON_EMPTY 属性为 空（&quot;&quot;） 或者为 NULL 都不序列化，则返回的json是没有这个字段的。这样对移动端会更省流量</span></span><br><span class="line">        <span class="comment">// Include.NON_NULL 属性为NULL 不序列化</span></span><br><span class="line">        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);</span><br><span class="line">        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, <span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">// 允许出现特殊字符和转义符</span></span><br><span class="line">        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 允许出现单引号</span></span><br><span class="line">        objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 字段保留，将null值转为&quot;&quot;</span></span><br><span class="line">        objectMapper.getSerializerProvider().setNullValueSerializer(<span class="keyword">new</span> JsonSerializer&lt;Object&gt;()</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Object o, JsonGenerator jsonGenerator,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  SerializerProvider serializerProvider)</span></span></span><br><span class="line"><span class="function">                    <span class="keyword">throws</span> IOException</span></span><br><span class="line"><span class="function">            </span>&#123;</span><br><span class="line">                jsonGenerator.writeString(<span class="string">&quot;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> objectMapper;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="通过实现Runnable接口："><a href="#通过实现Runnable接口：" class="headerlink" title="通过实现Runnable接口："></a>通过实现Runnable接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard2</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#2===&quot;</span> +i);</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="通过实现Callable接口："><a href="#通过实现Callable接口：" class="headerlink" title="通过实现Callable接口："></a>通过实现Callable接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard3</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#3===&quot;</span> + i);</span><br><span class="line">            sum += i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="启动上面三个线程："><a href="#启动上面三个线程：" class="headerlink" title="启动上面三个线程："></a>启动上面三个线程：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">    <span class="comment">//通过主线程启动自己的线程</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过继承thread类</span></span><br><span class="line">    Mythread1 thread1 = <span class="keyword">new</span> Mythread1();</span><br><span class="line">    thread1.start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过实现runnable接口</span></span><br><span class="line">    Thread thread2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Mythread2());</span><br><span class="line">    thread2.start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过实现callable接口</span></span><br><span class="line">    Mythread3 th = <span class="keyword">new</span> Mythread3();</span><br><span class="line">    FutureTask&lt;Integer&gt; result = <span class="keyword">new</span> FutureTask&lt;&gt;(th);</span><br><span class="line">    <span class="keyword">new</span> Thread(result).start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* 注意这里都不是直接调用 run() 方法，而是调运线程类 Thread 的 start 方法，</span></span><br><span class="line"><span class="comment">     *在 Thread 方法内部，会调运本地系统方法，最终会自动调运自己线程类的 run 方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//让主线程睡眠</span></span><br><span class="line">    Thread.sleep(<span class="number">1000L</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;主线程结束！用时：&quot;</span></span><br><span class="line">                      +（System.currentTimeMillis() - startTime));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<blockquote>
+<p>更推荐的是实现Runnable接口和实现 Callable接口，因为面向接口编程拓展性更好，而且可以防止 java 单继承的限制。</p>
+</blockquote>
+</blockquote>
+<h4 id="线程类型"><a href="#线程类型" class="headerlink" title="线程类型"></a>线程类型</h4><p>Java中有两种类型：守护线程和用户线程（非守护线程）</p>
+<h5 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h5><p>​        可以通过 thread.setDaemon(true) 方法设置线程是否为守护线程， thread.setDaemon(true) 必须在 thread.start()之前设置，否则会抛出一个 IllegalThreadStateException 异常。在守护线程中开启的新线程也将是守护线程。守护线程顾名思义是用来守护的，是给所有得非守护进程提供服务的，所以在 jvm 执行完所有的非守护进程之后， jvm就会停止，守护线程也不会再运行，最典型的守护线程就是 java 的垃圾回收机制 ( GC)。</p>
+<h5 id="非守护线程"><a href="#非守护线程" class="headerlink" title="非守护线程"></a>非守护线程</h5><p>​        java 线程默认设置是非守护线程 thread.setDaemon(false)。当主线程运行完之后，只要主线程里面有非守护线程 jvm 就不会退出，直到所有的非守护线程执行完之后 jvm 才会退出。</p>
+<blockquote>
+<blockquote>
+<p>如果把一个线程设置成守护线程，则 jvm 的退出就不会关心当前线程的执行状态</p>
+</blockquote>
+</blockquote>
+<hr>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><h5 id="好处："><a href="#好处：" class="headerlink" title="好处："></a>好处：</h5><p>​    1、减少在创建和销毁线程上所花的时间以及系统资源的开销 </p>
+<p>​    2、如不使用线程池，有可能造成系统创建大量线程而导致消耗完系统内存 。</p>
+<h5 id="自定义线程池："><a href="#自定义线程池：" class="headerlink" title="自定义线程池："></a>自定义线程池：</h5><p>定义单例线程池</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPool</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Mypool myPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//单例线程池中有两种具体的线程池</span></span><br><span class="line">    <span class="keyword">private</span> ThreadPoolExecutor threadPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> ScheduledThreadPoolExecutor scheduledPool = <span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ThreadPoolExecutor <span class="title">getThreadPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ScheduledThreadPoolExecutor <span class="title">getScheduledPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> scheduledPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//设置线程池的各个参数的大小</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> corePoolSize = <span class="number">10</span>;  <span class="comment">//池中所保存的线程数，包括空闲线程</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maximumPoolSize = <span class="number">20</span>;  <span class="comment">//池中允许的最大线程数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> keepAliveTime =<span class="number">3</span>;  <span class="comment">//当线程数大于核心数时，终止前多余的空闲线程等待新任务的最长时间</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> scheduledPoolSize = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (myPool == <span class="keyword">null</span>)</span><br><span class="line">            myPool = <span class="keyword">new</span> MyPool();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MyPool <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (myPool == <span class="keyword">null</span>)</span><br><span class="line">            create();</span><br><span class="line">        <span class="keyword">return</span> myPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">MyPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//实例化线程池，这里使用的LinkedBlockingQueue作为workQueue，使用DiscardOldestPolicy作为handler</span></span><br><span class="line">        <span class="keyword">this</span>。threadPool = <span class="keyword">new</span> ThreadPoolExecutor(corePoolSize, maximumPoolSize,</span><br><span class="line">                                                keepAliveTime, TimeUnit.SECONDS,</span><br><span class="line">                                                <span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;(),</span><br><span class="line">                                                <span class="keyword">new</span> ThreadPoolExecutor.CallerRunsPolicy());  <span class="comment">//不在新线程中执行任务，而是由调用者所在的线程来执行</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//实例化计划任务线程池</span></span><br><span class="line">        <span class="keyword">this</span>.scheduledPool = <span class="keyword">new</span> ScheduledThreadPoolExecutor(scheduledPoolSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="创建线程池的主要参数说明："><a href="#创建线程池的主要参数说明：" class="headerlink" title="创建线程池的主要参数说明："></a>创建线程池的主要参数说明：</h6><p>1、corePoolSize（int）：线程池中保持的线程数量，包括空闲线程在内。也就是线程池释放的最小线程数量界限</p>
+<p>2、maximumPoolSize（int）: 线程池中嫩容纳最大线程数量</p>
+<p>3、keepAliveTime(long): 空闲线程保持在线程池中的时间，当线程池中线程数量大于 corePoolSize 的时候</p>
+<p>4、unit(TimeUnit枚举类): 上面参数时间的单位，可以是分钟，秒，毫秒等等</p>
+<p>5、workQueue（BlockingQueue）: 任务队列，当线程任务提交到线程池以后，首先放入队列中，然后线程池按照该任务队列依次执行相应的任务。可以使用的 workQueue 有很多，比如：LinkedBlockingQueue 等等</p>
+<p>6、threadFactory(ThreadFactory类): 新线程产生工厂类</p>
+<p>7、handler（RejectedExecutionHandler类）: 当提交线程拒绝执行、异常的时候，处理异常的类。</p>
+<p>​            该类取值如下：(注意都是内部类) </p>
+<p>​                    ThreadPoolExecutor.AbortPolicy: 丢弃任务并抛出RejectedExecutionException 异常。 </p>
+<p>​                    ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。</p>
+<p>​                    ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务，重复此过程。 </p>
+<p>​                    ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务。</p>
+<hr>
+<p>获取线程池并添加任务</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testThreadPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    ThreadPoolExecutor pool1 = (ThreadPoolExecutor) Exectors.newCachedThreadPool();</span><br><span class="line">    pool1.execute(() -&gt; System.out.println(<span class="string">&quot;快捷线程池中的线程&quot;</span>));</span><br><span class="line">    </span><br><span class="line">    ThreadPoolExecutor pool2 = MyPool.getInstance().getThreadPool();</span><br><span class="line">    pool2.execute(() -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;pool2普通线程池中的线程&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Thread.sleep(<span class="number">30</span>*<span class="number">1000</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 poolSize:&quot;</span> +pool2.getPoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 corePoolSize:&quot;</span> +pool2.getCorePoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 largestPoolSize:&quot;</span> +pool2.getLargestPoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 maximumPoolSize:&quot;</span> +pool2.getMaximumPoolSize());</span><br><span class="line">    </span><br><span class="line">    ScheduledThreadPoolExecutor pool3 = MyPool.getInstance().getScheduledPool();</span><br><span class="line">    pool3.scheduleAtFixedRate(() -&gt; System.out.println(<span class="string">&quot;计划任务线程池中的线程&quot;</span>),<span class="number">0</span>,<span class="number">5000</span>,TimeUnit.MILLISECONDS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="JDK提供的常用线程池："><a href="#JDK提供的常用线程池：" class="headerlink" title="JDK提供的常用线程池："></a>JDK提供的常用线程池：</h4><p>1、newFixedThreadPool创建固定大小数量线程池，数量通过传入的参数决定</p>
+<p>2、newSingleThreadExecutor创建一个线程容量的线程池，所有的线程依次执行，相当于创建固定数量为 1 的线程池</p>
+<p>3、newCachedThreadPool创建可缓存的线程池，没有最大线程限制（实际上是 Integer.MAX_VALUE）。如果用空闲线程等待时间超过一分钟，就关闭该线程</p>
+<p>4、newScheduledThreadPool创建计划 (延迟) 任务线程池, 线程池中的线程可以让其在特定的延迟时间之后执行，也可以以固定的时间重复执行（周期性执行）。相当于以前的 Timer 类的使用</p>
+<p>5、newSingleThreadScheduledExecutor创建单线程池延迟任务，创建一个线程容量的计划任务</p>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>笔记</tag>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java中JsonSerializer用法</title>
+    <url>/2018/08/02/Java%E4%B8%ADJsonSerializer%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<p>前后端单位不统一时进行转换</p>
+<a id="more"></a>
+
+<h5 id="问题举例："><a href="#问题举例：" class="headerlink" title="问题举例："></a>问题举例：</h5><p>后端用的时间单位是Date，前端用的秒</p>
+<p>后端用的金额单位是分，前端用的是元</p>
+<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><h5 id="1-写一个负责转换的类，里面写好规则"><a href="#1-写一个负责转换的类，里面写好规则" class="headerlink" title="1. 写一个负责转换的类，里面写好规则"></a>1. 写一个负责转换的类，里面写好规则</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Date2LongSerialize</span> <span class="keyword">extends</span> <span class="title">JsonSerializer</span>&lt;<span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)</span> <span class="keyword">throws</span> IOException, JsonProcessingException </span>&#123;</span><br><span class="line">        jsonGenerator.writeNumber(date.getTime() / <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-在返回的参数里加上注解"><a href="#2-在返回的参数里加上注解" class="headerlink" title="2. 在返回的参数里加上注解"></a>2. 在返回的参数里加上注解</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PledgeDetailItemVO</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">2308418084162500432L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JsonSerialize(using = Date2LongSerialize.class)</span></span><br><span class="line">    <span class="keyword">private</span> Date addTime;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <tags>
+        <tag>Java</tag>
         <tag>笔记</tag>
-        <tag>SpringBoot</tag>
-        <tag>Jackson</tag>
       </tags>
   </entry>
   <entry>
@@ -739,6 +709,36 @@
         <tag>笔记</tag>
         <tag>多线程</tag>
         <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot中的jackon配置</title>
+    <url>/2019/07/28/SpringBoot%E4%B8%AD%E7%9A%84jackon%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>SpringBoot中jackson的两种配置方式</p>
+<a id="more"></a>
+
+<h4 id="通过application-yml"><a href="#通过application-yml" class="headerlink" title="通过application.yml"></a>通过application.yml</h4><h5 id="配置属性说明："><a href="#配置属性说明：" class="headerlink" title="配置属性说明："></a>配置属性说明：</h5><p>spring.jackson.date-format：指定日期格式，比如yyyy-MM-dd HH:mm:ss，或者具体的格式化类的全限定名</p>
+<p>spring.jackson.deserialization：是否开启Jackson的反序列化</p>
+<p>spring.jackson.generator：是否开启json的generators.</p>
+<p>spring.jackson.joda-date-time-format：指定Joda date/time的格式，比如yyyy-MM-ddHH:mm:ss). 如果没有配置的话，dateformat会作为backup</p>
+<p>spring.jackson.locale：指定json使用的Locale.</p>
+<p>spring.jackson.mapper：是否开启Jackson通用的特性.</p>
+<p>spring.jackson.parser：是否开启jackson的parser特性.</p>
+<p>spring.jackson.property-naming-strategy：指定PropertyNamingStrategy(CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES)或者指定PropertyNamingStrategy子类的全限定类名.</p>
+<p>spring.jackson.serialization：是否开启jackson的序列化.</p>
+<p>spring.jackson.serialization-inclusion：指定序列化时属性的inclusion方式，具体查看JsonInclude.Include枚举.</p>
+<p>spring.jackson.time-zone：指定日期格式化时区，比如America/Los_Angeles或者GMT+10.</p>
+<h5 id="常用配置："><a href="#常用配置：" class="headerlink" title="常用配置："></a>常用配置：</h5><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">jackson:</span></span><br><span class="line">    <span class="comment">#日期格式化</span></span><br><span class="line">    <span class="attr">date-format:</span> <span class="string">yyyy-MM-dd</span> <span class="string">HH:mm:ss</span></span><br><span class="line">    <span class="attr">serialization:</span></span><br><span class="line">       <span class="comment">#格式化输出 </span></span><br><span class="line">      <span class="attr">indent_output:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment">#忽略无法转换的对象</span></span><br><span class="line">      <span class="attr">fail_on_empty_beans:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment">#设置空如何序列化</span></span><br><span class="line">    <span class="attr">defaultPropertyInclusion:</span> <span class="string">NON_EMPTY</span></span><br><span class="line">    <span class="attr">deserialization:</span></span><br><span class="line">      <span class="comment">#允许对象忽略json中不存在的属性</span></span><br><span class="line">      <span class="attr">fail_on_unknown_properties:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">parser:</span></span><br><span class="line">      <span class="comment">#允许出现特殊字符和转义符</span></span><br><span class="line">      <span class="attr">allow_unquoted_control_chars:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment">#允许出现单引号</span></span><br><span class="line">      <span class="attr">allow_single_quotes:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="使用重新注入ObjectMapper"><a href="#使用重新注入ObjectMapper" class="headerlink" title="使用重新注入ObjectMapper"></a>使用重新注入ObjectMapper</h4><h5 id="在配置bean中使用下面的配置"><a href="#在配置bean中使用下面的配置" class="headerlink" title="在配置bean中使用下面的配置"></a>在配置bean中使用下面的配置</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@Primary</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean(ObjectMapper.class)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ObjectMapper <span class="title">jacksonObjectMapper</span><span class="params">(Jackson2ObjectMapperBuilder builder)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ObjectMapper objectMapper = builder.createXmlMapper(<span class="keyword">false</span>).build();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 通过该方法对mapper对象进行设置，所有序列化的对象都将按改规则进行系列化</span></span><br><span class="line">        <span class="comment">// Include.Include.ALWAYS 默认</span></span><br><span class="line">        <span class="comment">// Include.NON_DEFAULT 属性为默认值不序列化</span></span><br><span class="line">        <span class="comment">// Include.NON_EMPTY 属性为 空（&quot;&quot;） 或者为 NULL 都不序列化，则返回的json是没有这个字段的。这样对移动端会更省流量</span></span><br><span class="line">        <span class="comment">// Include.NON_NULL 属性为NULL 不序列化</span></span><br><span class="line">        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);</span><br><span class="line">        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, <span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">// 允许出现特殊字符和转义符</span></span><br><span class="line">        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 允许出现单引号</span></span><br><span class="line">        objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 字段保留，将null值转为&quot;&quot;</span></span><br><span class="line">        objectMapper.getSerializerProvider().setNullValueSerializer(<span class="keyword">new</span> JsonSerializer&lt;Object&gt;()</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Object o, JsonGenerator jsonGenerator,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  SerializerProvider serializerProvider)</span></span></span><br><span class="line"><span class="function">                    <span class="keyword">throws</span> IOException</span></span><br><span class="line"><span class="function">            </span>&#123;</span><br><span class="line">                jsonGenerator.writeString(<span class="string">&quot;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> objectMapper;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>笔记</tag>
+        <tag>SpringBoot</tag>
+        <tag>Jackson</tag>
       </tags>
   </entry>
   <entry>
@@ -786,6 +786,24 @@
 ]]></content>
       <tags>
         <tag>笔记</tag>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Springboot解决跨域问题</title>
+    <url>/2019/06/21/Springboot%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>Springboot解决跨域问题</p>
+<a id="more"></a>
+
+<h4 id="Springboot解决跨域问题"><a href="#Springboot解决跨域问题" class="headerlink" title="Springboot解决跨域问题"></a>Springboot解决跨域问题</h4><p>前后端分离的项目，如果前端项目与后端项目部署在两个不同的域下，会引起跨域问题的出现</p>
+<h6 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h6><p>在Controller类上加@CrossOrigin注解即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> fxmaoyuzzz</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*前端127.0.0.1:8888  后端127.0.0.1:8082</span></span><br><span class="line"><span class="comment">* 前后端因为来自不同的网域，所以在http的安全协议策略下不信任*/</span></span><br><span class="line"><span class="meta">@CrossOrigin</span>      <span class="comment">//解决前后端的跨域问题</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CatalogController</span> </span>&#123;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p><img src="/images/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98.png"></p>
+]]></content>
+      <tags>
         <tag>SpringBoot</tag>
       </tags>
   </entry>
@@ -974,24 +992,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Springboot解决跨域问题</title>
-    <url>/2019/06/21/Springboot%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>Springboot解决跨域问题</p>
-<a id="more"></a>
-
-<h4 id="Springboot解决跨域问题"><a href="#Springboot解决跨域问题" class="headerlink" title="Springboot解决跨域问题"></a>Springboot解决跨域问题</h4><p>前后端分离的项目，如果前端项目与后端项目部署在两个不同的域下，会引起跨域问题的出现</p>
-<h6 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h6><p>在Controller类上加@CrossOrigin注解即可</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> fxmaoyuzzz</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*前端127.0.0.1:8888  后端127.0.0.1:8082</span></span><br><span class="line"><span class="comment">* 前后端因为来自不同的网域，所以在http的安全协议策略下不信任*/</span></span><br><span class="line"><span class="meta">@CrossOrigin</span>      <span class="comment">//解决前后端的跨域问题</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CatalogController</span> </span>&#123;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p><img src="/images/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98.png"></p>
-]]></content>
-      <tags>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>IDEA中lombok的使用</title>
     <url>/2018/01/10/idea%E4%B8%ADlombok%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>IDEA中lombok插件的使用（可省略get/set方法）</p>
@@ -1021,30 +1021,6 @@
 ]]></content>
       <tags>
         <tag>IDEA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>启动nginx时报错</title>
-    <url>/2019/06/22/nginx%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/</url>
-    <content><![CDATA[<p>nginx启动报错：nginx: [error] open() “/var/run/nginx/nginx.pid” failed (2: No such file or directory)</p>
-<a id="more"></a>
-
-
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h5 id="解决此错误的方法如下："><a href="#解决此错误的方法如下：" class="headerlink" title="解决此错误的方法如下："></a>解决此错误的方法如下：</h5><p>（1）进入 <strong>cd /usr/local/nginx/conf/</strong> 目录，编辑配置文件<strong>nginx.conf</strong> ；</p>
-<p>（2）在配置文件中有个注释的地方： <strong>#pid     logs/nginx.pid;</strong></p>
-<p>（3）将注释放开，并修改为：<strong>pid   /usr/local/nginx/logs/nginx.pid;</strong></p>
-<p>（4）在 <strong>/usr/local/nginx</strong> 目录下创建 <strong>logs 目录</strong>：<strong>mkdir /usr/local/nginx/logs</strong></p>
-<p>（5）之后再次启动nginx服务：<strong>cd /usr/local/nginx/sbin/</strong></p>
-<p>（6）启动成功 </p>
-<blockquote>
-<blockquote>
-<p>在此做个记录，以防以后再次遇到此问题。</p>
-</blockquote>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>Error</tag>
-        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -1166,6 +1142,52 @@
       </tags>
   </entry>
   <entry>
+    <title>使用Spring的Pageable实现分页查询</title>
+    <url>/2018/04/17/%E4%BD%BF%E7%94%A8Spring%E7%9A%84Pageable%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/</url>
+    <content><![CDATA[<p>使用Spring的Pageable实现分页查询</p>
+<a id="more"></a>
+
+<h5 id="1-导入包："><a href="#1-导入包：" class="headerlink" title="1.导入包："></a>1.导入包：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.data.domain.Pageable;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="2-测试类："><a href="#2-测试类：" class="headerlink" title="2.测试类："></a>2.测试类：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">whenQuerySeccess</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        mockMvc.perform(</span><br><span class="line">                get(<span class="string">&quot;/user&quot;</span>)</span><br><span class="line">                        <span class="comment">//分页查询参数，第三页，每页15个数据，按照年龄倒序排序</span></span><br><span class="line">                        .param(<span class="string">&quot;size&quot;</span>,<span class="string">&quot;15&quot;</span>)</span><br><span class="line">                        .param(<span class="string">&quot;page&quot;</span>,<span class="string">&quot;3&quot;</span>)</span><br><span class="line">                        .param(<span class="string">&quot;sort&quot;</span>,<span class="string">&quot;age,desc&quot;</span>)<span class="comment">//发送get请求，并带请求参数</span></span><br><span class="line"></span><br><span class="line">                .contentType(MediaType.APPLICATION_JSON_UTF8) <span class="comment">//编码格式为json的utf8</span></span><br><span class="line">        ).andExpect(status().isOk())  <span class="comment">//返回的状态码为200 OK</span></span><br><span class="line">                .andExpect(jsonPath(<span class="string">&quot;$.length()&quot;</span>).value(<span class="number">3</span>))  <span class="comment">//判断返回的json长度是否为3</span></span><br><span class="line">                .andReturn().getResponse().getContentAsString();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="3-controller类："><a href="#3-controller类：" class="headerlink" title="3.controller类："></a>3.controller类：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">query</span><span class="params">(Pageable pageable)</span></span>&#123;<span class="comment">//用spring自带的pageable对象来得到分页信息</span></span><br><span class="line"></span><br><span class="line">        System.out.println(pageable.getPageSize());<span class="comment">// 15</span></span><br><span class="line">        System.out.println(pageable.getPageNumber()); <span class="comment">// 3</span></span><br><span class="line">        System.out.println(pageable.getSort());<span class="comment">//age: DESC</span></span><br><span class="line"></span><br><span class="line">        List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            查询操作</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">return</span> users;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="4-还可以传入默认的Pageable属性-使用-PageableDefault注解"><a href="#4-还可以传入默认的Pageable属性-使用-PageableDefault注解" class="headerlink" title="4.还可以传入默认的Pageable属性(使用@PageableDefault注解)"></a>4.还可以传入默认的Pageable属性(使用@PageableDefault注解)</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">query</span><span class="params">(<span class="meta">@PageableDefault(page=2,size=17,sort=&quot;username,asc&quot;)</span>Pageable pageable)</span></span>&#123;<span class="comment">//用spring自带的pageable对象来得到分页信息</span></span><br><span class="line"></span><br><span class="line">        System.out.println(pageable.getPageSize());<span class="comment">// 17</span></span><br><span class="line">        System.out.println(pageable.getPageNumber()); <span class="comment">// 2</span></span><br><span class="line">        System.out.println(pageable.getSort());<span class="comment">// username: DESC</span></span><br><span class="line"></span><br><span class="line">        List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            查询操作</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">return</span> users;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>启动nginx时报错</title>
+    <url>/2019/06/22/nginx%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/</url>
+    <content><![CDATA[<p>nginx启动报错：nginx: [error] open() “/var/run/nginx/nginx.pid” failed (2: No such file or directory)</p>
+<a id="more"></a>
+
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h5 id="解决此错误的方法如下："><a href="#解决此错误的方法如下：" class="headerlink" title="解决此错误的方法如下："></a>解决此错误的方法如下：</h5><p>（1）进入 <strong>cd /usr/local/nginx/conf/</strong> 目录，编辑配置文件<strong>nginx.conf</strong> ；</p>
+<p>（2）在配置文件中有个注释的地方： <strong>#pid     logs/nginx.pid;</strong></p>
+<p>（3）将注释放开，并修改为：<strong>pid   /usr/local/nginx/logs/nginx.pid;</strong></p>
+<p>（4）在 <strong>/usr/local/nginx</strong> 目录下创建 <strong>logs 目录</strong>：<strong>mkdir /usr/local/nginx/logs</strong></p>
+<p>（5）之后再次启动nginx服务：<strong>cd /usr/local/nginx/sbin/</strong></p>
+<p>（6）启动成功 </p>
+<blockquote>
+<blockquote>
+<p>在此做个记录，以防以后再次遇到此问题。</p>
+</blockquote>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>Error</tag>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于dubbo的介绍和监控中心启动</title>
     <url>/2018/04/14/%E5%85%B3%E4%BA%8Edubbo%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%9B%91%E6%8E%A7%E4%B8%AD%E5%BF%83%E5%90%AF%E5%8A%A8/</url>
     <content><![CDATA[<p>关于dubbo的介绍和监控中心启动</p>
@@ -1190,28 +1212,6 @@
       <tags>
         <tag>笔记</tag>
         <tag>dubbo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用Spring的Pageable实现分页查询</title>
-    <url>/2018/04/17/%E4%BD%BF%E7%94%A8Spring%E7%9A%84Pageable%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/</url>
-    <content><![CDATA[<p>使用Spring的Pageable实现分页查询</p>
-<a id="more"></a>
-
-<h5 id="1-导入包："><a href="#1-导入包：" class="headerlink" title="1.导入包："></a>1.导入包：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.data.domain.Pageable;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="2-测试类："><a href="#2-测试类：" class="headerlink" title="2.测试类："></a>2.测试类：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">whenQuerySeccess</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        mockMvc.perform(</span><br><span class="line">                get(<span class="string">&quot;/user&quot;</span>)</span><br><span class="line">                        <span class="comment">//分页查询参数，第三页，每页15个数据，按照年龄倒序排序</span></span><br><span class="line">                        .param(<span class="string">&quot;size&quot;</span>,<span class="string">&quot;15&quot;</span>)</span><br><span class="line">                        .param(<span class="string">&quot;page&quot;</span>,<span class="string">&quot;3&quot;</span>)</span><br><span class="line">                        .param(<span class="string">&quot;sort&quot;</span>,<span class="string">&quot;age,desc&quot;</span>)<span class="comment">//发送get请求，并带请求参数</span></span><br><span class="line"></span><br><span class="line">                .contentType(MediaType.APPLICATION_JSON_UTF8) <span class="comment">//编码格式为json的utf8</span></span><br><span class="line">        ).andExpect(status().isOk())  <span class="comment">//返回的状态码为200 OK</span></span><br><span class="line">                .andExpect(jsonPath(<span class="string">&quot;$.length()&quot;</span>).value(<span class="number">3</span>))  <span class="comment">//判断返回的json长度是否为3</span></span><br><span class="line">                .andReturn().getResponse().getContentAsString();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="3-controller类："><a href="#3-controller类：" class="headerlink" title="3.controller类："></a>3.controller类：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">query</span><span class="params">(Pageable pageable)</span></span>&#123;<span class="comment">//用spring自带的pageable对象来得到分页信息</span></span><br><span class="line"></span><br><span class="line">        System.out.println(pageable.getPageSize());<span class="comment">// 15</span></span><br><span class="line">        System.out.println(pageable.getPageNumber()); <span class="comment">// 3</span></span><br><span class="line">        System.out.println(pageable.getSort());<span class="comment">//age: DESC</span></span><br><span class="line"></span><br><span class="line">        List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            查询操作</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">return</span> users;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="4-还可以传入默认的Pageable属性-使用-PageableDefault注解"><a href="#4-还可以传入默认的Pageable属性-使用-PageableDefault注解" class="headerlink" title="4.还可以传入默认的Pageable属性(使用@PageableDefault注解)"></a>4.还可以传入默认的Pageable属性(使用@PageableDefault注解)</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">query</span><span class="params">(<span class="meta">@PageableDefault(page=2,size=17,sort=&quot;username,asc&quot;)</span>Pageable pageable)</span></span>&#123;<span class="comment">//用spring自带的pageable对象来得到分页信息</span></span><br><span class="line"></span><br><span class="line">        System.out.println(pageable.getPageSize());<span class="comment">// 17</span></span><br><span class="line">        System.out.println(pageable.getPageNumber()); <span class="comment">// 2</span></span><br><span class="line">        System.out.println(pageable.getSort());<span class="comment">// username: DESC</span></span><br><span class="line"></span><br><span class="line">        List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            查询操作</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">return</span> users;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
@@ -1287,23 +1287,6 @@
       </tags>
   </entry>
   <entry>
-    <title>开发文档</title>
-    <url>/2020/01/17/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h5 id="开发文档链接记录"><a href="#开发文档链接记录" class="headerlink" title="开发文档链接记录"></a>开发文档链接记录</h5><a id="more"></a>
-
-<p>thymeleaf：<a href="https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html">https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html</a></p>
-<p>微信公众号：<a href="https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html">https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html</a></p>
-<p>微信支付：<a href="https://pay.weixin.qq.com/wiki/doc/api/index.html">https://pay.weixin.qq.com/wiki/doc/api/index.html</a></p>
-<p>微信小程序：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/">https://developers.weixin.qq.com/miniprogram/dev/framework/</a></p>
-<p>支付宝APP支付：<a href="https://docs.open.alipay.com/204">https://docs.open.alipay.com/204</a></p>
-<p>支付宝手机网站支付：<a href="https://docs.open.alipay.com/203">https://docs.open.alipay.com/203</a></p>
-<p>支付宝电脑网站支付：<a href="https://docs.open.alipay.com/270">https://docs.open.alipay.com/270</a></p>
-]]></content>
-      <tags>
-        <tag>文档</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>网页版工具链接</title>
     <url>/2020/03/02/%E7%BD%91%E9%A1%B5%E7%89%88%E5%B7%A5%E5%85%B7%E9%93%BE%E6%8E%A5/</url>
     <content><![CDATA[<h5 id="网页版在线工具链接"><a href="#网页版在线工具链接" class="headerlink" title="网页版在线工具链接"></a>网页版在线工具链接</h5><a id="more"></a>
@@ -1357,6 +1340,23 @@
       <tags>
         <tag>备忘录</tag>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开发文档</title>
+    <url>/2020/01/17/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h5 id="开发文档链接记录"><a href="#开发文档链接记录" class="headerlink" title="开发文档链接记录"></a>开发文档链接记录</h5><a id="more"></a>
+
+<p>thymeleaf：<a href="https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html">https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html</a></p>
+<p>微信公众号：<a href="https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html">https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html</a></p>
+<p>微信支付：<a href="https://pay.weixin.qq.com/wiki/doc/api/index.html">https://pay.weixin.qq.com/wiki/doc/api/index.html</a></p>
+<p>微信小程序：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/">https://developers.weixin.qq.com/miniprogram/dev/framework/</a></p>
+<p>支付宝APP支付：<a href="https://docs.open.alipay.com/204">https://docs.open.alipay.com/204</a></p>
+<p>支付宝手机网站支付：<a href="https://docs.open.alipay.com/203">https://docs.open.alipay.com/203</a></p>
+<p>支付宝电脑网站支付：<a href="https://docs.open.alipay.com/270">https://docs.open.alipay.com/270</a></p>
+]]></content>
+      <tags>
+        <tag>文档</tag>
       </tags>
   </entry>
   <entry>
