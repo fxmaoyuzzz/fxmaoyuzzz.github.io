@@ -377,6 +377,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Java中JsonSerializer用法</title>
+    <url>/2018/08/02/Java%E4%B8%ADJsonSerializer%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<p>前后端单位不统一时进行转换</p>
+<a id="more"></a>
+
+<h5 id="问题举例："><a href="#问题举例：" class="headerlink" title="问题举例："></a>问题举例：</h5><p>后端用的时间单位是Date，前端用的秒</p>
+<p>后端用的金额单位是分，前端用的是元</p>
+<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><h5 id="1-写一个负责转换的类，里面写好规则"><a href="#1-写一个负责转换的类，里面写好规则" class="headerlink" title="1. 写一个负责转换的类，里面写好规则"></a>1. 写一个负责转换的类，里面写好规则</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Date2LongSerialize</span> <span class="keyword">extends</span> <span class="title">JsonSerializer</span>&lt;<span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)</span> <span class="keyword">throws</span> IOException, JsonProcessingException </span>&#123;</span><br><span class="line">        jsonGenerator.writeNumber(date.getTime() / <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-在返回的参数里加上注解"><a href="#2-在返回的参数里加上注解" class="headerlink" title="2. 在返回的参数里加上注解"></a>2. 在返回的参数里加上注解</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PledgeDetailItemVO</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">2308418084162500432L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JsonSerialize(using = Date2LongSerialize.class)</span></span><br><span class="line">    <span class="keyword">private</span> Date addTime;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JPA实体类中主键自增的注解</title>
     <url>/2018/04/02/JPA%E5%AE%9E%E4%BD%93%E7%B1%BB%E4%B8%AD%E4%B8%BB%E9%94%AE%E8%87%AA%E5%A2%9E%E7%9A%84%E6%B3%A8%E8%A7%A3/</url>
     <content><![CDATA[<p>JPA的注解来定义实体的时候，使用@Id来注解主键属性即可。如果数据库主键是自增长的，需要在增加一个注解@GeneratedValue</p>
@@ -394,6 +412,81 @@
         <tag>Java</tag>
         <tag>JPA</tag>
         <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java多线程</title>
+    <url>/2017/11/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
+    <content><![CDATA[<p>Java多线程相关知识点</p>
+<a id="more"></a>
+
+
+<h4 id="创建多线程的三种方式："><a href="#创建多线程的三种方式：" class="headerlink" title="创建多线程的三种方式："></a>创建多线程的三种方式：</h4><hr>
+<h5 id="通过继承Thread接口："><a href="#通过继承Thread接口：" class="headerlink" title="通过继承Thread接口："></a>通过继承Thread接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard1</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#1===&quot;</span> +i);</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="通过实现Runnable接口："><a href="#通过实现Runnable接口：" class="headerlink" title="通过实现Runnable接口："></a>通过实现Runnable接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard2</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#2===&quot;</span> +i);</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="通过实现Callable接口："><a href="#通过实现Callable接口：" class="headerlink" title="通过实现Callable接口："></a>通过实现Callable接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard3</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#3===&quot;</span> + i);</span><br><span class="line">            sum += i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="启动上面三个线程："><a href="#启动上面三个线程：" class="headerlink" title="启动上面三个线程："></a>启动上面三个线程：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">    <span class="comment">//通过主线程启动自己的线程</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过继承thread类</span></span><br><span class="line">    Mythread1 thread1 = <span class="keyword">new</span> Mythread1();</span><br><span class="line">    thread1.start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过实现runnable接口</span></span><br><span class="line">    Thread thread2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Mythread2());</span><br><span class="line">    thread2.start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过实现callable接口</span></span><br><span class="line">    Mythread3 th = <span class="keyword">new</span> Mythread3();</span><br><span class="line">    FutureTask&lt;Integer&gt; result = <span class="keyword">new</span> FutureTask&lt;&gt;(th);</span><br><span class="line">    <span class="keyword">new</span> Thread(result).start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* 注意这里都不是直接调用 run() 方法，而是调运线程类 Thread 的 start 方法，</span></span><br><span class="line"><span class="comment">     *在 Thread 方法内部，会调运本地系统方法，最终会自动调运自己线程类的 run 方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//让主线程睡眠</span></span><br><span class="line">    Thread.sleep(<span class="number">1000L</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;主线程结束！用时：&quot;</span></span><br><span class="line">                      +（System.currentTimeMillis() - startTime));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<blockquote>
+<p>更推荐的是实现Runnable接口和实现 Callable接口，因为面向接口编程拓展性更好，而且可以防止 java 单继承的限制。</p>
+</blockquote>
+</blockquote>
+<h4 id="线程类型"><a href="#线程类型" class="headerlink" title="线程类型"></a>线程类型</h4><p>Java中有两种类型：守护线程和用户线程（非守护线程）</p>
+<h5 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h5><p>​        可以通过 thread.setDaemon(true) 方法设置线程是否为守护线程， thread.setDaemon(true) 必须在 thread.start()之前设置，否则会抛出一个 IllegalThreadStateException 异常。在守护线程中开启的新线程也将是守护线程。守护线程顾名思义是用来守护的，是给所有得非守护进程提供服务的，所以在 jvm 执行完所有的非守护进程之后， jvm就会停止，守护线程也不会再运行，最典型的守护线程就是 java 的垃圾回收机制 ( GC)。</p>
+<h5 id="非守护线程"><a href="#非守护线程" class="headerlink" title="非守护线程"></a>非守护线程</h5><p>​        java 线程默认设置是非守护线程 thread.setDaemon(false)。当主线程运行完之后，只要主线程里面有非守护线程 jvm 就不会退出，直到所有的非守护线程执行完之后 jvm 才会退出。</p>
+<blockquote>
+<blockquote>
+<p>如果把一个线程设置成守护线程，则 jvm 的退出就不会关心当前线程的执行状态</p>
+</blockquote>
+</blockquote>
+<hr>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><h5 id="好处："><a href="#好处：" class="headerlink" title="好处："></a>好处：</h5><p>​    1、减少在创建和销毁线程上所花的时间以及系统资源的开销 </p>
+<p>​    2、如不使用线程池，有可能造成系统创建大量线程而导致消耗完系统内存 。</p>
+<h5 id="自定义线程池："><a href="#自定义线程池：" class="headerlink" title="自定义线程池："></a>自定义线程池：</h5><p>定义单例线程池</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPool</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Mypool myPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//单例线程池中有两种具体的线程池</span></span><br><span class="line">    <span class="keyword">private</span> ThreadPoolExecutor threadPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> ScheduledThreadPoolExecutor scheduledPool = <span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ThreadPoolExecutor <span class="title">getThreadPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ScheduledThreadPoolExecutor <span class="title">getScheduledPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> scheduledPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//设置线程池的各个参数的大小</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> corePoolSize = <span class="number">10</span>;  <span class="comment">//池中所保存的线程数，包括空闲线程</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maximumPoolSize = <span class="number">20</span>;  <span class="comment">//池中允许的最大线程数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> keepAliveTime =<span class="number">3</span>;  <span class="comment">//当线程数大于核心数时，终止前多余的空闲线程等待新任务的最长时间</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> scheduledPoolSize = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (myPool == <span class="keyword">null</span>)</span><br><span class="line">            myPool = <span class="keyword">new</span> MyPool();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MyPool <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (myPool == <span class="keyword">null</span>)</span><br><span class="line">            create();</span><br><span class="line">        <span class="keyword">return</span> myPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">MyPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//实例化线程池，这里使用的LinkedBlockingQueue作为workQueue，使用DiscardOldestPolicy作为handler</span></span><br><span class="line">        <span class="keyword">this</span>。threadPool = <span class="keyword">new</span> ThreadPoolExecutor(corePoolSize, maximumPoolSize,</span><br><span class="line">                                                keepAliveTime, TimeUnit.SECONDS,</span><br><span class="line">                                                <span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;(),</span><br><span class="line">                                                <span class="keyword">new</span> ThreadPoolExecutor.CallerRunsPolicy());  <span class="comment">//不在新线程中执行任务，而是由调用者所在的线程来执行</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//实例化计划任务线程池</span></span><br><span class="line">        <span class="keyword">this</span>.scheduledPool = <span class="keyword">new</span> ScheduledThreadPoolExecutor(scheduledPoolSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="创建线程池的主要参数说明："><a href="#创建线程池的主要参数说明：" class="headerlink" title="创建线程池的主要参数说明："></a>创建线程池的主要参数说明：</h6><p>1、corePoolSize（int）：线程池中保持的线程数量，包括空闲线程在内。也就是线程池释放的最小线程数量界限</p>
+<p>2、maximumPoolSize（int）: 线程池中嫩容纳最大线程数量</p>
+<p>3、keepAliveTime(long): 空闲线程保持在线程池中的时间，当线程池中线程数量大于 corePoolSize 的时候</p>
+<p>4、unit(TimeUnit枚举类): 上面参数时间的单位，可以是分钟，秒，毫秒等等</p>
+<p>5、workQueue（BlockingQueue）: 任务队列，当线程任务提交到线程池以后，首先放入队列中，然后线程池按照该任务队列依次执行相应的任务。可以使用的 workQueue 有很多，比如：LinkedBlockingQueue 等等</p>
+<p>6、threadFactory(ThreadFactory类): 新线程产生工厂类</p>
+<p>7、handler（RejectedExecutionHandler类）: 当提交线程拒绝执行、异常的时候，处理异常的类。</p>
+<p>​            该类取值如下：(注意都是内部类) </p>
+<p>​                    ThreadPoolExecutor.AbortPolicy: 丢弃任务并抛出RejectedExecutionException 异常。 </p>
+<p>​                    ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。</p>
+<p>​                    ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务，重复此过程。 </p>
+<p>​                    ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务。</p>
+<hr>
+<p>获取线程池并添加任务</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testThreadPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    ThreadPoolExecutor pool1 = (ThreadPoolExecutor) Exectors.newCachedThreadPool();</span><br><span class="line">    pool1.execute(() -&gt; System.out.println(<span class="string">&quot;快捷线程池中的线程&quot;</span>));</span><br><span class="line">    </span><br><span class="line">    ThreadPoolExecutor pool2 = MyPool.getInstance().getThreadPool();</span><br><span class="line">    pool2.execute(() -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;pool2普通线程池中的线程&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Thread.sleep(<span class="number">30</span>*<span class="number">1000</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 poolSize:&quot;</span> +pool2.getPoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 corePoolSize:&quot;</span> +pool2.getCorePoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 largestPoolSize:&quot;</span> +pool2.getLargestPoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 maximumPoolSize:&quot;</span> +pool2.getMaximumPoolSize());</span><br><span class="line">    </span><br><span class="line">    ScheduledThreadPoolExecutor pool3 = MyPool.getInstance().getScheduledPool();</span><br><span class="line">    pool3.scheduleAtFixedRate(() -&gt; System.out.println(<span class="string">&quot;计划任务线程池中的线程&quot;</span>),<span class="number">0</span>,<span class="number">5000</span>,TimeUnit.MILLISECONDS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="JDK提供的常用线程池："><a href="#JDK提供的常用线程池：" class="headerlink" title="JDK提供的常用线程池："></a>JDK提供的常用线程池：</h4><p>1、newFixedThreadPool创建固定大小数量线程池，数量通过传入的参数决定</p>
+<p>2、newSingleThreadExecutor创建一个线程容量的线程池，所有的线程依次执行，相当于创建固定数量为 1 的线程池</p>
+<p>3、newCachedThreadPool创建可缓存的线程池，没有最大线程限制（实际上是 Integer.MAX_VALUE）。如果用空闲线程等待时间超过一分钟，就关闭该线程</p>
+<p>4、newScheduledThreadPool创建计划 (延迟) 任务线程池, 线程池中的线程可以让其在特定的延迟时间之后执行，也可以以固定的时间重复执行（周期性执行）。相当于以前的 Timer 类的使用</p>
+<p>5、newSingleThreadScheduledExecutor创建单线程池延迟任务，创建一个线程容量的计划任务</p>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>笔记</tag>
+        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -581,99 +674,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java多线程</title>
-    <url>/2017/11/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
-    <content><![CDATA[<p>Java多线程相关知识点</p>
-<a id="more"></a>
-
-
-<h4 id="创建多线程的三种方式："><a href="#创建多线程的三种方式：" class="headerlink" title="创建多线程的三种方式："></a>创建多线程的三种方式：</h4><hr>
-<h5 id="通过继承Thread接口："><a href="#通过继承Thread接口：" class="headerlink" title="通过继承Thread接口："></a>通过继承Thread接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard1</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#1===&quot;</span> +i);</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="通过实现Runnable接口："><a href="#通过实现Runnable接口：" class="headerlink" title="通过实现Runnable接口："></a>通过实现Runnable接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard2</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#2===&quot;</span> +i);</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="通过实现Callable接口："><a href="#通过实现Callable接口：" class="headerlink" title="通过实现Callable接口："></a>通过实现Callable接口：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytheard3</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;thread#3===&quot;</span> + i);</span><br><span class="line">            sum += i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="启动上面三个线程："><a href="#启动上面三个线程：" class="headerlink" title="启动上面三个线程："></a>启动上面三个线程：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">    <span class="comment">//通过主线程启动自己的线程</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过继承thread类</span></span><br><span class="line">    Mythread1 thread1 = <span class="keyword">new</span> Mythread1();</span><br><span class="line">    thread1.start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过实现runnable接口</span></span><br><span class="line">    Thread thread2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Mythread2());</span><br><span class="line">    thread2.start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//通过实现callable接口</span></span><br><span class="line">    Mythread3 th = <span class="keyword">new</span> Mythread3();</span><br><span class="line">    FutureTask&lt;Integer&gt; result = <span class="keyword">new</span> FutureTask&lt;&gt;(th);</span><br><span class="line">    <span class="keyword">new</span> Thread(result).start();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* 注意这里都不是直接调用 run() 方法，而是调运线程类 Thread 的 start 方法，</span></span><br><span class="line"><span class="comment">     *在 Thread 方法内部，会调运本地系统方法，最终会自动调运自己线程类的 run 方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//让主线程睡眠</span></span><br><span class="line">    Thread.sleep(<span class="number">1000L</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;主线程结束！用时：&quot;</span></span><br><span class="line">                      +（System.currentTimeMillis() - startTime));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<blockquote>
-<p>更推荐的是实现Runnable接口和实现 Callable接口，因为面向接口编程拓展性更好，而且可以防止 java 单继承的限制。</p>
-</blockquote>
-</blockquote>
-<h4 id="线程类型"><a href="#线程类型" class="headerlink" title="线程类型"></a>线程类型</h4><p>Java中有两种类型：守护线程和用户线程（非守护线程）</p>
-<h5 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h5><p>​        可以通过 thread.setDaemon(true) 方法设置线程是否为守护线程， thread.setDaemon(true) 必须在 thread.start()之前设置，否则会抛出一个 IllegalThreadStateException 异常。在守护线程中开启的新线程也将是守护线程。守护线程顾名思义是用来守护的，是给所有得非守护进程提供服务的，所以在 jvm 执行完所有的非守护进程之后， jvm就会停止，守护线程也不会再运行，最典型的守护线程就是 java 的垃圾回收机制 ( GC)。</p>
-<h5 id="非守护线程"><a href="#非守护线程" class="headerlink" title="非守护线程"></a>非守护线程</h5><p>​        java 线程默认设置是非守护线程 thread.setDaemon(false)。当主线程运行完之后，只要主线程里面有非守护线程 jvm 就不会退出，直到所有的非守护线程执行完之后 jvm 才会退出。</p>
-<blockquote>
-<blockquote>
-<p>如果把一个线程设置成守护线程，则 jvm 的退出就不会关心当前线程的执行状态</p>
-</blockquote>
-</blockquote>
-<hr>
-<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><h5 id="好处："><a href="#好处：" class="headerlink" title="好处："></a>好处：</h5><p>​    1、减少在创建和销毁线程上所花的时间以及系统资源的开销 </p>
-<p>​    2、如不使用线程池，有可能造成系统创建大量线程而导致消耗完系统内存 。</p>
-<h5 id="自定义线程池："><a href="#自定义线程池：" class="headerlink" title="自定义线程池："></a>自定义线程池：</h5><p>定义单例线程池</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPool</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Mypool myPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//单例线程池中有两种具体的线程池</span></span><br><span class="line">    <span class="keyword">private</span> ThreadPoolExecutor threadPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> ScheduledThreadPoolExecutor scheduledPool = <span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ThreadPoolExecutor <span class="title">getThreadPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ScheduledThreadPoolExecutor <span class="title">getScheduledPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> scheduledPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//设置线程池的各个参数的大小</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> corePoolSize = <span class="number">10</span>;  <span class="comment">//池中所保存的线程数，包括空闲线程</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maximumPoolSize = <span class="number">20</span>;  <span class="comment">//池中允许的最大线程数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> keepAliveTime =<span class="number">3</span>;  <span class="comment">//当线程数大于核心数时，终止前多余的空闲线程等待新任务的最长时间</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> scheduledPoolSize = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (myPool == <span class="keyword">null</span>)</span><br><span class="line">            myPool = <span class="keyword">new</span> MyPool();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MyPool <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (myPool == <span class="keyword">null</span>)</span><br><span class="line">            create();</span><br><span class="line">        <span class="keyword">return</span> myPool;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">MyPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//实例化线程池，这里使用的LinkedBlockingQueue作为workQueue，使用DiscardOldestPolicy作为handler</span></span><br><span class="line">        <span class="keyword">this</span>。threadPool = <span class="keyword">new</span> ThreadPoolExecutor(corePoolSize, maximumPoolSize,</span><br><span class="line">                                                keepAliveTime, TimeUnit.SECONDS,</span><br><span class="line">                                                <span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;(),</span><br><span class="line">                                                <span class="keyword">new</span> ThreadPoolExecutor.CallerRunsPolicy());  <span class="comment">//不在新线程中执行任务，而是由调用者所在的线程来执行</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//实例化计划任务线程池</span></span><br><span class="line">        <span class="keyword">this</span>.scheduledPool = <span class="keyword">new</span> ScheduledThreadPoolExecutor(scheduledPoolSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h6 id="创建线程池的主要参数说明："><a href="#创建线程池的主要参数说明：" class="headerlink" title="创建线程池的主要参数说明："></a>创建线程池的主要参数说明：</h6><p>1、corePoolSize（int）：线程池中保持的线程数量，包括空闲线程在内。也就是线程池释放的最小线程数量界限</p>
-<p>2、maximumPoolSize（int）: 线程池中嫩容纳最大线程数量</p>
-<p>3、keepAliveTime(long): 空闲线程保持在线程池中的时间，当线程池中线程数量大于 corePoolSize 的时候</p>
-<p>4、unit(TimeUnit枚举类): 上面参数时间的单位，可以是分钟，秒，毫秒等等</p>
-<p>5、workQueue（BlockingQueue）: 任务队列，当线程任务提交到线程池以后，首先放入队列中，然后线程池按照该任务队列依次执行相应的任务。可以使用的 workQueue 有很多，比如：LinkedBlockingQueue 等等</p>
-<p>6、threadFactory(ThreadFactory类): 新线程产生工厂类</p>
-<p>7、handler（RejectedExecutionHandler类）: 当提交线程拒绝执行、异常的时候，处理异常的类。</p>
-<p>​            该类取值如下：(注意都是内部类) </p>
-<p>​                    ThreadPoolExecutor.AbortPolicy: 丢弃任务并抛出RejectedExecutionException 异常。 </p>
-<p>​                    ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。</p>
-<p>​                    ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务，重复此过程。 </p>
-<p>​                    ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务。</p>
-<hr>
-<p>获取线程池并添加任务</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testThreadPool</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    ThreadPoolExecutor pool1 = (ThreadPoolExecutor) Exectors.newCachedThreadPool();</span><br><span class="line">    pool1.execute(() -&gt; System.out.println(<span class="string">&quot;快捷线程池中的线程&quot;</span>));</span><br><span class="line">    </span><br><span class="line">    ThreadPoolExecutor pool2 = MyPool.getInstance().getThreadPool();</span><br><span class="line">    pool2.execute(() -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;pool2普通线程池中的线程&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Thread.sleep(<span class="number">30</span>*<span class="number">1000</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 poolSize:&quot;</span> +pool2.getPoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 corePoolSize:&quot;</span> +pool2.getCorePoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 largestPoolSize:&quot;</span> +pool2.getLargestPoolSize());</span><br><span class="line">    System.out.println(<span class="string">&quot;pool2 maximumPoolSize:&quot;</span> +pool2.getMaximumPoolSize());</span><br><span class="line">    </span><br><span class="line">    ScheduledThreadPoolExecutor pool3 = MyPool.getInstance().getScheduledPool();</span><br><span class="line">    pool3.scheduleAtFixedRate(() -&gt; System.out.println(<span class="string">&quot;计划任务线程池中的线程&quot;</span>),<span class="number">0</span>,<span class="number">5000</span>,TimeUnit.MILLISECONDS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="JDK提供的常用线程池："><a href="#JDK提供的常用线程池：" class="headerlink" title="JDK提供的常用线程池："></a>JDK提供的常用线程池：</h4><p>1、newFixedThreadPool创建固定大小数量线程池，数量通过传入的参数决定</p>
-<p>2、newSingleThreadExecutor创建一个线程容量的线程池，所有的线程依次执行，相当于创建固定数量为 1 的线程池</p>
-<p>3、newCachedThreadPool创建可缓存的线程池，没有最大线程限制（实际上是 Integer.MAX_VALUE）。如果用空闲线程等待时间超过一分钟，就关闭该线程</p>
-<p>4、newScheduledThreadPool创建计划 (延迟) 任务线程池, 线程池中的线程可以让其在特定的延迟时间之后执行，也可以以固定的时间重复执行（周期性执行）。相当于以前的 Timer 类的使用</p>
-<p>5、newSingleThreadScheduledExecutor创建单线程池延迟任务，创建一个线程容量的计划任务</p>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-        <tag>笔记</tag>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java中JsonSerializer用法</title>
-    <url>/2018/08/02/Java%E4%B8%ADJsonSerializer%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<p>前后端单位不统一时进行转换</p>
-<a id="more"></a>
-
-<h5 id="问题举例："><a href="#问题举例：" class="headerlink" title="问题举例："></a>问题举例：</h5><p>后端用的时间单位是Date，前端用的秒</p>
-<p>后端用的金额单位是分，前端用的是元</p>
-<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><h5 id="1-写一个负责转换的类，里面写好规则"><a href="#1-写一个负责转换的类，里面写好规则" class="headerlink" title="1. 写一个负责转换的类，里面写好规则"></a>1. 写一个负责转换的类，里面写好规则</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Date2LongSerialize</span> <span class="keyword">extends</span> <span class="title">JsonSerializer</span>&lt;<span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)</span> <span class="keyword">throws</span> IOException, JsonProcessingException </span>&#123;</span><br><span class="line">        jsonGenerator.writeNumber(date.getTime() / <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-在返回的参数里加上注解"><a href="#2-在返回的参数里加上注解" class="headerlink" title="2. 在返回的参数里加上注解"></a>2. 在返回的参数里加上注解</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PledgeDetailItemVO</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">2308418084162500432L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JsonSerialize(using = Date2LongSerialize.class)</span></span><br><span class="line">    <span class="keyword">private</span> Date addTime;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>Java</tag>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SpringBoot中线程池的使用</title>
     <url>/2019/11/27/SpringBoot%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
     <content><![CDATA[<p>SpringBoot中线程池的使用</p>
@@ -790,24 +790,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Springboot解决跨域问题</title>
-    <url>/2019/06/21/Springboot%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>Springboot解决跨域问题</p>
-<a id="more"></a>
-
-<h4 id="Springboot解决跨域问题"><a href="#Springboot解决跨域问题" class="headerlink" title="Springboot解决跨域问题"></a>Springboot解决跨域问题</h4><p>前后端分离的项目，如果前端项目与后端项目部署在两个不同的域下，会引起跨域问题的出现</p>
-<h6 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h6><p>在Controller类上加@CrossOrigin注解即可</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> fxmaoyuzzz</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*前端127.0.0.1:8888  后端127.0.0.1:8082</span></span><br><span class="line"><span class="comment">* 前后端因为来自不同的网域，所以在http的安全协议策略下不信任*/</span></span><br><span class="line"><span class="meta">@CrossOrigin</span>      <span class="comment">//解决前后端的跨域问题</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CatalogController</span> </span>&#123;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p><img src="/images/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98.png"></p>
-]]></content>
-      <tags>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SpringMVC相关知识点</title>
     <url>/2020/02/27/SpringMVC%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
     <content><![CDATA[<p>SpringMVC相关知识点备忘录</p>
@@ -881,6 +863,24 @@
       <tags>
         <tag>笔记</tag>
         <tag>SpringMVC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Springboot解决跨域问题</title>
+    <url>/2019/06/21/Springboot%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>Springboot解决跨域问题</p>
+<a id="more"></a>
+
+<h4 id="Springboot解决跨域问题"><a href="#Springboot解决跨域问题" class="headerlink" title="Springboot解决跨域问题"></a>Springboot解决跨域问题</h4><p>前后端分离的项目，如果前端项目与后端项目部署在两个不同的域下，会引起跨域问题的出现</p>
+<h6 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h6><p>在Controller类上加@CrossOrigin注解即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> fxmaoyuzzz</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*前端127.0.0.1:8888  后端127.0.0.1:8082</span></span><br><span class="line"><span class="comment">* 前后端因为来自不同的网域，所以在http的安全协议策略下不信任*/</span></span><br><span class="line"><span class="meta">@CrossOrigin</span>      <span class="comment">//解决前后端的跨域问题</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CatalogController</span> </span>&#123;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p><img src="/images/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98.png"></p>
+]]></content>
+      <tags>
+        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
@@ -1024,6 +1024,30 @@
       </tags>
   </entry>
   <entry>
+    <title>启动nginx时报错</title>
+    <url>/2019/06/22/nginx%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/</url>
+    <content><![CDATA[<p>nginx启动报错：nginx: [error] open() “/var/run/nginx/nginx.pid” failed (2: No such file or directory)</p>
+<a id="more"></a>
+
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h5 id="解决此错误的方法如下："><a href="#解决此错误的方法如下：" class="headerlink" title="解决此错误的方法如下："></a>解决此错误的方法如下：</h5><p>（1）进入 <strong>cd /usr/local/nginx/conf/</strong> 目录，编辑配置文件<strong>nginx.conf</strong> ；</p>
+<p>（2）在配置文件中有个注释的地方： <strong>#pid     logs/nginx.pid;</strong></p>
+<p>（3）将注释放开，并修改为：<strong>pid   /usr/local/nginx/logs/nginx.pid;</strong></p>
+<p>（4）在 <strong>/usr/local/nginx</strong> 目录下创建 <strong>logs 目录</strong>：<strong>mkdir /usr/local/nginx/logs</strong></p>
+<p>（5）之后再次启动nginx服务：<strong>cd /usr/local/nginx/sbin/</strong></p>
+<p>（6）启动成功 </p>
+<blockquote>
+<blockquote>
+<p>在此做个记录，以防以后再次遇到此问题。</p>
+</blockquote>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>Error</tag>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>npm笔记</title>
     <url>/2020/06/06/npm%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>npm的使用及相关命令</p>
@@ -1142,6 +1166,32 @@
       </tags>
   </entry>
   <entry>
+    <title>开源镜像网站汇总</title>
+    <url>/2018/10/04/%E5%9B%BD%E5%86%85%E5%BC%80%E6%BA%90%E9%95%9C%E5%83%8F%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<p>资源站&gt;&gt;国内开源镜像网站汇总</p>
+<a id="more"></a>
+
+<h3 id="开源镜像网站汇总"><a href="#开源镜像网站汇总" class="headerlink" title="开源镜像网站汇总"></a>开源镜像网站汇总</h3><h4 id="一、站点版"><a href="#一、站点版" class="headerlink" title="一、站点版"></a>一、站点版</h4><h5 id="（一）、企业站"><a href="#（一）、企业站" class="headerlink" title="（一）、企业站"></a>（一）、企业站</h5><p>1.搜狐：<a href="http://mirrors.sohu.com/">http://mirrors.sohu.com/</a><br>2.网易：<a href="http://mirrors.163.com/">http://mirrors.163.com/</a><br>3.阿里云：<a href="http://mirrors.aliyun.com/">http://mirrors.aliyun.com/</a><br>4.腾讯：<a href="http://android-mirror.bugly.qq.com:8080/">http://android-mirror.bugly.qq.com:8080/</a>  （仅针对APP开发的软件，限流，不推荐）</p>
+<h5 id="（二）、教育站"><a href="#（二）、教育站" class="headerlink" title="（二）、教育站"></a>（二）、教育站</h5><p>1.上海交通大学：<a href="http://ftp.sjtu.edu.cn/html/resources.xml">http://ftp.sjtu.edu.cn/html/resources.xml</a>  （部分移动运营商出口状况不佳，无法访问）<br>2.华中科技大学：<a href="http://mirror.hust.edu.cn/">http://mirror.hust.edu.cn/</a>  （当前已用容量估计：4.83T）<br>3.清华大学：<a href="http://mirrors.tuna.tsinghua.edu.cn/">http://mirrors.tuna.tsinghua.edu.cn/</a>  （当前已用容量估计：9.8T）<br>4.北京理工大学：<a href="http://mirror.bit.edu.cn/web/">http://mirror.bit.edu.cn/web/</a><br>5.兰州大学：<a href="http://mirror.lzu.edu.cn/">http://mirror.lzu.edu.cn/</a><br>6.中国科技大学：<a href="http://mirrors.ustc.edu.cn/">http://mirrors.ustc.edu.cn/</a>  （当前已用容量估计：21.32T）<br>7.大连东软信息学院：<a href="http://mirrors.neusoft.edu.cn/">http://mirrors.neusoft.edu.cn/</a>  （当前已用容量估计：2.5T）<br>8.东北大学：<a href="http://mirror.neu.edu.cn/">http://mirror.neu.edu.cn/</a><br>9.大连理工大学：<a href="http://mirror.dlut.edu.cn/">http://mirror.dlut.edu.cn/</a><br>10.哈尔滨工业大学：<a href="http://run.hit.edu.cn/html/">http://run.hit.edu.cn/html/</a>  （部分联通运营商出口状况不佳，无法访问）<br>11.北京交通大学：<a href="http://mirror.bjtu.edu.cn/cn/">http://mirror.bjtu.edu.cn/cn/</a><br>12.天津大学：[<a href="http://mirror.tju.edu.cn]">http://mirror.tju.edu.cn]</a><br>        (<a href="http://mirror.tju.edu.cn/">http://mirror.tju.edu.cn/</a>)  （无法访问，ping超时）<br>13.中国地质大学：<a href="http://mirrors.cug.edu.cn/">http://mirrors.cug.edu.cn/</a>  （当前已用容量估计：2.3T）<br>14.浙江大学：<a href="http://mirrors.zju.edu.cn/">http://mirrors.zju.edu.cn/</a><br>15.厦门大学：<a href="http://mirrors.xmu.edu.cn/">http://mirrors.xmu.edu.cn/</a><br>16.中山大学：<a href="http://mirror.sysu.edu.cn/">http://mirror.sysu.edu.cn/</a><br>17.重庆大学：<a href="http://mirrors.cqu.edu.cn/">http://mirrors.cqu.edu.cn/</a>  （当前已用容量估计：3.93T）<br>18.北京化工大学：<a href="http://ubuntu.buct.edu.cn/">http://ubuntu.buct.edu.cn/</a>  （Android SDK镜像仅供校内使用，当前已用容量估计：1.72T）<br>19.南阳理工学院：<a href="http://mirror.nyist.edu.cn/">http://mirror.nyist.edu.cn/</a><br>20.中国科学院：<a href="http://www.opencas.org/mirrors/">http://www.opencas.org/mirrors/</a><br>21.电子科技大学：<a href="http://ubuntu.uestc.edu.cn/">http://ubuntu.uestc.edu.cn/</a>  （无法访问，ping超时）<br>22.电子科技大学星辰工作室：<a href="http://mirrors.stuhome.net/">http://mirrors.stuhome.net/</a>  （当前已用容量估计：1.08T）<br>23.西北农林科技大学：<a href="http://mirrors.nwsuaf.edu.cn/">http://mirrors.nwsuaf.edu.cn/</a>  （只做CentOS镜像，当前已用容量估计：140GB）</p>
+<h5 id="（三）、其他"><a href="#（三）、其他" class="headerlink" title="（三）、其他"></a>（三）、其他</h5><p>1.首都在线科技股份有限公司（英文名Capital Online Data Service）：<a href="http://mirrors.yun-idc.com/">http://mirrors.yun-idc.com/</a><br>2.中国电信天翼云：<a href="http://mirrors.ctyun.cn/">http://mirrors.ctyun.cn/</a><br>3.noc.im：<a href="http://mirrors.noc.im/">http://mirrors.noc.im/</a>  （当前已用容量估计：3.74T）<br>4.常州贝特康姆软件技术有限公司：<a href="http://centos.bitcomm.cn/">http://centos.bitcomm.cn/</a>  （只做CentOS镜像，当前已用容量估计：140GB）<br>5.公云PubYun（母公司为贝特康姆）：<a href="http://mirrors.pubyun.com/">http://mirrors.pubyun.com/</a><br>6.Linux运维派：<a href="http://mirrors.skyshe.cn/">http://mirrors.skyshe.cn/</a>  （使用阿里云服务器，界面使用浙江大学的模板，首页维护，内容可访问）<br>7.中国互联网络信息中心：<a href="http://mirrors.cnnic.cn/">http://mirrors.cnnic.cn/</a>  （只做Apache镜像，当前已用容量估计：120GB）<br>8.Fayea工作室：<a href="http://apache.fayea.com/">http://apache.fayea.com/</a>  （只做Apache镜像，当前已用容量估计：120GB）</p>
+<h4 id="二、软件版"><a href="#二、软件版" class="headerlink" title="二、软件版"></a>二、软件版</h4><h5 id="（一）、操作系统类"><a href="#（一）、操作系统类" class="headerlink" title="（一）、操作系统类"></a>（一）、操作系统类</h5><h6 id="1-Ubuntu"><a href="#1-Ubuntu" class="headerlink" title="1.Ubuntu"></a>1.Ubuntu</h6><p>阿里云：<a href="http://mirrors.aliyun.com/ubuntu-releases/">http://mirrors.aliyun.com/ubuntu-releases/</a><br>网易：<a href="http://mirrors.163.com/ubuntu-releases/">http://mirrors.163.com/ubuntu-releases/</a><br>搜狐：<a href="http://mirrors.sohu.com/ubuntu-releases/">http://mirrors.sohu.com/ubuntu-releases/</a>  （搜狐在12年之后似乎不同步了）<br>首都在线科技股份有限公司：<a href="http://mirrors.yun-idc.com/ubuntu-releases/">http://mirrors.yun-idc.com/ubuntu-releases/</a></p>
+<h6 id="2-centos"><a href="#2-centos" class="headerlink" title="2.centos"></a>2.centos</h6><p>网易：<a href="http://mirrors.163.com/centos/">http://mirrors.163.com/centos/</a><br>搜狐：<a href="http://mirrors.sohu.com/centos/">http://mirrors.sohu.com/centos/</a><br>阿里云：<a href="http://mirrors.aliyun.com/centos/">http://mirrors.aliyun.com/centos/</a></p>
+<h5 id="（二）、服务器类"><a href="#（二）、服务器类" class="headerlink" title="（二）、服务器类"></a>（二）、服务器类</h5><h6 id="1-tomcat、Apache"><a href="#1-tomcat、Apache" class="headerlink" title="1.tomcat、Apache"></a>1.tomcat、Apache</h6><p>中国互联网络信息中心：<a href="http://mirrors.cnnic.cn/apache/">http://mirrors.cnnic.cn/apache/</a><br>华中科技大学：<a href="http://mirrors.hust.edu.cn/apache/">http://mirrors.hust.edu.cn/apache/</a><br>北京理工大学：<a href="http://mirror.bit.edu.cn/apache/">http://mirror.bit.edu.cn/apache/</a></p>
+<h6 id="2-MySQL"><a href="#2-MySQL" class="headerlink" title="2.MySQL"></a>2.MySQL</h6><p>北京理工大学：<a href="http://mirror.bit.edu.cn/mysql/Downloads/">http://mirror.bit.edu.cn/mysql/Downloads/</a><br>中国电信天翼云：<a href="http://mirrors.ctyun.cn/Mysql/">http://mirrors.ctyun.cn/Mysql/</a></p>
+<h6 id="3-PostgreSQL"><a href="#3-PostgreSQL" class="headerlink" title="3.PostgreSQL"></a>3.PostgreSQL</h6><p>浙江大学：<a href="http://mirrors.zju.edu.cn/postgresql/">http://mirrors.zju.edu.cn/postgresql/</a></p>
+<h6 id="4-MariaDB"><a href="#4-MariaDB" class="headerlink" title="4.MariaDB"></a>4.MariaDB</h6><p>中国电信天翼云：<a href="http://mirrors.ctyun.cn/MariaDB/">http://mirrors.ctyun.cn/MariaDB/</a></p>
+<h6 id="5-VideoLAN"><a href="#5-VideoLAN" class="headerlink" title="5.VideoLAN"></a>5.VideoLAN</h6><p>大连东软信息学院：<a href="http://mirrors.neusoft.edu.cn/videolan/">http://mirrors.neusoft.edu.cn/videolan/</a><br>中国科技大学：<a href="http://mirrors.ustc.edu.cn/videolan-ftp/">http://mirrors.ustc.edu.cn/videolan-ftp/</a></p>
+<h5 id="（三）、开发工具类"><a href="#（三）、开发工具类" class="headerlink" title="（三）、开发工具类"></a>（三）、开发工具类</h5><h6 id="1-eclipse"><a href="#1-eclipse" class="headerlink" title="1.eclipse"></a>1.eclipse</h6><p>中国科技大学：<a href="http://mirrors.ustc.edu.cn/eclipse/">http://mirrors.ustc.edu.cn/eclipse/</a><br>中国科学院：<a href="http://mirrors.opencas.cn/eclipse/">http://mirrors.opencas.cn/eclipse/</a><br>东北大学：<a href="http://ftp.neu.edu.cn/mirrors/eclipse/%EF%BC%8Chttp://mirror.neu.edu.cn/eclipse/">http://ftp.neu.edu.cn/mirrors/eclipse/，http://mirror.neu.edu.cn/eclipse/</a></p>
+<h6 id="2-安卓SDK"><a href="#2-安卓SDK" class="headerlink" title="2.安卓SDK"></a>2.安卓SDK</h6><p>中国科学院：<a href="http://mirrors.opencas.ac.cn/android/repository/">http://mirrors.opencas.ac.cn/android/repository/</a><br>南洋理工学院：<a href="http://mirror.nyist.edu.cn/android/repository/">http://mirror.nyist.edu.cn/android/repository/</a><br>中国科学院：<a href="http://mirrors.opencas.cn/android/repository/">http://mirrors.opencas.cn/android/repository/</a><br>腾讯：<a href="http://android-mirror.bugly.qq.com:8080/android/repository/">http://android-mirror.bugly.qq.com:8080/android/repository/</a>  （限流，不推荐）<br>大连东软信息学院：<a href="http://mirrors.neusoft.edu.cn/android/repository/">http://mirrors.neusoft.edu.cn/android/repository/</a>  （同步效果不如中科院的镜像，不推荐）</p>
+<h6 id="3-Xcode"><a href="#3-Xcode" class="headerlink" title="3.Xcode"></a>3.Xcode</h6><p>腾讯：<a href="http://android-mirror.bugly.qq.com:8080/Xcode/">http://android-mirror.bugly.qq.com:8080/Xcode/</a>  （从7.2之后不再更新，建议直接从官网下载）</p>
+<h4 id="三、官方镜像列表状态地址"><a href="#三、官方镜像列表状态地址" class="headerlink" title="三、官方镜像列表状态地址"></a>三、官方镜像列表状态地址</h4><p>CentOS：<a href="http://mirror-status.centos.org/#cn">http://mirror-status.centos.org/#cn</a><br>Archlinux：<a href="https://www.archlinux.org/mirrors/status/">https://www.archlinux.org/mirrors/status/</a><br>Ubuntu：<a href="https://launchpad.net/ubuntu/+cdmirrors">https://launchpad.net/ubuntu/+cdmirrors</a><br>Debian：<a href="http://mirror.debian.org/status.html">http://mirror.debian.org/status.html</a><br>Fedora Linux/Fedora EPEL：<a href="https://admin.fedoraproject.org/mirrormanager/mirrors">https://admin.fedoraproject.org/mirrormanager/mirrors</a><br>Apache：<a href="http://www.apache.org/mirrors/#cn">http://www.apache.org/mirrors/#cn</a></p>
+<p>Cygwin：<a href="https://www.cygwin.com/mirrors.html">https://www.cygwin.com/mirrors.html</a></p>
+<h5 id="参考文献：https-www-cnblogs-com-jtlgb-p-5702713-html"><a href="#参考文献：https-www-cnblogs-com-jtlgb-p-5702713-html" class="headerlink" title="***//参考文献：https://www.cnblogs.com/jtlgb/p/5702713.html"></a>***//参考文献：<a href="https://www.cnblogs.com/jtlgb/p/5702713.html">https://www.cnblogs.com/jtlgb/p/5702713.html</a></h5>]]></content>
+      <tags>
+        <tag>资源站</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用Spring的Pageable实现分页查询</title>
     <url>/2018/04/17/%E4%BD%BF%E7%94%A8Spring%E7%9A%84Pageable%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/</url>
     <content><![CDATA[<p>使用Spring的Pageable实现分页查询</p>
@@ -1161,30 +1211,6 @@
 ]]></content>
       <tags>
         <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>启动nginx时报错</title>
-    <url>/2019/06/22/nginx%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/</url>
-    <content><![CDATA[<p>nginx启动报错：nginx: [error] open() “/var/run/nginx/nginx.pid” failed (2: No such file or directory)</p>
-<a id="more"></a>
-
-
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h5 id="解决此错误的方法如下："><a href="#解决此错误的方法如下：" class="headerlink" title="解决此错误的方法如下："></a>解决此错误的方法如下：</h5><p>（1）进入 <strong>cd /usr/local/nginx/conf/</strong> 目录，编辑配置文件<strong>nginx.conf</strong> ；</p>
-<p>（2）在配置文件中有个注释的地方： <strong>#pid     logs/nginx.pid;</strong></p>
-<p>（3）将注释放开，并修改为：<strong>pid   /usr/local/nginx/logs/nginx.pid;</strong></p>
-<p>（4）在 <strong>/usr/local/nginx</strong> 目录下创建 <strong>logs 目录</strong>：<strong>mkdir /usr/local/nginx/logs</strong></p>
-<p>（5）之后再次启动nginx服务：<strong>cd /usr/local/nginx/sbin/</strong></p>
-<p>（6）启动成功 </p>
-<blockquote>
-<blockquote>
-<p>在此做个记录，以防以后再次遇到此问题。</p>
-</blockquote>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>Error</tag>
-        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -1215,52 +1241,6 @@
       </tags>
   </entry>
   <entry>
-    <title>开源镜像网站汇总</title>
-    <url>/2018/10/04/%E5%9B%BD%E5%86%85%E5%BC%80%E6%BA%90%E9%95%9C%E5%83%8F%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<p>资源站&gt;&gt;国内开源镜像网站汇总</p>
-<a id="more"></a>
-
-<h3 id="开源镜像网站汇总"><a href="#开源镜像网站汇总" class="headerlink" title="开源镜像网站汇总"></a>开源镜像网站汇总</h3><h4 id="一、站点版"><a href="#一、站点版" class="headerlink" title="一、站点版"></a>一、站点版</h4><h5 id="（一）、企业站"><a href="#（一）、企业站" class="headerlink" title="（一）、企业站"></a>（一）、企业站</h5><p>1.搜狐：<a href="http://mirrors.sohu.com/">http://mirrors.sohu.com/</a><br>2.网易：<a href="http://mirrors.163.com/">http://mirrors.163.com/</a><br>3.阿里云：<a href="http://mirrors.aliyun.com/">http://mirrors.aliyun.com/</a><br>4.腾讯：<a href="http://android-mirror.bugly.qq.com:8080/">http://android-mirror.bugly.qq.com:8080/</a>  （仅针对APP开发的软件，限流，不推荐）</p>
-<h5 id="（二）、教育站"><a href="#（二）、教育站" class="headerlink" title="（二）、教育站"></a>（二）、教育站</h5><p>1.上海交通大学：<a href="http://ftp.sjtu.edu.cn/html/resources.xml">http://ftp.sjtu.edu.cn/html/resources.xml</a>  （部分移动运营商出口状况不佳，无法访问）<br>2.华中科技大学：<a href="http://mirror.hust.edu.cn/">http://mirror.hust.edu.cn/</a>  （当前已用容量估计：4.83T）<br>3.清华大学：<a href="http://mirrors.tuna.tsinghua.edu.cn/">http://mirrors.tuna.tsinghua.edu.cn/</a>  （当前已用容量估计：9.8T）<br>4.北京理工大学：<a href="http://mirror.bit.edu.cn/web/">http://mirror.bit.edu.cn/web/</a><br>5.兰州大学：<a href="http://mirror.lzu.edu.cn/">http://mirror.lzu.edu.cn/</a><br>6.中国科技大学：<a href="http://mirrors.ustc.edu.cn/">http://mirrors.ustc.edu.cn/</a>  （当前已用容量估计：21.32T）<br>7.大连东软信息学院：<a href="http://mirrors.neusoft.edu.cn/">http://mirrors.neusoft.edu.cn/</a>  （当前已用容量估计：2.5T）<br>8.东北大学：<a href="http://mirror.neu.edu.cn/">http://mirror.neu.edu.cn/</a><br>9.大连理工大学：<a href="http://mirror.dlut.edu.cn/">http://mirror.dlut.edu.cn/</a><br>10.哈尔滨工业大学：<a href="http://run.hit.edu.cn/html/">http://run.hit.edu.cn/html/</a>  （部分联通运营商出口状况不佳，无法访问）<br>11.北京交通大学：<a href="http://mirror.bjtu.edu.cn/cn/">http://mirror.bjtu.edu.cn/cn/</a><br>12.天津大学：[<a href="http://mirror.tju.edu.cn]">http://mirror.tju.edu.cn]</a><br>        (<a href="http://mirror.tju.edu.cn/">http://mirror.tju.edu.cn/</a>)  （无法访问，ping超时）<br>13.中国地质大学：<a href="http://mirrors.cug.edu.cn/">http://mirrors.cug.edu.cn/</a>  （当前已用容量估计：2.3T）<br>14.浙江大学：<a href="http://mirrors.zju.edu.cn/">http://mirrors.zju.edu.cn/</a><br>15.厦门大学：<a href="http://mirrors.xmu.edu.cn/">http://mirrors.xmu.edu.cn/</a><br>16.中山大学：<a href="http://mirror.sysu.edu.cn/">http://mirror.sysu.edu.cn/</a><br>17.重庆大学：<a href="http://mirrors.cqu.edu.cn/">http://mirrors.cqu.edu.cn/</a>  （当前已用容量估计：3.93T）<br>18.北京化工大学：<a href="http://ubuntu.buct.edu.cn/">http://ubuntu.buct.edu.cn/</a>  （Android SDK镜像仅供校内使用，当前已用容量估计：1.72T）<br>19.南阳理工学院：<a href="http://mirror.nyist.edu.cn/">http://mirror.nyist.edu.cn/</a><br>20.中国科学院：<a href="http://www.opencas.org/mirrors/">http://www.opencas.org/mirrors/</a><br>21.电子科技大学：<a href="http://ubuntu.uestc.edu.cn/">http://ubuntu.uestc.edu.cn/</a>  （无法访问，ping超时）<br>22.电子科技大学星辰工作室：<a href="http://mirrors.stuhome.net/">http://mirrors.stuhome.net/</a>  （当前已用容量估计：1.08T）<br>23.西北农林科技大学：<a href="http://mirrors.nwsuaf.edu.cn/">http://mirrors.nwsuaf.edu.cn/</a>  （只做CentOS镜像，当前已用容量估计：140GB）</p>
-<h5 id="（三）、其他"><a href="#（三）、其他" class="headerlink" title="（三）、其他"></a>（三）、其他</h5><p>1.首都在线科技股份有限公司（英文名Capital Online Data Service）：<a href="http://mirrors.yun-idc.com/">http://mirrors.yun-idc.com/</a><br>2.中国电信天翼云：<a href="http://mirrors.ctyun.cn/">http://mirrors.ctyun.cn/</a><br>3.noc.im：<a href="http://mirrors.noc.im/">http://mirrors.noc.im/</a>  （当前已用容量估计：3.74T）<br>4.常州贝特康姆软件技术有限公司：<a href="http://centos.bitcomm.cn/">http://centos.bitcomm.cn/</a>  （只做CentOS镜像，当前已用容量估计：140GB）<br>5.公云PubYun（母公司为贝特康姆）：<a href="http://mirrors.pubyun.com/">http://mirrors.pubyun.com/</a><br>6.Linux运维派：<a href="http://mirrors.skyshe.cn/">http://mirrors.skyshe.cn/</a>  （使用阿里云服务器，界面使用浙江大学的模板，首页维护，内容可访问）<br>7.中国互联网络信息中心：<a href="http://mirrors.cnnic.cn/">http://mirrors.cnnic.cn/</a>  （只做Apache镜像，当前已用容量估计：120GB）<br>8.Fayea工作室：<a href="http://apache.fayea.com/">http://apache.fayea.com/</a>  （只做Apache镜像，当前已用容量估计：120GB）</p>
-<h4 id="二、软件版"><a href="#二、软件版" class="headerlink" title="二、软件版"></a>二、软件版</h4><h5 id="（一）、操作系统类"><a href="#（一）、操作系统类" class="headerlink" title="（一）、操作系统类"></a>（一）、操作系统类</h5><h6 id="1-Ubuntu"><a href="#1-Ubuntu" class="headerlink" title="1.Ubuntu"></a>1.Ubuntu</h6><p>阿里云：<a href="http://mirrors.aliyun.com/ubuntu-releases/">http://mirrors.aliyun.com/ubuntu-releases/</a><br>网易：<a href="http://mirrors.163.com/ubuntu-releases/">http://mirrors.163.com/ubuntu-releases/</a><br>搜狐：<a href="http://mirrors.sohu.com/ubuntu-releases/">http://mirrors.sohu.com/ubuntu-releases/</a>  （搜狐在12年之后似乎不同步了）<br>首都在线科技股份有限公司：<a href="http://mirrors.yun-idc.com/ubuntu-releases/">http://mirrors.yun-idc.com/ubuntu-releases/</a></p>
-<h6 id="2-centos"><a href="#2-centos" class="headerlink" title="2.centos"></a>2.centos</h6><p>网易：<a href="http://mirrors.163.com/centos/">http://mirrors.163.com/centos/</a><br>搜狐：<a href="http://mirrors.sohu.com/centos/">http://mirrors.sohu.com/centos/</a><br>阿里云：<a href="http://mirrors.aliyun.com/centos/">http://mirrors.aliyun.com/centos/</a></p>
-<h5 id="（二）、服务器类"><a href="#（二）、服务器类" class="headerlink" title="（二）、服务器类"></a>（二）、服务器类</h5><h6 id="1-tomcat、Apache"><a href="#1-tomcat、Apache" class="headerlink" title="1.tomcat、Apache"></a>1.tomcat、Apache</h6><p>中国互联网络信息中心：<a href="http://mirrors.cnnic.cn/apache/">http://mirrors.cnnic.cn/apache/</a><br>华中科技大学：<a href="http://mirrors.hust.edu.cn/apache/">http://mirrors.hust.edu.cn/apache/</a><br>北京理工大学：<a href="http://mirror.bit.edu.cn/apache/">http://mirror.bit.edu.cn/apache/</a></p>
-<h6 id="2-MySQL"><a href="#2-MySQL" class="headerlink" title="2.MySQL"></a>2.MySQL</h6><p>北京理工大学：<a href="http://mirror.bit.edu.cn/mysql/Downloads/">http://mirror.bit.edu.cn/mysql/Downloads/</a><br>中国电信天翼云：<a href="http://mirrors.ctyun.cn/Mysql/">http://mirrors.ctyun.cn/Mysql/</a></p>
-<h6 id="3-PostgreSQL"><a href="#3-PostgreSQL" class="headerlink" title="3.PostgreSQL"></a>3.PostgreSQL</h6><p>浙江大学：<a href="http://mirrors.zju.edu.cn/postgresql/">http://mirrors.zju.edu.cn/postgresql/</a></p>
-<h6 id="4-MariaDB"><a href="#4-MariaDB" class="headerlink" title="4.MariaDB"></a>4.MariaDB</h6><p>中国电信天翼云：<a href="http://mirrors.ctyun.cn/MariaDB/">http://mirrors.ctyun.cn/MariaDB/</a></p>
-<h6 id="5-VideoLAN"><a href="#5-VideoLAN" class="headerlink" title="5.VideoLAN"></a>5.VideoLAN</h6><p>大连东软信息学院：<a href="http://mirrors.neusoft.edu.cn/videolan/">http://mirrors.neusoft.edu.cn/videolan/</a><br>中国科技大学：<a href="http://mirrors.ustc.edu.cn/videolan-ftp/">http://mirrors.ustc.edu.cn/videolan-ftp/</a></p>
-<h5 id="（三）、开发工具类"><a href="#（三）、开发工具类" class="headerlink" title="（三）、开发工具类"></a>（三）、开发工具类</h5><h6 id="1-eclipse"><a href="#1-eclipse" class="headerlink" title="1.eclipse"></a>1.eclipse</h6><p>中国科技大学：<a href="http://mirrors.ustc.edu.cn/eclipse/">http://mirrors.ustc.edu.cn/eclipse/</a><br>中国科学院：<a href="http://mirrors.opencas.cn/eclipse/">http://mirrors.opencas.cn/eclipse/</a><br>东北大学：<a href="http://ftp.neu.edu.cn/mirrors/eclipse/%EF%BC%8Chttp://mirror.neu.edu.cn/eclipse/">http://ftp.neu.edu.cn/mirrors/eclipse/，http://mirror.neu.edu.cn/eclipse/</a></p>
-<h6 id="2-安卓SDK"><a href="#2-安卓SDK" class="headerlink" title="2.安卓SDK"></a>2.安卓SDK</h6><p>中国科学院：<a href="http://mirrors.opencas.ac.cn/android/repository/">http://mirrors.opencas.ac.cn/android/repository/</a><br>南洋理工学院：<a href="http://mirror.nyist.edu.cn/android/repository/">http://mirror.nyist.edu.cn/android/repository/</a><br>中国科学院：<a href="http://mirrors.opencas.cn/android/repository/">http://mirrors.opencas.cn/android/repository/</a><br>腾讯：<a href="http://android-mirror.bugly.qq.com:8080/android/repository/">http://android-mirror.bugly.qq.com:8080/android/repository/</a>  （限流，不推荐）<br>大连东软信息学院：<a href="http://mirrors.neusoft.edu.cn/android/repository/">http://mirrors.neusoft.edu.cn/android/repository/</a>  （同步效果不如中科院的镜像，不推荐）</p>
-<h6 id="3-Xcode"><a href="#3-Xcode" class="headerlink" title="3.Xcode"></a>3.Xcode</h6><p>腾讯：<a href="http://android-mirror.bugly.qq.com:8080/Xcode/">http://android-mirror.bugly.qq.com:8080/Xcode/</a>  （从7.2之后不再更新，建议直接从官网下载）</p>
-<h4 id="三、官方镜像列表状态地址"><a href="#三、官方镜像列表状态地址" class="headerlink" title="三、官方镜像列表状态地址"></a>三、官方镜像列表状态地址</h4><p>CentOS：<a href="http://mirror-status.centos.org/#cn">http://mirror-status.centos.org/#cn</a><br>Archlinux：<a href="https://www.archlinux.org/mirrors/status/">https://www.archlinux.org/mirrors/status/</a><br>Ubuntu：<a href="https://launchpad.net/ubuntu/+cdmirrors">https://launchpad.net/ubuntu/+cdmirrors</a><br>Debian：<a href="http://mirror.debian.org/status.html">http://mirror.debian.org/status.html</a><br>Fedora Linux/Fedora EPEL：<a href="https://admin.fedoraproject.org/mirrormanager/mirrors">https://admin.fedoraproject.org/mirrormanager/mirrors</a><br>Apache：<a href="http://www.apache.org/mirrors/#cn">http://www.apache.org/mirrors/#cn</a></p>
-<p>Cygwin：<a href="https://www.cygwin.com/mirrors.html">https://www.cygwin.com/mirrors.html</a></p>
-<h5 id="参考文献：https-www-cnblogs-com-jtlgb-p-5702713-html"><a href="#参考文献：https-www-cnblogs-com-jtlgb-p-5702713-html" class="headerlink" title="***//参考文献：https://www.cnblogs.com/jtlgb/p/5702713.html"></a>***//参考文献：<a href="https://www.cnblogs.com/jtlgb/p/5702713.html">https://www.cnblogs.com/jtlgb/p/5702713.html</a></h5>]]></content>
-      <tags>
-        <tag>资源站</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何保证RabbitMQ不被重复消费</title>
-    <url>/2019/11/26/%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81RabbitMQ%E4%B8%8D%E8%A2%AB%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9/</url>
-    <content><![CDATA[<p>如何保证RabbitMQ不被重复消费</p>
-<a id="more"></a>
-
-
-
-<hr>
-<h5 id="什么是重复消费："><a href="#什么是重复消费：" class="headerlink" title="什么是重复消费："></a>什么是重复消费：</h5><p>​        消费者在消费消息的时候，消费完毕之后会发送一个确认消息给消息队列，消息队列就会知道该消息被消费了，就会将该消息从消息队列中删除。</p>
-<p>​        但因为网络故障等原因，确认消息没有传送到消息队列，导致消息队列不知道自己已经消费过该消息了，再次将消息分发给消费者。</p>
-<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><p>​        1、保证消息唯一性</p>
-<p>​        2、保证消息等幂性</p>
-<p>​        比如：在对写入消息队列时的数据做唯一标识，消费消息时，根据唯一标识判断是否消费过该消息。</p>
-]]></content>
-      <tags>
-        <tag>笔记</tag>
-        <tag>RabbitMQ</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>安装nginx时报错</title>
     <url>/2019/06/22/%E5%AE%89%E8%A3%85nginx%E6%97%B6%E9%94%99%E8%AF%AF/</url>
     <content><![CDATA[<p>安装nginx时错误提示： ./configure: error: the HTTP rewrite module requires the PCRE library.</p>
@@ -1287,6 +1267,43 @@
       </tags>
   </entry>
   <entry>
+    <title>如何保证RabbitMQ不被重复消费</title>
+    <url>/2019/11/26/%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81RabbitMQ%E4%B8%8D%E8%A2%AB%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9/</url>
+    <content><![CDATA[<p>如何保证RabbitMQ不被重复消费</p>
+<a id="more"></a>
+
+
+
+<hr>
+<h5 id="什么是重复消费："><a href="#什么是重复消费：" class="headerlink" title="什么是重复消费："></a>什么是重复消费：</h5><p>​        消费者在消费消息的时候，消费完毕之后会发送一个确认消息给消息队列，消息队列就会知道该消息被消费了，就会将该消息从消息队列中删除。</p>
+<p>​        但因为网络故障等原因，确认消息没有传送到消息队列，导致消息队列不知道自己已经消费过该消息了，再次将消息分发给消费者。</p>
+<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><p>​        1、保证消息唯一性</p>
+<p>​        2、保证消息等幂性</p>
+<p>​        比如：在对写入消息队列时的数据做唯一标识，消费消息时，根据唯一标识判断是否消费过该消息。</p>
+]]></content>
+      <tags>
+        <tag>笔记</tag>
+        <tag>RabbitMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开发文档</title>
+    <url>/2020/01/17/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h5 id="开发文档链接记录"><a href="#开发文档链接记录" class="headerlink" title="开发文档链接记录"></a>开发文档链接记录</h5><a id="more"></a>
+
+<p>thymeleaf：<a href="https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html">https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html</a></p>
+<p>微信公众号：<a href="https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html">https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html</a></p>
+<p>微信支付：<a href="https://pay.weixin.qq.com/wiki/doc/api/index.html">https://pay.weixin.qq.com/wiki/doc/api/index.html</a></p>
+<p>微信小程序：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/">https://developers.weixin.qq.com/miniprogram/dev/framework/</a></p>
+<p>支付宝APP支付：<a href="https://docs.open.alipay.com/204">https://docs.open.alipay.com/204</a></p>
+<p>支付宝手机网站支付：<a href="https://docs.open.alipay.com/203">https://docs.open.alipay.com/203</a></p>
+<p>支付宝电脑网站支付：<a href="https://docs.open.alipay.com/270">https://docs.open.alipay.com/270</a></p>
+]]></content>
+      <tags>
+        <tag>文档</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>网页版工具链接</title>
     <url>/2020/03/02/%E7%BD%91%E9%A1%B5%E7%89%88%E5%B7%A5%E5%85%B7%E9%93%BE%E6%8E%A5/</url>
     <content><![CDATA[<h5 id="网页版在线工具链接"><a href="#网页版在线工具链接" class="headerlink" title="网页版在线工具链接"></a>网页版在线工具链接</h5><a id="more"></a>
@@ -1303,6 +1320,28 @@
       <tags>
         <tag>备忘录</tag>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通用mapper整合</title>
+    <url>/2019/04/17/%E9%80%9A%E7%94%A8mapper%E6%95%B4%E5%90%88/</url>
+    <content><![CDATA[<p>Spring Boot通用mapper整合的方法及步骤</p>
+<a id="more"></a>
+
+<h5 id="通用mapper整合（作用是将单表的增删改查操作省去）"><a href="#通用mapper整合（作用是将单表的增删改查操作省去）" class="headerlink" title="**通用mapper整合（作用是将单表的增删改查操作省去）"></a><strong>**通用mapper整合（作用是将单表的增删改查操作省去）</strong></h5><h6 id="1、导入pom依赖"><a href="#1、导入pom依赖" class="headerlink" title="1、导入pom依赖"></a>1、导入pom依赖</h6><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--通用mapper--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>tk.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mapper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="2、配置mapper-，继承通用mapper"><a href="#2、配置mapper-，继承通用mapper" class="headerlink" title="2、配置mapper ，继承通用mapper"></a>2、配置mapper ，继承通用mapper</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tk.mybatis.mapper.common.Mapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">UmsMember</span>&gt; </span>&#123;</span><br></pre></td></tr></table></figure>
+
+<h6 id="3、配置通用mapper主键和主键返回策略"><a href="#3、配置通用mapper主键和主键返回策略" class="headerlink" title="3、配置通用mapper主键和主键返回策略"></a>3、配置通用mapper主键和主键返回策略</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Id</span> <span class="meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span>   <span class="comment">//主键返回策略</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="4、配置启动类扫描MapperScan，使用通用mapper的MapperScan"><a href="#4、配置启动类扫描MapperScan，使用通用mapper的MapperScan" class="headerlink" title="4、配置启动类扫描MapperScan，使用通用mapper的MapperScan"></a>4、配置启动类扫描MapperScan，使用通用mapper的MapperScan</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tk.mybatis.spring.annotation.MapperScan;</span><br></pre></td></tr></table></figure>
+
+<h5 id="gt-gt-如果想查看执行的sql语句，需要修改日志级别为debug"><a href="#gt-gt-如果想查看执行的sql语句，需要修改日志级别为debug" class="headerlink" title="&gt;&gt;如果想查看执行的sql语句，需要修改日志级别为debug"></a>&gt;&gt;如果想查看执行的sql语句，需要修改日志级别为debug</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">#日志级别</span><br><span class="line">logging.level.root=debug</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>笔记</tag>
+        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
@@ -1340,45 +1379,6 @@
       <tags>
         <tag>备忘录</tag>
         <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>开发文档</title>
-    <url>/2020/01/17/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h5 id="开发文档链接记录"><a href="#开发文档链接记录" class="headerlink" title="开发文档链接记录"></a>开发文档链接记录</h5><a id="more"></a>
-
-<p>thymeleaf：<a href="https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html">https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html</a></p>
-<p>微信公众号：<a href="https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html">https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html</a></p>
-<p>微信支付：<a href="https://pay.weixin.qq.com/wiki/doc/api/index.html">https://pay.weixin.qq.com/wiki/doc/api/index.html</a></p>
-<p>微信小程序：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/">https://developers.weixin.qq.com/miniprogram/dev/framework/</a></p>
-<p>支付宝APP支付：<a href="https://docs.open.alipay.com/204">https://docs.open.alipay.com/204</a></p>
-<p>支付宝手机网站支付：<a href="https://docs.open.alipay.com/203">https://docs.open.alipay.com/203</a></p>
-<p>支付宝电脑网站支付：<a href="https://docs.open.alipay.com/270">https://docs.open.alipay.com/270</a></p>
-]]></content>
-      <tags>
-        <tag>文档</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>通用mapper整合</title>
-    <url>/2019/04/17/%E9%80%9A%E7%94%A8mapper%E6%95%B4%E5%90%88/</url>
-    <content><![CDATA[<p>Spring Boot通用mapper整合的方法及步骤</p>
-<a id="more"></a>
-
-<h5 id="通用mapper整合（作用是将单表的增删改查操作省去）"><a href="#通用mapper整合（作用是将单表的增删改查操作省去）" class="headerlink" title="**通用mapper整合（作用是将单表的增删改查操作省去）"></a><strong>**通用mapper整合（作用是将单表的增删改查操作省去）</strong></h5><h6 id="1、导入pom依赖"><a href="#1、导入pom依赖" class="headerlink" title="1、导入pom依赖"></a>1、导入pom依赖</h6><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--通用mapper--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>tk.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mapper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h6 id="2、配置mapper-，继承通用mapper"><a href="#2、配置mapper-，继承通用mapper" class="headerlink" title="2、配置mapper ，继承通用mapper"></a>2、配置mapper ，继承通用mapper</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tk.mybatis.mapper.common.Mapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">UmsMember</span>&gt; </span>&#123;</span><br></pre></td></tr></table></figure>
-
-<h6 id="3、配置通用mapper主键和主键返回策略"><a href="#3、配置通用mapper主键和主键返回策略" class="headerlink" title="3、配置通用mapper主键和主键返回策略"></a>3、配置通用mapper主键和主键返回策略</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Id</span> <span class="meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span>   <span class="comment">//主键返回策略</span></span><br></pre></td></tr></table></figure>
-
-<h6 id="4、配置启动类扫描MapperScan，使用通用mapper的MapperScan"><a href="#4、配置启动类扫描MapperScan，使用通用mapper的MapperScan" class="headerlink" title="4、配置启动类扫描MapperScan，使用通用mapper的MapperScan"></a>4、配置启动类扫描MapperScan，使用通用mapper的MapperScan</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tk.mybatis.spring.annotation.MapperScan;</span><br></pre></td></tr></table></figure>
-
-<h5 id="gt-gt-如果想查看执行的sql语句，需要修改日志级别为debug"><a href="#gt-gt-如果想查看执行的sql语句，需要修改日志级别为debug" class="headerlink" title="&gt;&gt;如果想查看执行的sql语句，需要修改日志级别为debug"></a>&gt;&gt;如果想查看执行的sql语句，需要修改日志级别为debug</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">#日志级别</span><br><span class="line">logging.level.root=debug</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>笔记</tag>
-        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
