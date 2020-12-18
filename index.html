@@ -1153,8 +1153,9 @@
 <span id="busuanzi_container_site_uv">
    本站总访客数: <span id="busuanzi_value_site_uv"></span>&nbsp;&nbsp;人 | 
 </span>
+<i class="fa fa-eye-md"></i>
 <span id="busuanzi_container_site_pv">
-    &nbsp;本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    &nbsp;本站总访问量：<span id="busuanzi_value_site_pv"></span> 次
 </span>
 </div>
 
@@ -1172,7 +1173,7 @@
         mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
         seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
         snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
-        document.getElementById("timeDate").innerHTML = "| 起飞时间 "+dnum+" 天 ";
+        document.getElementById("timeDate").innerHTML = "|  起飞时间 "+dnum+" 天 ";
         document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
     }
 setInterval("createtime()",250);
@@ -1183,15 +1184,6 @@ setInterval("createtime()",250);
         
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
     <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="fa fa-eye"></i>
