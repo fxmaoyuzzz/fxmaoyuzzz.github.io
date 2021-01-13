@@ -10,63 +10,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JsonProperty注解</title>
-    <url>/2018/04/20/@JsonProperty%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>@JsonProperty注解的使用</p>
-<a id="more"></a>
-
-<p>前端传参数过来的时候，使用这个注解，可以获取到前端与注解中同名的属性 。后端处理好结果后，返回给前端的属性名也可以不以实体类属性名为准，而以注解中的属性名为准。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//@JsonProperty 此注解用于属性上，作用是把该属性的名称序列化为另外一个名称，如把trueName属性序列化为name</span></span><br><span class="line"><span class="meta">@JsonProperty(&quot;name&quot;)</span>。</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.annotation.JsonProperty; </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123; </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@JsonProperty(&quot;name&quot;)</span> </span><br><span class="line">    <span class="keyword">private</span> String trueName; </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getTrueName</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> trueName; </span><br><span class="line">    &#125; </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTrueName</span><span class="params">(String trueName)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">this</span>.trueName = trueName; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<h6 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.core.JsonProcessingException; </span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper; </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> JsonProcessingException </span>&#123; </span><br><span class="line">        Student student = <span class="keyword">new</span> Student(); </span><br><span class="line">        student.setTrueName(<span class="string">&quot;张三&quot;</span>);  </span><br><span class="line"></span><br><span class="line">       <span class="comment">//使用writeValuesAsString的方法就可以把对角转化成json字符串。</span></span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="keyword">new</span> ObjectMapper().writeValueAsString(student)); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h6 id="得到的结果"><a href="#得到的结果" class="headerlink" title="得到的结果"></a>得到的结果</h6><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;<span class="attr">&quot;name&quot;</span>:<span class="string">&quot;张三&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Babel的使用</title>
-    <url>/2020/10/15/Babel%E8%BD%AC%E7%A0%81%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>Babel的使用及使用示例</p>
-<a id="more"></a>
-
-<h4 id="Babel的使用"><a href="#Babel的使用" class="headerlink" title="Babel的使用"></a>Babel的使用</h4><hr>
-<h5 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h5><p>Babel是一个广泛使用的转码器，可以将ES6代码转为ES5代码，从而在现有环境执行执行。</p>
-<p>这意味着，你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持。</p>
-<hr>
-<h5 id="安装命令行转码工具"><a href="#安装命令行转码工具" class="headerlink" title="安装命令行转码工具"></a>安装命令行转码工具</h5><p>Babel提供babel-cli工具，用于命令行转码。它的安装命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install --global babel-cli</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看是否安装成功</span></span><br><span class="line">babel --version</span><br></pre></td></tr></table></figure>
-
-<h6 id="查看版本时的错误处理"><a href="#查看版本时的错误处理" class="headerlink" title="查看版本时的错误处理"></a>查看版本时的错误处理</h6><p><strong>错误描述</strong>：babel : 无法加载文件 C:\Users\fxmaoyuzzz\AppData\Roaming\npm\babel.ps1，因为在此系统上禁止运行脚本。</p>
-<p><strong>解决方法</strong>：</p>
-<p>1.在win10 系统中搜索框 输入 Windows PowerShell，选择 管理员身份运行</p>
-<p> 2、使用，win+R打开了powershell命令行之后,输入<em>set-ExecutionPolicy RemoteSigned，然后更改权限为A，最后通过 get-ExecutionPolicy 查看当前的状态</em></p>
-<h5 id="Babel的使用示例"><a href="#Babel的使用示例" class="headerlink" title="Babel的使用示例"></a>Babel的使用示例</h5><h6 id="1、初始化项目"><a href="#1、初始化项目" class="headerlink" title="1、初始化项目"></a>1、初始化项目</h6><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
-
-<h6 id="2、创建文件"><a href="#2、创建文件" class="headerlink" title="2、创建文件"></a>2、创建文件</h6><p>src/example.js</p>
-<p>下面是一段ES6代码：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">// 转码前</span><br><span class="line">// 定义数据</span><br><span class="line">let input = [1, 2, 3]</span><br><span class="line">// 将数组的每个元素 +1</span><br><span class="line">input = input.map(item =&gt; item + 1)</span><br><span class="line">console.log(input)</span><br></pre></td></tr></table></figure>
-
-<h6 id="3、创建文件名为-babelrc的文件"><a href="#3、创建文件名为-babelrc的文件" class="headerlink" title="3、创建文件名为.babelrc的文件"></a>3、创建文件名为.babelrc的文件</h6><p>Babel的配置文件是.babelrc，存放在项目的根目录下，该文件用来设置转码规则和插件，基本格式如下。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;presets&quot;: [&quot;es2015&quot;],</span><br><span class="line">    &quot;plugins&quot;: []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h6 id="4、安装转码器"><a href="#4、安装转码器" class="headerlink" title="4、安装转码器"></a>4、安装转码器</h6><p>在项目中安装</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install --save-dev babel-preset-es2015</span><br></pre></td></tr></table></figure>
-
-<h6 id="5、转码"><a href="#5、转码" class="headerlink" title="5、转码"></a>5、转码</h6><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 转码结果写入一个文件</span></span><br><span class="line">mkdir dist1</span><br><span class="line"><span class="meta">#</span><span class="bash"> --out-file 或 -o 参数指定输出文件</span></span><br><span class="line">babel src/example.js --out-file dist1/compiled.js</span><br><span class="line"><span class="meta">#</span><span class="bash"> 或者</span></span><br><span class="line">babel src/example.js -o dist1/compiled.js</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 整个目录转码</span></span><br><span class="line">mkdir dist2</span><br><span class="line"><span class="meta">#</span><span class="bash"> --out-dir 或 -d 参数指定输出目录</span></span><br><span class="line">babel src --out-dir dist2</span><br><span class="line"><span class="meta">#</span><span class="bash"> 或者</span></span><br><span class="line">babel src -d dist2</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="es6模块化注意问题："><a href="#es6模块化注意问题：" class="headerlink" title="es6模块化注意问题："></a>es6模块化注意问题：</h5><p>使用es6写法实现模块化操作，在nodejs环境中不能直接执行，需要使用babel把es6代码转换成es5代码，才可以在nodejs中运行。</p>
-]]></content>
-      <tags>
-        <tag>前端</tag>
-        <tag>Babel</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Table注解</title>
     <url>/2018/04/02/@Table%E6%B3%A8%E8%A7%A3/</url>
     <content><![CDATA[<p>当实体类与其映射的数据库表名不同名时需要使用@Table注解说明</p>
@@ -133,9 +76,48 @@
 <hr>
 ]]></content>
       <tags>
-        <tag>Java</tag>
         <tag>JPA</tag>
+        <tag>Java</tag>
         <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Babel的使用</title>
+    <url>/2020/10/15/Babel%E8%BD%AC%E7%A0%81%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>Babel的使用及使用示例</p>
+<a id="more"></a>
+
+<h4 id="Babel的使用"><a href="#Babel的使用" class="headerlink" title="Babel的使用"></a>Babel的使用</h4><hr>
+<h5 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h5><p>Babel是一个广泛使用的转码器，可以将ES6代码转为ES5代码，从而在现有环境执行执行。</p>
+<p>这意味着，你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持。</p>
+<hr>
+<h5 id="安装命令行转码工具"><a href="#安装命令行转码工具" class="headerlink" title="安装命令行转码工具"></a>安装命令行转码工具</h5><p>Babel提供babel-cli工具，用于命令行转码。它的安装命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install --global babel-cli</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看是否安装成功</span></span><br><span class="line">babel --version</span><br></pre></td></tr></table></figure>
+
+<h6 id="查看版本时的错误处理"><a href="#查看版本时的错误处理" class="headerlink" title="查看版本时的错误处理"></a>查看版本时的错误处理</h6><p><strong>错误描述</strong>：babel : 无法加载文件 C:\Users\fxmaoyuzzz\AppData\Roaming\npm\babel.ps1，因为在此系统上禁止运行脚本。</p>
+<p><strong>解决方法</strong>：</p>
+<p>1.在win10 系统中搜索框 输入 Windows PowerShell，选择 管理员身份运行</p>
+<p> 2、使用，win+R打开了powershell命令行之后,输入<em>set-ExecutionPolicy RemoteSigned，然后更改权限为A，最后通过 get-ExecutionPolicy 查看当前的状态</em></p>
+<h5 id="Babel的使用示例"><a href="#Babel的使用示例" class="headerlink" title="Babel的使用示例"></a>Babel的使用示例</h5><h6 id="1、初始化项目"><a href="#1、初始化项目" class="headerlink" title="1、初始化项目"></a>1、初始化项目</h6><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+
+<h6 id="2、创建文件"><a href="#2、创建文件" class="headerlink" title="2、创建文件"></a>2、创建文件</h6><p>src/example.js</p>
+<p>下面是一段ES6代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">// 转码前</span><br><span class="line">// 定义数据</span><br><span class="line">let input = [1, 2, 3]</span><br><span class="line">// 将数组的每个元素 +1</span><br><span class="line">input = input.map(item =&gt; item + 1)</span><br><span class="line">console.log(input)</span><br></pre></td></tr></table></figure>
+
+<h6 id="3、创建文件名为-babelrc的文件"><a href="#3、创建文件名为-babelrc的文件" class="headerlink" title="3、创建文件名为.babelrc的文件"></a>3、创建文件名为.babelrc的文件</h6><p>Babel的配置文件是.babelrc，存放在项目的根目录下，该文件用来设置转码规则和插件，基本格式如下。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;presets&quot;: [&quot;es2015&quot;],</span><br><span class="line">    &quot;plugins&quot;: []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="4、安装转码器"><a href="#4、安装转码器" class="headerlink" title="4、安装转码器"></a>4、安装转码器</h6><p>在项目中安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install --save-dev babel-preset-es2015</span><br></pre></td></tr></table></figure>
+
+<h6 id="5、转码"><a href="#5、转码" class="headerlink" title="5、转码"></a>5、转码</h6><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 转码结果写入一个文件</span></span><br><span class="line">mkdir dist1</span><br><span class="line"><span class="meta">#</span><span class="bash"> --out-file 或 -o 参数指定输出文件</span></span><br><span class="line">babel src/example.js --out-file dist1/compiled.js</span><br><span class="line"><span class="meta">#</span><span class="bash"> 或者</span></span><br><span class="line">babel src/example.js -o dist1/compiled.js</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 整个目录转码</span></span><br><span class="line">mkdir dist2</span><br><span class="line"><span class="meta">#</span><span class="bash"> --out-dir 或 -d 参数指定输出目录</span></span><br><span class="line">babel src --out-dir dist2</span><br><span class="line"><span class="meta">#</span><span class="bash"> 或者</span></span><br><span class="line">babel src -d dist2</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="es6模块化注意问题："><a href="#es6模块化注意问题：" class="headerlink" title="es6模块化注意问题："></a>es6模块化注意问题：</h5><p>使用es6写法实现模块化操作，在nodejs环境中不能直接执行，需要使用babel把es6代码转换成es5代码，才可以在nodejs中运行。</p>
+]]></content>
+      <tags>
+        <tag>前端</tag>
+        <tag>Babel</tag>
       </tags>
   </entry>
   <entry>
@@ -160,8 +142,26 @@
 <p>如果我们给这个类加上 <strong>@DynamicUpdate</strong> 注解，那么我们的 update_time 字段就会随更改时间而改变了。</p>
 ]]></content>
       <tags>
-        <tag>Java</tag>
         <tag>JPA</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JsonProperty注解</title>
+    <url>/2018/04/20/@JsonProperty%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>@JsonProperty注解的使用</p>
+<a id="more"></a>
+
+<p>前端传参数过来的时候，使用这个注解，可以获取到前端与注解中同名的属性 。后端处理好结果后，返回给前端的属性名也可以不以实体类属性名为准，而以注解中的属性名为准。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//@JsonProperty 此注解用于属性上，作用是把该属性的名称序列化为另外一个名称，如把trueName属性序列化为name</span></span><br><span class="line"><span class="meta">@JsonProperty(&quot;name&quot;)</span>。</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.annotation.JsonProperty; </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123; </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@JsonProperty(&quot;name&quot;)</span> </span><br><span class="line">    <span class="keyword">private</span> String trueName; </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getTrueName</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> trueName; </span><br><span class="line">    &#125; </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTrueName</span><span class="params">(String trueName)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">this</span>.trueName = trueName; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h6 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.core.JsonProcessingException; </span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper; </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> JsonProcessingException </span>&#123; </span><br><span class="line">        Student student = <span class="keyword">new</span> Student(); </span><br><span class="line">        student.setTrueName(<span class="string">&quot;张三&quot;</span>);  </span><br><span class="line"></span><br><span class="line">       <span class="comment">//使用writeValuesAsString的方法就可以把对角转化成json字符串。</span></span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="keyword">new</span> ObjectMapper().writeValueAsString(student)); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="得到的结果"><a href="#得到的结果" class="headerlink" title="得到的结果"></a>得到的结果</h6><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;<span class="attr">&quot;name&quot;</span>:<span class="string">&quot;张三&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -377,60 +377,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java中JsonSerializer用法</title>
-    <url>/2018/08/02/Java%E4%B8%ADJsonSerializer%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<p>前后端单位不统一时进行转换</p>
-<a id="more"></a>
-
-<h5 id="问题举例："><a href="#问题举例：" class="headerlink" title="问题举例："></a>问题举例：</h5><p>后端用的时间单位是Date，前端用的秒</p>
-<p>后端用的金额单位是分，前端用的是元</p>
-<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><h5 id="1-写一个负责转换的类，里面写好规则"><a href="#1-写一个负责转换的类，里面写好规则" class="headerlink" title="1. 写一个负责转换的类，里面写好规则"></a>1. 写一个负责转换的类，里面写好规则</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Date2LongSerialize</span> <span class="keyword">extends</span> <span class="title">JsonSerializer</span>&lt;<span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)</span> <span class="keyword">throws</span> IOException, JsonProcessingException </span>&#123;</span><br><span class="line">        jsonGenerator.writeNumber(date.getTime() / <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-在返回的参数里加上注解"><a href="#2-在返回的参数里加上注解" class="headerlink" title="2. 在返回的参数里加上注解"></a>2. 在返回的参数里加上注解</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PledgeDetailItemVO</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">2308418084162500432L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JsonSerialize(using = Date2LongSerialize.class)</span></span><br><span class="line">    <span class="keyword">private</span> Date addTime;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>Java</tag>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java中BigDecimal类型的加减乘除运算</title>
-    <url>/2018/10/22/Java%E4%B8%ADBigDecimal%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E8%BF%90%E7%AE%97/</url>
-    <content><![CDATA[<p>Java中BigDecimal类型的加减乘除运算</p>
-<a id="more"></a>
-
-<p>BigDecimal提供了精确的数值计算。对Bigdecimal类型值进行加减乘除绝对值的运算，其实就是Bigdecimal的类方法的一些调用。</p>
-<hr>
-<p>加法：add()</p>
-<p>减法：subtract()</p>
-<p>乘法：multiply()</p>
-<p>除法：divide()</p>
-<p>绝对值：abs()</p>
-<hr>
-<p>BigDecimal有多种构造函数，常用的有2种。建议使用String构造方式，不建议使用double构造方式。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 强制使用String的构造函数，double也有可能计算不太准确</span></span><br><span class="line"><span class="comment">// 原则是使用BigDecimal并且一定要用String来构造。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BigDecimal</span><span class="params">(String val)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BigDecimal</span><span class="params">(<span class="keyword">double</span> val)</span></span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h5 id="用法Demo："><a href="#用法Demo：" class="headerlink" title="用法Demo："></a>用法Demo：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">al valueSec = <span class="keyword">new</span> BigDecimal(<span class="number">1000000</span>);</span><br><span class="line">        BigDecimal valueThi = <span class="keyword">new</span> BigDecimal(-<span class="number">1000000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//尽量用字符串的形式初始化</span></span><br><span class="line">        BigDecimal stringFir = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;0.005&quot;</span>);</span><br><span class="line">        BigDecimal stringSec = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;1000000&quot;</span>);</span><br><span class="line">        BigDecimal stringThi = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;-1000000&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//加法</span></span><br><span class="line">        BigDecimal addVal = valueFir.add(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;加法用value结果：&quot;</span> + addVal);</span><br><span class="line">        BigDecimal addStr = stringFir.add(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;加法用string结果：&quot;</span> + addStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//减法</span></span><br><span class="line">        BigDecimal subtractVal = valueFir.subtract(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;减法value结果：&quot;</span> + subtractVal);</span><br><span class="line">        BigDecimal subtractStr = stringFir.subtract(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;减法用string结果：&quot;</span> + subtractStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//乘法</span></span><br><span class="line">        BigDecimal multiplyVal = valueFir.multiply(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;乘法用value结果：&quot;</span> + multiplyVal);</span><br><span class="line">        BigDecimal multiplyStr = stringFir.multiply(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;乘法用string结果：&quot;</span> + multiplyStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//绝对值</span></span><br><span class="line">        BigDecimal absVal = valueThi.abs();</span><br><span class="line">        System.out.println(<span class="string">&quot;绝对值用value结果：&quot;</span> + absVal);</span><br><span class="line">        BigDecimal absStr = stringThi.abs();</span><br><span class="line">        System.out.println(<span class="string">&quot;绝对值用string结果：&quot;</span> + absStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//除法</span></span><br><span class="line">        BigDecimal divideVal = valueSec.divide(valueFir, <span class="number">20</span>, BigDecimal.ROUND_HALF_UP);</span><br><span class="line">        System.out.println(<span class="string">&quot;除法用value结果：&quot;</span> + divideVal);</span><br><span class="line">        BigDecimal divideStr = stringSec.divide(stringFir, <span class="number">20</span>, BigDecimal.ROUND_HALF_UP);</span><br><span class="line">        System.out.println(<span class="string">&quot;除法用string结果：&quot;</span> + divideStr);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/BigDecimal%E8%BF%90%E7%AE%97%E7%BB%93%E6%9E%9C.png"></p>
-<hr>
-<blockquote>
-<blockquote>
-<p>1、<code>System.out.println()</code>中的数字默认是<code>double</code>类型的，<code>double</code>类型小数计算不精准</p>
-</blockquote>
-<p>2、使用<code>BigDecimal</code>类构造方法传入<code>double</code>类型时，计算的结果也是不精确的。</p>
-<p>因为不是所有的浮点数都能够被精确的表示成一个<code>double</code> 类型值，因此它会被表示成与它最接近的 <code>double</code> 类型的值。所以必须改用传入<code>String</code>的构造方法.</p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JPA实体类中主键自增的注解</title>
     <url>/2018/04/02/JPA%E5%AE%9E%E4%BD%93%E7%B1%BB%E4%B8%AD%E4%B8%BB%E9%94%AE%E8%87%AA%E5%A2%9E%E7%9A%84%E6%B3%A8%E8%A7%A3/</url>
     <content><![CDATA[<p>JPA的注解来定义实体的时候，使用@Id来注解主键属性即可。如果数据库主键是自增长的，需要在增加一个注解@GeneratedValue</p>
@@ -445,8 +391,8 @@
 <h6 id="–TABLE："><a href="#–TABLE：" class="headerlink" title="–TABLE："></a>–TABLE：</h6><p>通过特定的数据库表产生主键，使用该策略可以使应用更易于数据库移植。</p>
 ]]></content>
       <tags>
-        <tag>Java</tag>
         <tag>JPA</tag>
+        <tag>Java</tag>
         <tag>笔记</tag>
       </tags>
   </entry>
@@ -526,33 +472,57 @@
       </tags>
   </entry>
   <entry>
-    <title>SpringBoot中的jackon配置</title>
-    <url>/2019/07/28/SpringBoot%E4%B8%AD%E7%9A%84jackon%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>SpringBoot中jackson的两种配置方式</p>
+    <title>Java中BigDecimal类型的加减乘除运算</title>
+    <url>/2018/10/22/Java%E4%B8%ADBigDecimal%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E8%BF%90%E7%AE%97/</url>
+    <content><![CDATA[<p>Java中BigDecimal类型的加减乘除运算</p>
 <a id="more"></a>
 
-<h4 id="通过application-yml"><a href="#通过application-yml" class="headerlink" title="通过application.yml"></a>通过application.yml</h4><h5 id="配置属性说明："><a href="#配置属性说明：" class="headerlink" title="配置属性说明："></a>配置属性说明：</h5><p>spring.jackson.date-format：指定日期格式，比如yyyy-MM-dd HH:mm:ss，或者具体的格式化类的全限定名</p>
-<p>spring.jackson.deserialization：是否开启Jackson的反序列化</p>
-<p>spring.jackson.generator：是否开启json的generators.</p>
-<p>spring.jackson.joda-date-time-format：指定Joda date/time的格式，比如yyyy-MM-ddHH:mm:ss). 如果没有配置的话，dateformat会作为backup</p>
-<p>spring.jackson.locale：指定json使用的Locale.</p>
-<p>spring.jackson.mapper：是否开启Jackson通用的特性.</p>
-<p>spring.jackson.parser：是否开启jackson的parser特性.</p>
-<p>spring.jackson.property-naming-strategy：指定PropertyNamingStrategy(CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES)或者指定PropertyNamingStrategy子类的全限定类名.</p>
-<p>spring.jackson.serialization：是否开启jackson的序列化.</p>
-<p>spring.jackson.serialization-inclusion：指定序列化时属性的inclusion方式，具体查看JsonInclude.Include枚举.</p>
-<p>spring.jackson.time-zone：指定日期格式化时区，比如America/Los_Angeles或者GMT+10.</p>
-<h5 id="常用配置："><a href="#常用配置：" class="headerlink" title="常用配置："></a>常用配置：</h5><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">jackson:</span></span><br><span class="line">    <span class="comment">#日期格式化</span></span><br><span class="line">    <span class="attr">date-format:</span> <span class="string">yyyy-MM-dd</span> <span class="string">HH:mm:ss</span></span><br><span class="line">    <span class="attr">serialization:</span></span><br><span class="line">       <span class="comment">#格式化输出 </span></span><br><span class="line">      <span class="attr">indent_output:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment">#忽略无法转换的对象</span></span><br><span class="line">      <span class="attr">fail_on_empty_beans:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment">#设置空如何序列化</span></span><br><span class="line">    <span class="attr">defaultPropertyInclusion:</span> <span class="string">NON_EMPTY</span></span><br><span class="line">    <span class="attr">deserialization:</span></span><br><span class="line">      <span class="comment">#允许对象忽略json中不存在的属性</span></span><br><span class="line">      <span class="attr">fail_on_unknown_properties:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">parser:</span></span><br><span class="line">      <span class="comment">#允许出现特殊字符和转义符</span></span><br><span class="line">      <span class="attr">allow_unquoted_control_chars:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment">#允许出现单引号</span></span><br><span class="line">      <span class="attr">allow_single_quotes:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>BigDecimal提供了精确的数值计算。对Bigdecimal类型值进行加减乘除绝对值的运算，其实就是Bigdecimal的类方法的一些调用。</p>
+<hr>
+<p>加法：add()</p>
+<p>减法：subtract()</p>
+<p>乘法：multiply()</p>
+<p>除法：divide()</p>
+<p>绝对值：abs()</p>
+<hr>
+<p>BigDecimal有多种构造函数，常用的有2种。建议使用String构造方式，不建议使用double构造方式。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 强制使用String的构造函数，double也有可能计算不太准确</span></span><br><span class="line"><span class="comment">// 原则是使用BigDecimal并且一定要用String来构造。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BigDecimal</span><span class="params">(String val)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BigDecimal</span><span class="params">(<span class="keyword">double</span> val)</span></span>;</span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="使用重新注入ObjectMapper"><a href="#使用重新注入ObjectMapper" class="headerlink" title="使用重新注入ObjectMapper"></a>使用重新注入ObjectMapper</h4><h5 id="在配置bean中使用下面的配置"><a href="#在配置bean中使用下面的配置" class="headerlink" title="在配置bean中使用下面的配置"></a>在配置bean中使用下面的配置</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@Primary</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean(ObjectMapper.class)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ObjectMapper <span class="title">jacksonObjectMapper</span><span class="params">(Jackson2ObjectMapperBuilder builder)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ObjectMapper objectMapper = builder.createXmlMapper(<span class="keyword">false</span>).build();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 通过该方法对mapper对象进行设置，所有序列化的对象都将按改规则进行系列化</span></span><br><span class="line">        <span class="comment">// Include.Include.ALWAYS 默认</span></span><br><span class="line">        <span class="comment">// Include.NON_DEFAULT 属性为默认值不序列化</span></span><br><span class="line">        <span class="comment">// Include.NON_EMPTY 属性为 空（&quot;&quot;） 或者为 NULL 都不序列化，则返回的json是没有这个字段的。这样对移动端会更省流量</span></span><br><span class="line">        <span class="comment">// Include.NON_NULL 属性为NULL 不序列化</span></span><br><span class="line">        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);</span><br><span class="line">        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, <span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">// 允许出现特殊字符和转义符</span></span><br><span class="line">        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 允许出现单引号</span></span><br><span class="line">        objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 字段保留，将null值转为&quot;&quot;</span></span><br><span class="line">        objectMapper.getSerializerProvider().setNullValueSerializer(<span class="keyword">new</span> JsonSerializer&lt;Object&gt;()</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Object o, JsonGenerator jsonGenerator,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  SerializerProvider serializerProvider)</span></span></span><br><span class="line"><span class="function">                    <span class="keyword">throws</span> IOException</span></span><br><span class="line"><span class="function">            </span>&#123;</span><br><span class="line">                jsonGenerator.writeString(<span class="string">&quot;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> objectMapper;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h5 id="用法Demo："><a href="#用法Demo：" class="headerlink" title="用法Demo："></a>用法Demo：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">al valueSec = <span class="keyword">new</span> BigDecimal(<span class="number">1000000</span>);</span><br><span class="line">        BigDecimal valueThi = <span class="keyword">new</span> BigDecimal(-<span class="number">1000000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//尽量用字符串的形式初始化</span></span><br><span class="line">        BigDecimal stringFir = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;0.005&quot;</span>);</span><br><span class="line">        BigDecimal stringSec = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;1000000&quot;</span>);</span><br><span class="line">        BigDecimal stringThi = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;-1000000&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//加法</span></span><br><span class="line">        BigDecimal addVal = valueFir.add(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;加法用value结果：&quot;</span> + addVal);</span><br><span class="line">        BigDecimal addStr = stringFir.add(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;加法用string结果：&quot;</span> + addStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//减法</span></span><br><span class="line">        BigDecimal subtractVal = valueFir.subtract(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;减法value结果：&quot;</span> + subtractVal);</span><br><span class="line">        BigDecimal subtractStr = stringFir.subtract(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;减法用string结果：&quot;</span> + subtractStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//乘法</span></span><br><span class="line">        BigDecimal multiplyVal = valueFir.multiply(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;乘法用value结果：&quot;</span> + multiplyVal);</span><br><span class="line">        BigDecimal multiplyStr = stringFir.multiply(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;乘法用string结果：&quot;</span> + multiplyStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//绝对值</span></span><br><span class="line">        BigDecimal absVal = valueThi.abs();</span><br><span class="line">        System.out.println(<span class="string">&quot;绝对值用value结果：&quot;</span> + absVal);</span><br><span class="line">        BigDecimal absStr = stringThi.abs();</span><br><span class="line">        System.out.println(<span class="string">&quot;绝对值用string结果：&quot;</span> + absStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//除法</span></span><br><span class="line">        BigDecimal divideVal = valueSec.divide(valueFir, <span class="number">20</span>, BigDecimal.ROUND_HALF_UP);</span><br><span class="line">        System.out.println(<span class="string">&quot;除法用value结果：&quot;</span> + divideVal);</span><br><span class="line">        BigDecimal divideStr = stringSec.divide(stringFir, <span class="number">20</span>, BigDecimal.ROUND_HALF_UP);</span><br><span class="line">        System.out.println(<span class="string">&quot;除法用string结果：&quot;</span> + divideStr);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/BigDecimal%E8%BF%90%E7%AE%97%E7%BB%93%E6%9E%9C.png"></p>
+<hr>
+<blockquote>
+<blockquote>
+<p>1、<code>System.out.println()</code>中的数字默认是<code>double</code>类型的，<code>double</code>类型小数计算不精准</p>
+</blockquote>
+<p>2、使用<code>BigDecimal</code>类构造方法传入<code>double</code>类型时，计算的结果也是不精确的。</p>
+<p>因为不是所有的浮点数都能够被精确的表示成一个<code>double</code> 类型值，因此它会被表示成与它最接近的 <code>double</code> 类型的值。所以必须改用传入<code>String</code>的构造方法.</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java中JsonSerializer用法</title>
+    <url>/2018/08/02/Java%E4%B8%ADJsonSerializer%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<p>前后端单位不统一时进行转换</p>
+<a id="more"></a>
+
+<h5 id="问题举例："><a href="#问题举例：" class="headerlink" title="问题举例："></a>问题举例：</h5><p>后端用的时间单位是Date，前端用的秒</p>
+<p>后端用的金额单位是分，前端用的是元</p>
+<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><h5 id="1-写一个负责转换的类，里面写好规则"><a href="#1-写一个负责转换的类，里面写好规则" class="headerlink" title="1. 写一个负责转换的类，里面写好规则"></a>1. 写一个负责转换的类，里面写好规则</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Date2LongSerialize</span> <span class="keyword">extends</span> <span class="title">JsonSerializer</span>&lt;<span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)</span> <span class="keyword">throws</span> IOException, JsonProcessingException </span>&#123;</span><br><span class="line">        jsonGenerator.writeNumber(date.getTime() / <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-在返回的参数里加上注解"><a href="#2-在返回的参数里加上注解" class="headerlink" title="2. 在返回的参数里加上注解"></a>2. 在返回的参数里加上注解</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PledgeDetailItemVO</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">2308418084162500432L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JsonSerialize(using = Date2LongSerialize.class)</span></span><br><span class="line">    <span class="keyword">private</span> Date addTime;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <tags>
+        <tag>Java</tag>
         <tag>笔记</tag>
-        <tag>SpringBoot</tag>
-        <tag>Jackson</tag>
       </tags>
   </entry>
   <entry>
@@ -699,8 +669,8 @@
 </tbody></table>
 ]]></content>
       <tags>
-        <tag>Java</tag>
         <tag>JPA</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -738,6 +708,102 @@
       <tags>
         <tag>笔记</tag>
         <tag>多线程</tag>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot中的jackon配置</title>
+    <url>/2019/07/28/SpringBoot%E4%B8%AD%E7%9A%84jackon%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>SpringBoot中jackson的两种配置方式</p>
+<a id="more"></a>
+
+<h4 id="通过application-yml"><a href="#通过application-yml" class="headerlink" title="通过application.yml"></a>通过application.yml</h4><h5 id="配置属性说明："><a href="#配置属性说明：" class="headerlink" title="配置属性说明："></a>配置属性说明：</h5><p>spring.jackson.date-format：指定日期格式，比如yyyy-MM-dd HH:mm:ss，或者具体的格式化类的全限定名</p>
+<p>spring.jackson.deserialization：是否开启Jackson的反序列化</p>
+<p>spring.jackson.generator：是否开启json的generators.</p>
+<p>spring.jackson.joda-date-time-format：指定Joda date/time的格式，比如yyyy-MM-ddHH:mm:ss). 如果没有配置的话，dateformat会作为backup</p>
+<p>spring.jackson.locale：指定json使用的Locale.</p>
+<p>spring.jackson.mapper：是否开启Jackson通用的特性.</p>
+<p>spring.jackson.parser：是否开启jackson的parser特性.</p>
+<p>spring.jackson.property-naming-strategy：指定PropertyNamingStrategy(CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES)或者指定PropertyNamingStrategy子类的全限定类名.</p>
+<p>spring.jackson.serialization：是否开启jackson的序列化.</p>
+<p>spring.jackson.serialization-inclusion：指定序列化时属性的inclusion方式，具体查看JsonInclude.Include枚举.</p>
+<p>spring.jackson.time-zone：指定日期格式化时区，比如America/Los_Angeles或者GMT+10.</p>
+<h5 id="常用配置："><a href="#常用配置：" class="headerlink" title="常用配置："></a>常用配置：</h5><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">jackson:</span></span><br><span class="line">    <span class="comment">#日期格式化</span></span><br><span class="line">    <span class="attr">date-format:</span> <span class="string">yyyy-MM-dd</span> <span class="string">HH:mm:ss</span></span><br><span class="line">    <span class="attr">serialization:</span></span><br><span class="line">       <span class="comment">#格式化输出 </span></span><br><span class="line">      <span class="attr">indent_output:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment">#忽略无法转换的对象</span></span><br><span class="line">      <span class="attr">fail_on_empty_beans:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment">#设置空如何序列化</span></span><br><span class="line">    <span class="attr">defaultPropertyInclusion:</span> <span class="string">NON_EMPTY</span></span><br><span class="line">    <span class="attr">deserialization:</span></span><br><span class="line">      <span class="comment">#允许对象忽略json中不存在的属性</span></span><br><span class="line">      <span class="attr">fail_on_unknown_properties:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">parser:</span></span><br><span class="line">      <span class="comment">#允许出现特殊字符和转义符</span></span><br><span class="line">      <span class="attr">allow_unquoted_control_chars:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment">#允许出现单引号</span></span><br><span class="line">      <span class="attr">allow_single_quotes:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="使用重新注入ObjectMapper"><a href="#使用重新注入ObjectMapper" class="headerlink" title="使用重新注入ObjectMapper"></a>使用重新注入ObjectMapper</h4><h5 id="在配置bean中使用下面的配置"><a href="#在配置bean中使用下面的配置" class="headerlink" title="在配置bean中使用下面的配置"></a>在配置bean中使用下面的配置</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@Primary</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean(ObjectMapper.class)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ObjectMapper <span class="title">jacksonObjectMapper</span><span class="params">(Jackson2ObjectMapperBuilder builder)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ObjectMapper objectMapper = builder.createXmlMapper(<span class="keyword">false</span>).build();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 通过该方法对mapper对象进行设置，所有序列化的对象都将按改规则进行系列化</span></span><br><span class="line">        <span class="comment">// Include.Include.ALWAYS 默认</span></span><br><span class="line">        <span class="comment">// Include.NON_DEFAULT 属性为默认值不序列化</span></span><br><span class="line">        <span class="comment">// Include.NON_EMPTY 属性为 空（&quot;&quot;） 或者为 NULL 都不序列化，则返回的json是没有这个字段的。这样对移动端会更省流量</span></span><br><span class="line">        <span class="comment">// Include.NON_NULL 属性为NULL 不序列化</span></span><br><span class="line">        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);</span><br><span class="line">        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, <span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">// 允许出现特殊字符和转义符</span></span><br><span class="line">        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 允许出现单引号</span></span><br><span class="line">        objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 字段保留，将null值转为&quot;&quot;</span></span><br><span class="line">        objectMapper.getSerializerProvider().setNullValueSerializer(<span class="keyword">new</span> JsonSerializer&lt;Object&gt;()</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Object o, JsonGenerator jsonGenerator,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  SerializerProvider serializerProvider)</span></span></span><br><span class="line"><span class="function">                    <span class="keyword">throws</span> IOException</span></span><br><span class="line"><span class="function">            </span>&#123;</span><br><span class="line">                jsonGenerator.writeString(<span class="string">&quot;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> objectMapper;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>笔记</tag>
+        <tag>SpringBoot</tag>
+        <tag>Jackson</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot相关知识点</title>
+    <url>/2019/11/20/SpringBoot%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
+    <content><![CDATA[<p>SpringBoot相关知识点备忘录</p>
+<a id="more"></a>
+
+
+
+
+<hr>
+<h5 id="核心配置文件："><a href="#核心配置文件：" class="headerlink" title="核心配置文件："></a>核心配置文件：</h5><p>application：SpringBoot项目的自动化配置</p>
+<p>bootstrap：使用SpringCloud config配置中心时，需要在bootstrap配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；包括一些固定的不能被覆盖的属性和一些加密/解密的场景。</p>
+<h5 id="配置文件的两种格式："><a href="#配置文件的两种格式：" class="headerlink" title="配置文件的两种格式："></a>配置文件的两种格式：</h5><p>.properties和.yml</p>
+<h5 id="核心注解："><a href="#核心注解：" class="headerlink" title="核心注解："></a>核心注解：</h5><p>启动类上面的注解是SpringBootApplication</p>
+<p>包含三个注解：</p>
+<p>​        SpringBootConfiguration：组合Configuration注解，实现配置文件功能</p>
+<p>​        EnableAutoConfiguration：打开了自动配置的功能，也可以关闭某个自动配置的选项</p>
+<p>​        ComponentScan：Spring组件扫描</p>
+<h5 id="开启SpringBoot特性的方法："><a href="#开启SpringBoot特性的方法：" class="headerlink" title="开启SpringBoot特性的方法："></a>开启SpringBoot特性的方法：</h5><p>1、继承spring-boot-parent父项目</p>
+<p>2、导入dependencies项目依赖</p>
+<h5 id="SpringBoot自动配置原理是什么："><a href="#SpringBoot自动配置原理是什么：" class="headerlink" title="SpringBoot自动配置原理是什么："></a>SpringBoot自动配置原理是什么：</h5><p>注解EnableAutoConfiguration，Configuration，ConditionalOnClass是自动配置核心，首先他得是一个配置文件，其次根据类路径下是否有这个类去自动配置</p>
+<h5 id="如何集成SpringBoot和activeMQ："><a href="#如何集成SpringBoot和activeMQ：" class="headerlink" title="如何集成SpringBoot和activeMQ："></a>如何集成SpringBoot和activeMQ：</h5><p>使用spring-boot-starter-activemq依赖</p>
+<h5 id="如何使用SpringBoot实现异常处理："><a href="#如何使用SpringBoot实现异常处理：" class="headerlink" title="如何使用SpringBoot实现异常处理："></a>如何使用SpringBoot实现异常处理：</h5><p>实现ControllerAdvice类来处理控制类抛出的所有异常</p>
+<h5 id="RequestMapping和-GetMapping的不同之处："><a href="#RequestMapping和-GetMapping的不同之处：" class="headerlink" title="@RequestMapping和@GetMapping的不同之处："></a>@RequestMapping和@GetMapping的不同之处：</h5><p>@RequestMapping具有类属性，可以进行get、post、put或者其他注释中具有的请求方法</p>
+<p>@GetMapping是get请求方法中的一个特例，只是@RequestMapping的一个延伸，目的是为了提高清晰度</p>
+<h5 id="SpringBoot支持哪些日志框架："><a href="#SpringBoot支持哪些日志框架：" class="headerlink" title="SpringBoot支持哪些日志框架："></a>SpringBoot支持哪些日志框架：</h5><p>SpringBoot支持JavaUtil logging、log4j2、lockback作为日志框架，如果使用starters启动器SpringBoot将使用logback作为默认的日志框架。</p>
+<h5 id="SpringBoot实现热部署的方式："><a href="#SpringBoot实现热部署的方式：" class="headerlink" title="SpringBoot实现热部署的方式："></a>SpringBoot实现热部署的方式：</h5><p>1、引用devtools依赖（生产环境将被禁用）如java -jar/自定义类加载器等</p>
+<p>2、在properties中自定义配置热部署</p>
+<h5 id="SpringBoot如何定义多套不同环境配置："><a href="#SpringBoot如何定义多套不同环境配置：" class="headerlink" title="SpringBoot如何定义多套不同环境配置："></a>SpringBoot如何定义多套不同环境配置：</h5><p>1、建立多个环境下的配置文件</p>
+<p>2、基于yml文件类型，指定profiles模式</p>
+<h5 id="如何在SpringBoot中添加通用Js代码："><a href="#如何在SpringBoot中添加通用Js代码：" class="headerlink" title="如何在SpringBoot中添加通用Js代码："></a>如何在SpringBoot中添加通用Js代码：</h5><p>在源文件夹下，创建static文件夹，将静态内容放在此目录下</p>
+<h5 id="SpringCloud如何实现服务的注册和发现："><a href="#SpringCloud如何实现服务的注册和发现：" class="headerlink" title="SpringCloud如何实现服务的注册和发现："></a>SpringCloud如何实现服务的注册和发现：</h5><p>服务在发布时，指定对应的服务名（服务名包含了IP地址和端口），将服务注册到注册中心（eureka或zookeeper）,这一过程是SpringCloud自动实现，只需在main方法中添加EnableDisscoveryClient</p>
+<p>​     同一服务修改端口就可以启动多个实例</p>
+<p>​     调用方法：传递服务名称通过注册中心获取所有的可用实例，通过负载均衡策略调用（ribbon或feign）对应服务</p>
+<h5 id="Ribbon和Feign的区别："><a href="#Ribbon和Feign的区别：" class="headerlink" title="Ribbon和Feign的区别："></a>Ribbon和Feign的区别：</h5><h6 id="1、启动类使用注释不同："><a href="#1、启动类使用注释不同：" class="headerlink" title="1、启动类使用注释不同："></a>1、启动类使用注释不同：</h6><p>​        @RibbonClient/EnableFeignClients</p>
+<h6 id="2、服务指定位置不同："><a href="#2、服务指定位置不同：" class="headerlink" title="2、服务指定位置不同："></a>2、服务指定位置不同：</h6><p>​        Ribbon是在RibbonClient注释上声明</p>
+<p>​        Feign是在定义抽象方法的接口中使用FeignClient声明</p>
+<h6 id="3、调用方式不同："><a href="#3、调用方式不同：" class="headerlink" title="3、调用方式不同："></a>3、调用方式不同：</h6><p>​        Ribbon需要自己构建http请求，模拟http请求然后使用RestTemplate发送给其他服务</p>
+<p>​        Feign采用接口方式，将需要调用的其他方法定义成抽象方法即可</p>
+<h5 id="SpringBoot集成Mybatis过程："><a href="#SpringBoot集成Mybatis过程：" class="headerlink" title="SpringBoot集成Mybatis过程："></a>SpringBoot集成Mybatis过程：</h5><p>1、添加maven依赖</p>
+<p>2、在mybatis接口中，添加Mapper注解</p>
+<p>3、在application.yml配置数据源信息</p>
+]]></content>
+      <tags>
+        <tag>笔记</tag>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Springboot解决跨域问题</title>
+    <url>/2019/06/21/Springboot%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>Springboot解决跨域问题</p>
+<a id="more"></a>
+
+<h4 id="Springboot解决跨域问题"><a href="#Springboot解决跨域问题" class="headerlink" title="Springboot解决跨域问题"></a>Springboot解决跨域问题</h4><p>前后端分离的项目，如果前端项目与后端项目部署在两个不同的域下，会引起跨域问题的出现</p>
+<h6 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h6><p>在Controller类上加@CrossOrigin注解即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> fxmaoyuzzz</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*前端127.0.0.1:8888  后端127.0.0.1:8082</span></span><br><span class="line"><span class="comment">* 前后端因为来自不同的网域，所以在http的安全协议策略下不信任*/</span></span><br><span class="line"><span class="meta">@CrossOrigin</span>      <span class="comment">//解决前后端的跨域问题</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CatalogController</span> </span>&#123;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p><img src="/images/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98.png"></p>
+]]></content>
+      <tags>
         <tag>SpringBoot</tag>
       </tags>
   </entry>
@@ -815,104 +881,6 @@
       <tags>
         <tag>笔记</tag>
         <tag>SpringMVC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SpringBoot相关知识点</title>
-    <url>/2019/11/20/SpringBoot%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
-    <content><![CDATA[<p>SpringBoot相关知识点备忘录</p>
-<a id="more"></a>
-
-
-
-
-<hr>
-<h5 id="核心配置文件："><a href="#核心配置文件：" class="headerlink" title="核心配置文件："></a>核心配置文件：</h5><p>application：SpringBoot项目的自动化配置</p>
-<p>bootstrap：使用SpringCloud config配置中心时，需要在bootstrap配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；包括一些固定的不能被覆盖的属性和一些加密/解密的场景。</p>
-<h5 id="配置文件的两种格式："><a href="#配置文件的两种格式：" class="headerlink" title="配置文件的两种格式："></a>配置文件的两种格式：</h5><p>.properties和.yml</p>
-<h5 id="核心注解："><a href="#核心注解：" class="headerlink" title="核心注解："></a>核心注解：</h5><p>启动类上面的注解是SpringBootApplication</p>
-<p>包含三个注解：</p>
-<p>​        SpringBootConfiguration：组合Configuration注解，实现配置文件功能</p>
-<p>​        EnableAutoConfiguration：打开了自动配置的功能，也可以关闭某个自动配置的选项</p>
-<p>​        ComponentScan：Spring组件扫描</p>
-<h5 id="开启SpringBoot特性的方法："><a href="#开启SpringBoot特性的方法：" class="headerlink" title="开启SpringBoot特性的方法："></a>开启SpringBoot特性的方法：</h5><p>1、继承spring-boot-parent父项目</p>
-<p>2、导入dependencies项目依赖</p>
-<h5 id="SpringBoot自动配置原理是什么："><a href="#SpringBoot自动配置原理是什么：" class="headerlink" title="SpringBoot自动配置原理是什么："></a>SpringBoot自动配置原理是什么：</h5><p>注解EnableAutoConfiguration，Configuration，ConditionalOnClass是自动配置核心，首先他得是一个配置文件，其次根据类路径下是否有这个类去自动配置</p>
-<h5 id="如何集成SpringBoot和activeMQ："><a href="#如何集成SpringBoot和activeMQ：" class="headerlink" title="如何集成SpringBoot和activeMQ："></a>如何集成SpringBoot和activeMQ：</h5><p>使用spring-boot-starter-activemq依赖</p>
-<h5 id="如何使用SpringBoot实现异常处理："><a href="#如何使用SpringBoot实现异常处理：" class="headerlink" title="如何使用SpringBoot实现异常处理："></a>如何使用SpringBoot实现异常处理：</h5><p>实现ControllerAdvice类来处理控制类抛出的所有异常</p>
-<h5 id="RequestMapping和-GetMapping的不同之处："><a href="#RequestMapping和-GetMapping的不同之处：" class="headerlink" title="@RequestMapping和@GetMapping的不同之处："></a>@RequestMapping和@GetMapping的不同之处：</h5><p>@RequestMapping具有类属性，可以进行get、post、put或者其他注释中具有的请求方法</p>
-<p>@GetMapping是get请求方法中的一个特例，只是@RequestMapping的一个延伸，目的是为了提高清晰度</p>
-<h5 id="SpringBoot支持哪些日志框架："><a href="#SpringBoot支持哪些日志框架：" class="headerlink" title="SpringBoot支持哪些日志框架："></a>SpringBoot支持哪些日志框架：</h5><p>SpringBoot支持JavaUtil logging、log4j2、lockback作为日志框架，如果使用starters启动器SpringBoot将使用logback作为默认的日志框架。</p>
-<h5 id="SpringBoot实现热部署的方式："><a href="#SpringBoot实现热部署的方式：" class="headerlink" title="SpringBoot实现热部署的方式："></a>SpringBoot实现热部署的方式：</h5><p>1、引用devtools依赖（生产环境将被禁用）如java -jar/自定义类加载器等</p>
-<p>2、在properties中自定义配置热部署</p>
-<h5 id="SpringBoot如何定义多套不同环境配置："><a href="#SpringBoot如何定义多套不同环境配置：" class="headerlink" title="SpringBoot如何定义多套不同环境配置："></a>SpringBoot如何定义多套不同环境配置：</h5><p>1、建立多个环境下的配置文件</p>
-<p>2、基于yml文件类型，指定profiles模式</p>
-<h5 id="如何在SpringBoot中添加通用Js代码："><a href="#如何在SpringBoot中添加通用Js代码：" class="headerlink" title="如何在SpringBoot中添加通用Js代码："></a>如何在SpringBoot中添加通用Js代码：</h5><p>在源文件夹下，创建static文件夹，将静态内容放在此目录下</p>
-<h5 id="SpringCloud如何实现服务的注册和发现："><a href="#SpringCloud如何实现服务的注册和发现：" class="headerlink" title="SpringCloud如何实现服务的注册和发现："></a>SpringCloud如何实现服务的注册和发现：</h5><p>服务在发布时，指定对应的服务名（服务名包含了IP地址和端口），将服务注册到注册中心（eureka或zookeeper）,这一过程是SpringCloud自动实现，只需在main方法中添加EnableDisscoveryClient</p>
-<p>​     同一服务修改端口就可以启动多个实例</p>
-<p>​     调用方法：传递服务名称通过注册中心获取所有的可用实例，通过负载均衡策略调用（ribbon或feign）对应服务</p>
-<h5 id="Ribbon和Feign的区别："><a href="#Ribbon和Feign的区别：" class="headerlink" title="Ribbon和Feign的区别："></a>Ribbon和Feign的区别：</h5><h6 id="1、启动类使用注释不同："><a href="#1、启动类使用注释不同：" class="headerlink" title="1、启动类使用注释不同："></a>1、启动类使用注释不同：</h6><p>​        @RibbonClient/EnableFeignClients</p>
-<h6 id="2、服务指定位置不同："><a href="#2、服务指定位置不同：" class="headerlink" title="2、服务指定位置不同："></a>2、服务指定位置不同：</h6><p>​        Ribbon是在RibbonClient注释上声明</p>
-<p>​        Feign是在定义抽象方法的接口中使用FeignClient声明</p>
-<h6 id="3、调用方式不同："><a href="#3、调用方式不同：" class="headerlink" title="3、调用方式不同："></a>3、调用方式不同：</h6><p>​        Ribbon需要自己构建http请求，模拟http请求然后使用RestTemplate发送给其他服务</p>
-<p>​        Feign采用接口方式，将需要调用的其他方法定义成抽象方法即可</p>
-<h5 id="SpringBoot集成Mybatis过程："><a href="#SpringBoot集成Mybatis过程：" class="headerlink" title="SpringBoot集成Mybatis过程："></a>SpringBoot集成Mybatis过程：</h5><p>1、添加maven依赖</p>
-<p>2、在mybatis接口中，添加Mapper注解</p>
-<p>3、在application.yml配置数据源信息</p>
-]]></content>
-      <tags>
-        <tag>笔记</tag>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Springboot解决跨域问题</title>
-    <url>/2019/06/21/Springboot%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>Springboot解决跨域问题</p>
-<a id="more"></a>
-
-<h4 id="Springboot解决跨域问题"><a href="#Springboot解决跨域问题" class="headerlink" title="Springboot解决跨域问题"></a>Springboot解决跨域问题</h4><p>前后端分离的项目，如果前端项目与后端项目部署在两个不同的域下，会引起跨域问题的出现</p>
-<h6 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h6><p>在Controller类上加@CrossOrigin注解即可</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> fxmaoyuzzz</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*前端127.0.0.1:8888  后端127.0.0.1:8082</span></span><br><span class="line"><span class="comment">* 前后端因为来自不同的网域，所以在http的安全协议策略下不信任*/</span></span><br><span class="line"><span class="meta">@CrossOrigin</span>      <span class="comment">//解决前后端的跨域问题</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CatalogController</span> </span>&#123;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p><img src="/images/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98.png"></p>
-]]></content>
-      <tags>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>IDEA中lombok的使用</title>
-    <url>/2018/01/10/idea%E4%B8%ADlombok%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>IDEA中lombok插件的使用（可省略get/set方法）</p>
-<a id="more"></a>
-
-<hr>
-<h5 id="1-安装插件"><a href="#1-安装插件" class="headerlink" title="1.安装插件"></a>1.安装插件</h5><p>在File-Setting-Plugins-Browse Repostitories中搜索Lombok Plugin插件安装</p>
-<p>安装完成先别急着重启，继续设置，在File-Setting-Build, Execution, Deployment-Compiler-Annotation Processors中点击Enable annotation processors</p>
-<p>确定后重启idea</p>
-<p><img src="/images/idea1.png"></p>
-<p><img src="/images/idea2.png"></p>
-<hr>
-<h5 id="2-导入包"><a href="#2-导入包" class="headerlink" title="2.导入包"></a>2.导入包</h5><p>在maven中导入依赖</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.projectlombok&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;lombok&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.16.18&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;scope&gt;provided&lt;&#x2F;scope&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="3-使用"><a href="#3-使用" class="headerlink" title="3.使用"></a>3.使用</h5><p>只需要在相关类、变量上加上注解即可</p>
-<p>常用的有</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span>   ：<span class="comment">//注解在类上；提供类所有属性的 getting 和 setting 方法，此外还提供了equals、canEqual、hashCode、toString 方法</span></span><br><span class="line"><span class="meta">@Setter</span>：<span class="comment">//注解在属性上；为属性提供 setting 方法</span></span><br><span class="line"><span class="meta">@Getter</span>：<span class="comment">//注解在属性上；为属性提供 getting 方法</span></span><br><span class="line"><span class="meta">@Log4j</span> ：<span class="comment">//注解在类上；为类提供一个 属性名为log 的 log4j 日志对象</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span>：<span class="comment">//注解在类上；为类提供一个无参的构造方法</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span>：<span class="comment">//注解在类上；为类提供一个全参的构造方法</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h6 id="比如："><a href="#比如：" class="headerlink" title="比如："></a>比如：</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@DynamicUpdate</span> <span class="comment">//可以让updateTime动态更新</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductCategory</span> </span>&#123;</span><br><span class="line">    <span class="comment">//类目id</span></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span></span><br><span class="line">    <span class="keyword">private</span> Integer categoryId;</span><br><span class="line">    <span class="comment">//类目名字</span></span><br><span class="line">    <span class="keyword">private</span> String categoryName;</span><br><span class="line">    <span class="comment">//类目编号</span></span><br><span class="line">    <span class="keyword">private</span> Integer categoryType;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProductCategory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建时间</span></span><br><span class="line">    <span class="keyword">private</span> Date createTime;</span><br><span class="line">    <span class="comment">//更新时间</span></span><br><span class="line">    <span class="keyword">private</span> Date updateTime;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getCategoryId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> categoryId;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCategoryId</span><span class="params">(Integer categoryId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.categoryId = categoryId;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCategoryName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> categoryName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCategoryName</span><span class="params">(String categoryName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.categoryName = categoryName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getCategoryType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> categoryType;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCategoryType</span><span class="params">(Integer categoryType)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.categoryType = categoryType;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getCreateTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> createTime;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCreateTime</span><span class="params">(Date createTime)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.createTime = createTime;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getUpdateTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> updateTime;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUpdateTime</span><span class="params">(Date updateTime)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.updateTime = updateTime;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ProductCategory&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;categoryId=&quot;</span> + categoryId +</span><br><span class="line">                <span class="string">&quot;, categoryName=&#x27;&quot;</span> + categoryName + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, categoryType=&quot;</span> + categoryType +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在安装了 lombok 插件和 导入了 lombok 依赖后</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@DynamicUpdate</span> <span class="comment">//可以让updateTime动态更新</span></span><br><span class="line"><span class="meta">@Data</span> <span class="comment">//自动生成 Setter/Getter toString()</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductCategory</span> </span>&#123;</span><br><span class="line">    <span class="comment">//类目id</span></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span></span><br><span class="line">    <span class="keyword">private</span> Integer categoryId;</span><br><span class="line">    <span class="comment">//类目名字</span></span><br><span class="line">    <span class="keyword">private</span> String categoryName;</span><br><span class="line">    <span class="comment">//类目编号</span></span><br><span class="line">    <span class="keyword">private</span> Integer categoryType;</span><br><span class="line">    <span class="comment">//创建时间</span></span><br><span class="line">    <span class="keyword">private</span> Date createTime;</span><br><span class="line">    <span class="comment">//更新时间</span></span><br><span class="line">    <span class="keyword">private</span> Date updateTime;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProductCategory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>IDEA</tag>
       </tags>
   </entry>
   <entry>
@@ -1024,6 +992,38 @@
       </tags>
   </entry>
   <entry>
+    <title>IDEA中lombok的使用</title>
+    <url>/2018/01/10/idea%E4%B8%ADlombok%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>IDEA中lombok插件的使用（可省略get/set方法）</p>
+<a id="more"></a>
+
+<hr>
+<h5 id="1-安装插件"><a href="#1-安装插件" class="headerlink" title="1.安装插件"></a>1.安装插件</h5><p>在File-Setting-Plugins-Browse Repostitories中搜索Lombok Plugin插件安装</p>
+<p>安装完成先别急着重启，继续设置，在File-Setting-Build, Execution, Deployment-Compiler-Annotation Processors中点击Enable annotation processors</p>
+<p>确定后重启idea</p>
+<p><img src="/images/idea1.png"></p>
+<p><img src="/images/idea2.png"></p>
+<hr>
+<h5 id="2-导入包"><a href="#2-导入包" class="headerlink" title="2.导入包"></a>2.导入包</h5><p>在maven中导入依赖</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.projectlombok&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;lombok&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.16.18&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;scope&gt;provided&lt;&#x2F;scope&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="3-使用"><a href="#3-使用" class="headerlink" title="3.使用"></a>3.使用</h5><p>只需要在相关类、变量上加上注解即可</p>
+<p>常用的有</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span>   ：<span class="comment">//注解在类上；提供类所有属性的 getting 和 setting 方法，此外还提供了equals、canEqual、hashCode、toString 方法</span></span><br><span class="line"><span class="meta">@Setter</span>：<span class="comment">//注解在属性上；为属性提供 setting 方法</span></span><br><span class="line"><span class="meta">@Getter</span>：<span class="comment">//注解在属性上；为属性提供 getting 方法</span></span><br><span class="line"><span class="meta">@Log4j</span> ：<span class="comment">//注解在类上；为类提供一个 属性名为log 的 log4j 日志对象</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span>：<span class="comment">//注解在类上；为类提供一个无参的构造方法</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span>：<span class="comment">//注解在类上；为类提供一个全参的构造方法</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h6 id="比如："><a href="#比如：" class="headerlink" title="比如："></a>比如：</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@DynamicUpdate</span> <span class="comment">//可以让updateTime动态更新</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductCategory</span> </span>&#123;</span><br><span class="line">    <span class="comment">//类目id</span></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span></span><br><span class="line">    <span class="keyword">private</span> Integer categoryId;</span><br><span class="line">    <span class="comment">//类目名字</span></span><br><span class="line">    <span class="keyword">private</span> String categoryName;</span><br><span class="line">    <span class="comment">//类目编号</span></span><br><span class="line">    <span class="keyword">private</span> Integer categoryType;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProductCategory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建时间</span></span><br><span class="line">    <span class="keyword">private</span> Date createTime;</span><br><span class="line">    <span class="comment">//更新时间</span></span><br><span class="line">    <span class="keyword">private</span> Date updateTime;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getCategoryId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> categoryId;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCategoryId</span><span class="params">(Integer categoryId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.categoryId = categoryId;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCategoryName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> categoryName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCategoryName</span><span class="params">(String categoryName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.categoryName = categoryName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getCategoryType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> categoryType;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCategoryType</span><span class="params">(Integer categoryType)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.categoryType = categoryType;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getCreateTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> createTime;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCreateTime</span><span class="params">(Date createTime)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.createTime = createTime;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getUpdateTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> updateTime;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUpdateTime</span><span class="params">(Date updateTime)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.updateTime = updateTime;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ProductCategory&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;categoryId=&quot;</span> + categoryId +</span><br><span class="line">                <span class="string">&quot;, categoryName=&#x27;&quot;</span> + categoryName + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, categoryType=&quot;</span> + categoryType +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在安装了 lombok 插件和 导入了 lombok 依赖后</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@DynamicUpdate</span> <span class="comment">//可以让updateTime动态更新</span></span><br><span class="line"><span class="meta">@Data</span> <span class="comment">//自动生成 Setter/Getter toString()</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductCategory</span> </span>&#123;</span><br><span class="line">    <span class="comment">//类目id</span></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span></span><br><span class="line">    <span class="keyword">private</span> Integer categoryId;</span><br><span class="line">    <span class="comment">//类目名字</span></span><br><span class="line">    <span class="keyword">private</span> String categoryName;</span><br><span class="line">    <span class="comment">//类目编号</span></span><br><span class="line">    <span class="keyword">private</span> Integer categoryType;</span><br><span class="line">    <span class="comment">//创建时间</span></span><br><span class="line">    <span class="keyword">private</span> Date createTime;</span><br><span class="line">    <span class="comment">//更新时间</span></span><br><span class="line">    <span class="keyword">private</span> Date updateTime;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProductCategory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>IDEA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>启动nginx时报错</title>
     <url>/2019/06/22/nginx%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/</url>
     <content><![CDATA[<p>nginx启动报错：nginx: [error] open() “/var/run/nginx/nginx.pid” failed (2: No such file or directory)</p>
@@ -1099,30 +1099,6 @@
         <tag>SpringBoot</tag>
         <tag>Error</tag>
         <tag>thymeleaf</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用IDEA回滚至git指定版本</title>
-    <url>/2021/01/05/%E4%BD%BF%E7%94%A8IDEA%E5%9B%9E%E6%BB%9A%E8%87%B3git%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%AC/</url>
-    <content><![CDATA[<p>使用IDEA回滚至git指定版本操作步骤</p>
-<a id="more"></a>
-
-<hr>
-<h5 id="1、查看git要回退的版本，在要回退的版本上点击右键选择Reset-Current-Branch-to-Here"><a href="#1、查看git要回退的版本，在要回退的版本上点击右键选择Reset-Current-Branch-to-Here" class="headerlink" title="1、查看git要回退的版本，在要回退的版本上点击右键选择Reset Current Branch to Here"></a>1、查看git要回退的版本，在要回退的版本上点击右键选择Reset Current Branch to Here</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80.png"></p>
-<hr>
-<h5 id="2、在弹出的Git-Reset选择框中选择Hard，然后点击Reset"><a href="#2、在弹出的Git-Reset选择框中选择Hard，然后点击Reset" class="headerlink" title="2、在弹出的Git Reset选择框中选择Hard，然后点击Reset"></a>2、在弹出的Git Reset选择框中选择Hard，然后点击Reset</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%801.png"></p>
-<hr>
-<h5 id="3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败"><a href="#3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败" class="headerlink" title="3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败"></a>3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败</h5><hr>
-<h5 id="4、在项目上点击右键，选择Git-gt-gt-Repository-gt-gt-Reset-HEAD"><a href="#4、在项目上点击右键，选择Git-gt-gt-Repository-gt-gt-Reset-HEAD" class="headerlink" title="4、在项目上点击右键，选择Git &gt;&gt;  Repository &gt;&gt; Reset HEAD"></a>4、在项目上点击右键，选择Git &gt;&gt;  Repository &gt;&gt; Reset HEAD</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%802.png"></p>
-<hr>
-<h5 id="5、在弹出的Rest-Head框中填入最新的版本号（注意：此时Reset-Type-要选择Mixed）"><a href="#5、在弹出的Rest-Head框中填入最新的版本号（注意：此时Reset-Type-要选择Mixed）" class="headerlink" title="5、在弹出的Rest Head框中填入最新的版本号（注意：此时Reset Type 要选择Mixed）"></a>5、在弹出的Rest Head框中填入最新的版本号（注意：此时Reset Type 要选择Mixed）</h5><p>​        因为本地已经回退到想要回退的版本代码，此操作是用本地的代码去覆盖远端master上指定版本的代码</p>
-<p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%803.png"></p>
-<hr>
-<h5 id="6、重新push"><a href="#6、重新push" class="headerlink" title="6、重新push"></a>6、重新push</h5><hr>
-]]></content>
-      <tags>
-        <tag>笔记</tag>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1267,6 +1243,30 @@
       </tags>
   </entry>
   <entry>
+    <title>使用IDEA回滚至git指定版本</title>
+    <url>/2021/01/05/%E4%BD%BF%E7%94%A8IDEA%E5%9B%9E%E6%BB%9A%E8%87%B3git%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%AC/</url>
+    <content><![CDATA[<p>使用IDEA回滚至git指定版本操作步骤</p>
+<a id="more"></a>
+
+<hr>
+<h5 id="1、查看git要回退的版本，在要回退的版本上点击右键选择Reset-Current-Branch-to-Here"><a href="#1、查看git要回退的版本，在要回退的版本上点击右键选择Reset-Current-Branch-to-Here" class="headerlink" title="1、查看git要回退的版本，在要回退的版本上点击右键选择Reset Current Branch to Here"></a>1、查看git要回退的版本，在要回退的版本上点击右键选择Reset Current Branch to Here</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80.png"></p>
+<hr>
+<h5 id="2、在弹出的Git-Reset选择框中选择Hard，然后点击Reset"><a href="#2、在弹出的Git-Reset选择框中选择Hard，然后点击Reset" class="headerlink" title="2、在弹出的Git Reset选择框中选择Hard，然后点击Reset"></a>2、在弹出的Git Reset选择框中选择Hard，然后点击Reset</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%801.png"></p>
+<hr>
+<h5 id="3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败"><a href="#3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败" class="headerlink" title="3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败"></a>3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败</h5><hr>
+<h5 id="4、在项目上点击右键，选择Git-gt-gt-Repository-gt-gt-Reset-HEAD"><a href="#4、在项目上点击右键，选择Git-gt-gt-Repository-gt-gt-Reset-HEAD" class="headerlink" title="4、在项目上点击右键，选择Git &gt;&gt;  Repository &gt;&gt; Reset HEAD"></a>4、在项目上点击右键，选择Git &gt;&gt;  Repository &gt;&gt; Reset HEAD</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%802.png"></p>
+<hr>
+<h5 id="5、在弹出的Rest-Head框中填入最新的版本号（注意：此时Reset-Type-要选择Mixed）"><a href="#5、在弹出的Rest-Head框中填入最新的版本号（注意：此时Reset-Type-要选择Mixed）" class="headerlink" title="5、在弹出的Rest Head框中填入最新的版本号（注意：此时Reset Type 要选择Mixed）"></a>5、在弹出的Rest Head框中填入最新的版本号（注意：此时Reset Type 要选择Mixed）</h5><p>​        因为本地已经回退到想要回退的版本代码，此操作是用本地的代码去覆盖远端master上指定版本的代码</p>
+<p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%803.png"></p>
+<hr>
+<h5 id="6、重新push"><a href="#6、重新push" class="headerlink" title="6、重新push"></a>6、重新push</h5><hr>
+]]></content>
+      <tags>
+        <tag>笔记</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用Spring的Pageable实现分页查询</title>
     <url>/2018/04/17/%E4%BD%BF%E7%94%A8Spring%E7%9A%84Pageable%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/</url>
     <content><![CDATA[<p>使用Spring的Pageable实现分页查询</p>
@@ -1286,6 +1286,33 @@
 ]]></content>
       <tags>
         <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于dubbo的介绍和监控中心启动</title>
+    <url>/2018/04/14/%E5%85%B3%E4%BA%8Edubbo%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%9B%91%E6%8E%A7%E4%B8%AD%E5%BF%83%E5%90%AF%E5%8A%A8/</url>
+    <content><![CDATA[<p>关于dubbo的介绍和监控中心启动</p>
+<a id="more"></a>
+
+
+<h4 id="关于dubbo的介绍和监控中心启动"><a href="#关于dubbo的介绍和监控中心启动" class="headerlink" title="关于dubbo的介绍和监控中心启动"></a>关于dubbo的介绍和监控中心启动</h4><h5 id="soa面向服务-以dubbo为基础"><a href="#soa面向服务-以dubbo为基础" class="headerlink" title="soa面向服务(以dubbo为基础)"></a>soa面向服务(以dubbo为基础)</h5><p>1 、dubbo的soa的工作原理，和SpringCloud类似</p>
+<p>2 、dubbo和SpringCloud的区别在于dubbo由自己的dubbo协议通讯，sc是由http协议(rest风格)</p>
+<p>3 、dubbo有一个注册中心的客户端在时时同步注册中心的服务信息</p>
+<p>4 、dubbo有一个JavaWeb的监控中心，负责监控服务的注册信息，甚至可以配置负载均衡</p>
+<h5 id="将dubbo框架引入到项目中的步骤："><a href="#将dubbo框架引入到项目中的步骤：" class="headerlink" title="将dubbo框架引入到项目中的步骤："></a>将dubbo框架引入到项目中的步骤：</h5><h6 id="1、将dubbo监控中心和tomcat上传到Linux服务器，解压至指定目录"><a href="#1、将dubbo监控中心和tomcat上传到Linux服务器，解压至指定目录" class="headerlink" title="1、将dubbo监控中心和tomcat上传到Linux服务器，解压至指定目录"></a>1、将dubbo监控中心和tomcat上传到Linux服务器，解压至指定目录</h6><h6 id="2、用unzip命令解压dubbo-admin-war监控中心到dubbo目录下"><a href="#2、用unzip命令解压dubbo-admin-war监控中心到dubbo目录下" class="headerlink" title="2、用unzip命令解压dubbo-admin.war监控中心到dubbo目录下"></a>2、用unzip命令解压dubbo-admin.war监控中心到dubbo目录下</h6><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unzip dubbo-admin.war -d dubbo</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="3、配置tomcat的server-xml配置文件"><a href="#3、配置tomcat的server-xml配置文件" class="headerlink" title="3、配置tomcat的server.xml配置文件"></a>3、配置tomcat的server.xml配置文件</h6><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">&quot;/dubbo&quot;</span> <span class="attr">docBase</span>=<span class="string">&quot;/opt/dubbo&quot;</span> <span class="attr">debug</span>=<span class="string">&quot;0&quot;</span> <span class="attr">privileged</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="4、启动tomcat，打开监控中心"><a href="#4、启动tomcat，打开监控中心" class="headerlink" title="4、启动tomcat，打开监控中心"></a>4、启动tomcat，打开监控中心</h6><p>在浏览器输入IP地址：xxx.xxx.xxx.xxx:8080/dubbo</p>
+<p><img src="/images/dubbo.png"></p>
+]]></content>
+      <tags>
+        <tag>笔记</tag>
+        <tag>dubbo</tag>
       </tags>
   </entry>
   <entry>
@@ -1335,69 +1362,6 @@
       </tags>
   </entry>
   <entry>
-    <title>关于dubbo的介绍和监控中心启动</title>
-    <url>/2018/04/14/%E5%85%B3%E4%BA%8Edubbo%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%9B%91%E6%8E%A7%E4%B8%AD%E5%BF%83%E5%90%AF%E5%8A%A8/</url>
-    <content><![CDATA[<p>关于dubbo的介绍和监控中心启动</p>
-<a id="more"></a>
-
-
-<h4 id="关于dubbo的介绍和监控中心启动"><a href="#关于dubbo的介绍和监控中心启动" class="headerlink" title="关于dubbo的介绍和监控中心启动"></a>关于dubbo的介绍和监控中心启动</h4><h5 id="soa面向服务-以dubbo为基础"><a href="#soa面向服务-以dubbo为基础" class="headerlink" title="soa面向服务(以dubbo为基础)"></a>soa面向服务(以dubbo为基础)</h5><p>1 、dubbo的soa的工作原理，和SpringCloud类似</p>
-<p>2 、dubbo和SpringCloud的区别在于dubbo由自己的dubbo协议通讯，sc是由http协议(rest风格)</p>
-<p>3 、dubbo有一个注册中心的客户端在时时同步注册中心的服务信息</p>
-<p>4 、dubbo有一个JavaWeb的监控中心，负责监控服务的注册信息，甚至可以配置负载均衡</p>
-<h5 id="将dubbo框架引入到项目中的步骤："><a href="#将dubbo框架引入到项目中的步骤：" class="headerlink" title="将dubbo框架引入到项目中的步骤："></a>将dubbo框架引入到项目中的步骤：</h5><h6 id="1、将dubbo监控中心和tomcat上传到Linux服务器，解压至指定目录"><a href="#1、将dubbo监控中心和tomcat上传到Linux服务器，解压至指定目录" class="headerlink" title="1、将dubbo监控中心和tomcat上传到Linux服务器，解压至指定目录"></a>1、将dubbo监控中心和tomcat上传到Linux服务器，解压至指定目录</h6><h6 id="2、用unzip命令解压dubbo-admin-war监控中心到dubbo目录下"><a href="#2、用unzip命令解压dubbo-admin-war监控中心到dubbo目录下" class="headerlink" title="2、用unzip命令解压dubbo-admin.war监控中心到dubbo目录下"></a>2、用unzip命令解压dubbo-admin.war监控中心到dubbo目录下</h6><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unzip dubbo-admin.war -d dubbo</span><br></pre></td></tr></table></figure>
-
-
-
-<h6 id="3、配置tomcat的server-xml配置文件"><a href="#3、配置tomcat的server-xml配置文件" class="headerlink" title="3、配置tomcat的server.xml配置文件"></a>3、配置tomcat的server.xml配置文件</h6><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">&quot;/dubbo&quot;</span> <span class="attr">docBase</span>=<span class="string">&quot;/opt/dubbo&quot;</span> <span class="attr">debug</span>=<span class="string">&quot;0&quot;</span> <span class="attr">privileged</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h6 id="4、启动tomcat，打开监控中心"><a href="#4、启动tomcat，打开监控中心" class="headerlink" title="4、启动tomcat，打开监控中心"></a>4、启动tomcat，打开监控中心</h6><p>在浏览器输入IP地址：xxx.xxx.xxx.xxx:8080/dubbo</p>
-<p><img src="/images/dubbo.png"></p>
-]]></content>
-      <tags>
-        <tag>笔记</tag>
-        <tag>dubbo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网页版工具链接</title>
-    <url>/2020/03/02/%E7%BD%91%E9%A1%B5%E7%89%88%E5%B7%A5%E5%85%B7%E9%93%BE%E6%8E%A5/</url>
-    <content><![CDATA[<h5 id="网页版在线工具链接"><a href="#网页版在线工具链接" class="headerlink" title="网页版在线工具链接"></a>网页版在线工具链接</h5><a id="more"></a>
-
-
-<p>取色器：<a href="http://xiaohudie.net/RGB.html">http://xiaohudie.net/RGB.html</a></p>
-<p>PDF转换器：<a href="https://app.xunjiepdf.com/">https://app.xunjiepdf.com/</a></p>
-<p>git国内镜像：<a href="https://npm.taobao.org/mirrors/git-for-windows/">https://npm.taobao.org/mirrors/git-for-windows/</a></p>
-<p>阿里Icon：<a href="https://www.iconfont.cn/">https://www.iconfont.cn/</a></p>
-<p>网易开源镜像站：<a href="http://mirrors.163.com/">http://mirrors.163.com/</a></p>
-<p>URL在线编码解码工具：<a href="http://www.jsons.cn/urlencode/">http://www.jsons.cn/urlencode/</a></p>
-<p>BootStrap可视化工具：<a href="http://www.ibootstrap.cn/">http://www.ibootstrap.cn/</a></p>
-]]></content>
-      <tags>
-        <tag>备忘录</tag>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>开发文档</title>
-    <url>/2020/01/17/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h5 id="开发文档链接记录"><a href="#开发文档链接记录" class="headerlink" title="开发文档链接记录"></a>开发文档链接记录</h5><a id="more"></a>
-
-<p>thymeleaf：<a href="https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html">https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html</a></p>
-<p>微信公众号：<a href="https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html">https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html</a></p>
-<p>微信支付：<a href="https://pay.weixin.qq.com/wiki/doc/api/index.html">https://pay.weixin.qq.com/wiki/doc/api/index.html</a></p>
-<p>微信小程序：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/">https://developers.weixin.qq.com/miniprogram/dev/framework/</a></p>
-<p>支付宝APP支付：<a href="https://docs.open.alipay.com/204">https://docs.open.alipay.com/204</a></p>
-<p>支付宝手机网站支付：<a href="https://docs.open.alipay.com/203">https://docs.open.alipay.com/203</a></p>
-<p>支付宝电脑网站支付：<a href="https://docs.open.alipay.com/270">https://docs.open.alipay.com/270</a></p>
-]]></content>
-      <tags>
-        <tag>文档</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>安装nginx时报错</title>
     <url>/2019/06/22/%E5%AE%89%E8%A3%85nginx%E6%97%B6%E9%94%99%E8%AF%AF/</url>
     <content><![CDATA[<p>安装nginx时错误提示： ./configure: error: the HTTP rewrite module requires the PCRE library.</p>
@@ -1424,25 +1388,39 @@
       </tags>
   </entry>
   <entry>
-    <title>通用mapper整合</title>
-    <url>/2019/04/17/%E9%80%9A%E7%94%A8mapper%E6%95%B4%E5%90%88/</url>
-    <content><![CDATA[<p>Spring Boot通用mapper整合的方法及步骤</p>
-<a id="more"></a>
+    <title>开发文档</title>
+    <url>/2020/01/17/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h5 id="开发文档链接记录"><a href="#开发文档链接记录" class="headerlink" title="开发文档链接记录"></a>开发文档链接记录</h5><a id="more"></a>
 
-<h5 id="通用mapper整合（作用是将单表的增删改查操作省去）"><a href="#通用mapper整合（作用是将单表的增删改查操作省去）" class="headerlink" title="**通用mapper整合（作用是将单表的增删改查操作省去）"></a><strong>**通用mapper整合（作用是将单表的增删改查操作省去）</strong></h5><h6 id="1、导入pom依赖"><a href="#1、导入pom依赖" class="headerlink" title="1、导入pom依赖"></a>1、导入pom依赖</h6><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--通用mapper--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>tk.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mapper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h6 id="2、配置mapper-，继承通用mapper"><a href="#2、配置mapper-，继承通用mapper" class="headerlink" title="2、配置mapper ，继承通用mapper"></a>2、配置mapper ，继承通用mapper</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tk.mybatis.mapper.common.Mapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">UmsMember</span>&gt; </span>&#123;</span><br></pre></td></tr></table></figure>
-
-<h6 id="3、配置通用mapper主键和主键返回策略"><a href="#3、配置通用mapper主键和主键返回策略" class="headerlink" title="3、配置通用mapper主键和主键返回策略"></a>3、配置通用mapper主键和主键返回策略</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Id</span> <span class="meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span>   <span class="comment">//主键返回策略</span></span><br></pre></td></tr></table></figure>
-
-<h6 id="4、配置启动类扫描MapperScan，使用通用mapper的MapperScan"><a href="#4、配置启动类扫描MapperScan，使用通用mapper的MapperScan" class="headerlink" title="4、配置启动类扫描MapperScan，使用通用mapper的MapperScan"></a>4、配置启动类扫描MapperScan，使用通用mapper的MapperScan</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tk.mybatis.spring.annotation.MapperScan;</span><br></pre></td></tr></table></figure>
-
-<h5 id="gt-gt-如果想查看执行的sql语句，需要修改日志级别为debug"><a href="#gt-gt-如果想查看执行的sql语句，需要修改日志级别为debug" class="headerlink" title="&gt;&gt;如果想查看执行的sql语句，需要修改日志级别为debug"></a>&gt;&gt;如果想查看执行的sql语句，需要修改日志级别为debug</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">#日志级别</span><br><span class="line">logging.level.root=debug</span><br></pre></td></tr></table></figure>
-
+<p>thymeleaf：<a href="https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html">https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html</a></p>
+<p>微信公众号：<a href="https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html">https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html</a></p>
+<p>微信支付：<a href="https://pay.weixin.qq.com/wiki/doc/api/index.html">https://pay.weixin.qq.com/wiki/doc/api/index.html</a></p>
+<p>微信小程序：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/">https://developers.weixin.qq.com/miniprogram/dev/framework/</a></p>
+<p>支付宝APP支付：<a href="https://docs.open.alipay.com/204">https://docs.open.alipay.com/204</a></p>
+<p>支付宝手机网站支付：<a href="https://docs.open.alipay.com/203">https://docs.open.alipay.com/203</a></p>
+<p>支付宝电脑网站支付：<a href="https://docs.open.alipay.com/270">https://docs.open.alipay.com/270</a></p>
 ]]></content>
       <tags>
-        <tag>笔记</tag>
-        <tag>SpringBoot</tag>
+        <tag>文档</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网页版工具链接</title>
+    <url>/2020/03/02/%E7%BD%91%E9%A1%B5%E7%89%88%E5%B7%A5%E5%85%B7%E9%93%BE%E6%8E%A5/</url>
+    <content><![CDATA[<h5 id="网页版在线工具链接"><a href="#网页版在线工具链接" class="headerlink" title="网页版在线工具链接"></a>网页版在线工具链接</h5><a id="more"></a>
+
+
+<p>取色器：<a href="http://xiaohudie.net/RGB.html">http://xiaohudie.net/RGB.html</a></p>
+<p>PDF转换器：<a href="https://app.xunjiepdf.com/">https://app.xunjiepdf.com/</a></p>
+<p>git国内镜像：<a href="https://npm.taobao.org/mirrors/git-for-windows/">https://npm.taobao.org/mirrors/git-for-windows/</a></p>
+<p>阿里Icon：<a href="https://www.iconfont.cn/">https://www.iconfont.cn/</a></p>
+<p>网易开源镜像站：<a href="http://mirrors.163.com/">http://mirrors.163.com/</a></p>
+<p>URL在线编码解码工具：<a href="http://www.jsons.cn/urlencode/">http://www.jsons.cn/urlencode/</a></p>
+<p>BootStrap可视化工具：<a href="http://www.ibootstrap.cn/">http://www.ibootstrap.cn/</a></p>
+]]></content>
+      <tags>
+        <tag>备忘录</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -1480,6 +1458,49 @@
       <tags>
         <tag>备忘录</tag>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解析JSON内容异常(JSONException)</title>
+    <url>/2021/01/12/%E8%A7%A3%E6%9E%90JSON%E5%86%85%E5%AE%B9%E5%BC%82%E5%B8%B8(JSONException)/</url>
+    <content><![CDATA[<p>解析JSON内容异常(JSONException)</p>
+<p>error : {} net.sf.json.JSONException: JSONObject[“aliUserId”] not found.</p>
+<a id="more"></a>
+
+<hr>
+<p>原因是请求参数没有这个元素</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">RestResponse data = thirdPartyMemberService.queryMemberCode(requestObject.getInt(<span class="string">&quot;brandId&quot;</span>), requestObject.getString(<span class="string">&quot;phoneNo&quot;</span>), requestObject.getString(<span class="string">&quot;aliUserId&quot;</span>), requestObject.getString(<span class="string">&quot;openId&quot;</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>JSON中没有这个key，更没有这个key所对应的值，因此需要加入为空判断，如果没有这个字段对应的key添加key和对应值。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!requestObject.has(<span class="string">&quot;phoneNo&quot;</span>))&#123;</span><br><span class="line">    requestObject.put(<span class="string">&quot;phoneNo&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (!requestObject.has(<span class="string">&quot;aliUserId&quot;</span>))&#123;</span><br><span class="line">    requestObject.put(<span class="string">&quot;aliUserId&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (!requestObject.has(<span class="string">&quot;openId&quot;</span>))&#123;</span><br><span class="line">    requestObject.put(<span class="string">&quot;openId&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">RestResponse data = thirdPartyMemberService.queryMemberCode(requestObject.getInt(<span class="string">&quot;brandId&quot;</span>), requestObject.getString(<span class="string">&quot;phoneNo&quot;</span>), requestObject.getString(<span class="string">&quot;aliUserId&quot;</span>), requestObject.getString(<span class="string">&quot;openId&quot;</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>笔记</tag>
+        <tag>error</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通用mapper整合</title>
+    <url>/2019/04/17/%E9%80%9A%E7%94%A8mapper%E6%95%B4%E5%90%88/</url>
+    <content><![CDATA[<p>Spring Boot通用mapper整合的方法及步骤</p>
+<a id="more"></a>
+
+<h5 id="通用mapper整合（作用是将单表的增删改查操作省去）"><a href="#通用mapper整合（作用是将单表的增删改查操作省去）" class="headerlink" title="**通用mapper整合（作用是将单表的增删改查操作省去）"></a><strong>**通用mapper整合（作用是将单表的增删改查操作省去）</strong></h5><h6 id="1、导入pom依赖"><a href="#1、导入pom依赖" class="headerlink" title="1、导入pom依赖"></a>1、导入pom依赖</h6><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--通用mapper--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>tk.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mapper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="2、配置mapper-，继承通用mapper"><a href="#2、配置mapper-，继承通用mapper" class="headerlink" title="2、配置mapper ，继承通用mapper"></a>2、配置mapper ，继承通用mapper</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tk.mybatis.mapper.common.Mapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">UmsMember</span>&gt; </span>&#123;</span><br></pre></td></tr></table></figure>
+
+<h6 id="3、配置通用mapper主键和主键返回策略"><a href="#3、配置通用mapper主键和主键返回策略" class="headerlink" title="3、配置通用mapper主键和主键返回策略"></a>3、配置通用mapper主键和主键返回策略</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Id</span> <span class="meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span>   <span class="comment">//主键返回策略</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="4、配置启动类扫描MapperScan，使用通用mapper的MapperScan"><a href="#4、配置启动类扫描MapperScan，使用通用mapper的MapperScan" class="headerlink" title="4、配置启动类扫描MapperScan，使用通用mapper的MapperScan"></a>4、配置启动类扫描MapperScan，使用通用mapper的MapperScan</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tk.mybatis.spring.annotation.MapperScan;</span><br></pre></td></tr></table></figure>
+
+<h5 id="gt-gt-如果想查看执行的sql语句，需要修改日志级别为debug"><a href="#gt-gt-如果想查看执行的sql语句，需要修改日志级别为debug" class="headerlink" title="&gt;&gt;如果想查看执行的sql语句，需要修改日志级别为debug"></a>&gt;&gt;如果想查看执行的sql语句，需要修改日志级别为debug</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">#日志级别</span><br><span class="line">logging.level.root=debug</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>笔记</tag>
+        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
