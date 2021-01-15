@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>2020</title>
-    <url>/2020/01/01/2020/</url>
-    <content><![CDATA[<p><strong><em>希望2020一切顺利！</em></strong></p>
-]]></content>
-      <tags>
-        <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Table注解</title>
     <url>/2018/04/02/@Table%E6%B3%A8%E8%A7%A3/</url>
     <content><![CDATA[<p>当实体类与其映射的数据库表名不同名时需要使用@Table注解说明</p>
@@ -82,6 +73,41 @@
       </tags>
   </entry>
   <entry>
+    <title>2020</title>
+    <url>/2020/01/01/2020/</url>
+    <content><![CDATA[<p><strong><em>希望2020一切顺利！</em></strong></p>
+]]></content>
+      <tags>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DynamicUpdate注解</title>
+    <url>/2018/04/05/DynamicUpdate%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<p>MySQL中的字段updatetime，如果想每次操作更改数据表的时候更改update字段需要使用此注解</p>
+<a id="more"></a>
+
+<p>首先修改该字段的属性</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">Alter</span> <span class="keyword">Table</span> product_category <span class="keyword">MODIFY</span> <span class="keyword">COLUMN</span> update_time <span class="built_in">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="literal">null</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span></span><br><span class="line"><span class="keyword">on</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span></span><br></pre></td></tr></table></figure>
+
+<p>在实体类在加入@updatetime注解</p>
+<p>在测试单元中添加对字段的修改**(必须)**</p>
+<hr>
+<p>DynamicUpdate注解默认为true</p>
+<p>当把属性值更改为false时，只修改mysql字段为非空的属性，自动更新的字段updatetime不会更新。</p>
+<hr>
+<p>比如我们的 updateTime 这个属性对应的是数据表中 update_time 字段，这个字段虽然在数据库里写了自动更新的代码</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">`update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">COMMENT</span> <span class="string">&#x27;修改时间&#x27;</span>,</span><br></pre></td></tr></table></figure>
+
+<p>但是如果你对记录更新的时候，没有给 updateTime 属性赋值，它是不会改变的，这时我们不想看到的。</p>
+<p>如果我们给这个类加上 <strong>@DynamicUpdate</strong> 注解，那么我们的 update_time 字段就会随更改时间而改变了。</p>
+]]></content>
+      <tags>
+        <tag>JPA</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Babel的使用</title>
     <url>/2020/10/15/Babel%E8%BD%AC%E7%A0%81%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>Babel的使用及使用示例</p>
@@ -121,32 +147,6 @@
       </tags>
   </entry>
   <entry>
-    <title>DynamicUpdate注解</title>
-    <url>/2018/04/05/DynamicUpdate%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[<p>MySQL中的字段updatetime，如果想每次操作更改数据表的时候更改update字段需要使用此注解</p>
-<a id="more"></a>
-
-<p>首先修改该字段的属性</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">Alter</span> <span class="keyword">Table</span> product_category <span class="keyword">MODIFY</span> <span class="keyword">COLUMN</span> update_time <span class="built_in">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="literal">null</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span></span><br><span class="line"><span class="keyword">on</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span></span><br></pre></td></tr></table></figure>
-
-<p>在实体类在加入@updatetime注解</p>
-<p>在测试单元中添加对字段的修改**(必须)**</p>
-<hr>
-<p>DynamicUpdate注解默认为true</p>
-<p>当把属性值更改为false时，只修改mysql字段为非空的属性，自动更新的字段updatetime不会更新。</p>
-<hr>
-<p>比如我们的 updateTime 这个属性对应的是数据表中 update_time 字段，这个字段虽然在数据库里写了自动更新的代码</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">`update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">COMMENT</span> <span class="string">&#x27;修改时间&#x27;</span>,</span><br></pre></td></tr></table></figure>
-
-<p>但是如果你对记录更新的时候，没有给 updateTime 属性赋值，它是不会改变的，这时我们不想看到的。</p>
-<p>如果我们给这个类加上 <strong>@DynamicUpdate</strong> 注解，那么我们的 update_time 字段就会随更改时间而改变了。</p>
-]]></content>
-      <tags>
-        <tag>JPA</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JsonProperty注解</title>
     <url>/2018/04/20/@JsonProperty%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>@JsonProperty注解的使用</p>
@@ -162,63 +162,6 @@
 ]]></content>
       <tags>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ES6笔记</title>
-    <url>/2020/08/16/ES6%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p>ES6的语法及使用</p>
-<a id="more"></a>
-
-
-
-
-
-
-<h4 id="ES6笔记"><a href="#ES6笔记" class="headerlink" title="ES6笔记"></a>ES6笔记</h4><hr>
-<h5 id="定义变量let和var区别"><a href="#定义变量let和var区别" class="headerlink" title="定义变量let和var区别"></a>定义变量let和var区别</h5><p>​    1、let定义的变量只能在{}内部使用</p>
-<p>​    2、let不能多次定义相同名称变量</p>
-<hr>
-<h5 id="定义常量"><a href="#定义常量" class="headerlink" title="定义常量"></a>定义常量</h5><p>​    const PI = “3.14”</p>
-<p>​    1、声明之后不可改变</p>
-<p>​    2、定义常量必须初始化</p>
-<hr>
-<h5 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1、数组解构</span></span><br><span class="line"><span class="comment">// 传统</span></span><br><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>, b = <span class="number">2</span>, c = <span class="number">3</span></span><br><span class="line"><span class="built_in">console</span>.log(a, b, c)</span><br><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">let</span> [x, y, z] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="built_in">console</span>.log(x, y, z)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//2、对象解构</span></span><br><span class="line"><span class="keyword">let</span> user = &#123;<span class="attr">name</span>: <span class="string">&#x27;Helen&#x27;</span>, <span class="attr">age</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="comment">// 传统</span></span><br><span class="line"><span class="keyword">let</span> name1 = user.name</span><br><span class="line"><span class="keyword">let</span> age1 = user.age</span><br><span class="line"><span class="built_in">console</span>.log(name1, age1)</span><br><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">let</span> &#123; name, age &#125; =  user<span class="comment">//注意：结构的变量必须是user中的属性</span></span><br><span class="line"><span class="built_in">console</span>.log(name, age)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h5><p>模板字符串相当于加强版的字符串，用反引号 `,除了作为普通字符串，还可以用来定义多行字符串，还可以在字符串中加入变量和表达式。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1、多行字符串</span></span><br><span class="line"><span class="keyword">let</span> string1 =  <span class="string">`Hey,</span></span><br><span class="line"><span class="string">can you stop angry now?`</span></span><br><span class="line"><span class="built_in">console</span>.log(string1)</span><br><span class="line"><span class="comment">//输出格式：</span></span><br><span class="line"><span class="comment">// Hey,</span></span><br><span class="line"><span class="comment">// can you stop angry now?</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 2、字符串插入变量和表达式。变量名写在 $&#123;&#125; 中，$&#123;&#125; 中可以放入 JavaScript 表达式。</span></span><br><span class="line"><span class="keyword">let</span> name = <span class="string">&quot;Mike&quot;</span></span><br><span class="line"><span class="keyword">let</span> age = <span class="number">27</span></span><br><span class="line"><span class="keyword">let</span> info = <span class="string">`My Name is <span class="subst">$&#123;name&#125;</span>,I am <span class="subst">$&#123;age+<span class="number">1</span>&#125;</span> years old next year.`</span></span><br><span class="line"><span class="built_in">console</span>.log(info)</span><br><span class="line"><span class="comment">// 输出：My Name is Mike,I am 28 years old next year.</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 3、字符串中调用函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;have fun!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> string2 = <span class="string">`Game start,<span class="subst">$&#123;f()&#125;</span>`</span></span><br><span class="line"><span class="built_in">console</span>.log(string2);  </span><br><span class="line"><span class="comment">//输出： Game start,have fun!</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="声明对象简写"><a href="#声明对象简写" class="headerlink" title="声明对象简写"></a>声明对象简写</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> age = <span class="number">12</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;Amy&quot;</span></span><br><span class="line"><span class="comment">// 传统</span></span><br><span class="line"><span class="keyword">const</span> person1 = &#123;<span class="attr">age</span>: age, <span class="attr">name</span>: name&#125;</span><br><span class="line"><span class="built_in">console</span>.log(person1)</span><br><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">const</span> person2 = &#123;age, name&#125;</span><br><span class="line"><span class="built_in">console</span>.log(person2) <span class="comment">//&#123;age: 12, name: &quot;Amy&quot;&#125;</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="定义方法简写"><a href="#定义方法简写" class="headerlink" title="定义方法简写"></a>定义方法简写</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 传统</span></span><br><span class="line"><span class="keyword">const</span> person1 = &#123;</span><br><span class="line">    sayHi:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;Hi&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">person1.sayHi();<span class="comment">//&quot;Hi&quot;</span></span><br><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">const</span> person2 = &#123;</span><br><span class="line">    <span class="function"><span class="title">sayHi</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;Hi&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">person2.sayHi()  <span class="comment">//&quot;Hi&quot;</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="对象扩展运算符"><a href="#对象扩展运算符" class="headerlink" title="对象扩展运算符"></a>对象扩展运算符</h5><p>拓展运算符（…）用于取出参数对象所有可遍历属性然后拷贝到当前对象。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 1、拷贝对象</span></span><br><span class="line"><span class="keyword">let</span> person1 = &#123;<span class="attr">name</span>: <span class="string">&quot;Amy&quot;</span>, <span class="attr">age</span>: <span class="number">15</span>&#125;</span><br><span class="line"><span class="keyword">let</span> someone = &#123; ...person1 &#125;</span><br><span class="line"><span class="built_in">console</span>.log(someone)  <span class="comment">//&#123;name: &quot;Amy&quot;, age: 15&#125;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 2、合并对象</span></span><br><span class="line"><span class="keyword">let</span> age = &#123;<span class="attr">age</span>: <span class="number">15</span>&#125;</span><br><span class="line"><span class="keyword">let</span> name = &#123;<span class="attr">name</span>: <span class="string">&quot;Amy&quot;</span>&#125;</span><br><span class="line"><span class="keyword">let</span> person2 = &#123;...age, ...name&#125;</span><br><span class="line"><span class="built_in">console</span>.log(person2)  <span class="comment">//&#123;age: 15, name: &quot;Amy&quot;&#125;</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h5><p>箭头函数提供了一种更加简洁的函数书写方式。基本语法是：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参数 &#x3D;&gt; 函数体</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 传统</span></span><br><span class="line"><span class="keyword">var</span> f1 = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(f1(<span class="number">1</span>))</span><br><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">var</span> f2 = <span class="function"><span class="params">a</span> =&gt;</span> a</span><br><span class="line"><span class="built_in">console</span>.log(f2(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 当箭头函数没有参数或者有多个参数，要用 () 括起来。</span></span><br><span class="line"><span class="comment">// 当箭头函数函数体有多行语句，用 &#123;&#125; 包裹起来，表示代码块，</span></span><br><span class="line"><span class="comment">// 当只有一行语句，并且需要返回结果时，可以省略 &#123;&#125; , 结果会自动返回。</span></span><br><span class="line"><span class="keyword">var</span> f3 = <span class="function">(<span class="params">a,b</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> result = a+b</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(f3(<span class="number">6</span>,<span class="number">2</span>))  <span class="comment">// 8</span></span><br><span class="line"><span class="comment">// 前面代码相当于：</span></span><br><span class="line"><span class="keyword">var</span> f4 = <span class="function">(<span class="params">a,b</span>) =&gt;</span> a+b</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>前端</tag>
-        <tag>ES6</tag>
       </tags>
   </entry>
   <entry>
@@ -377,6 +320,63 @@
       </tags>
   </entry>
   <entry>
+    <title>ES6笔记</title>
+    <url>/2020/08/16/ES6%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>ES6的语法及使用</p>
+<a id="more"></a>
+
+
+
+
+
+
+<h4 id="ES6笔记"><a href="#ES6笔记" class="headerlink" title="ES6笔记"></a>ES6笔记</h4><hr>
+<h5 id="定义变量let和var区别"><a href="#定义变量let和var区别" class="headerlink" title="定义变量let和var区别"></a>定义变量let和var区别</h5><p>​    1、let定义的变量只能在{}内部使用</p>
+<p>​    2、let不能多次定义相同名称变量</p>
+<hr>
+<h5 id="定义常量"><a href="#定义常量" class="headerlink" title="定义常量"></a>定义常量</h5><p>​    const PI = “3.14”</p>
+<p>​    1、声明之后不可改变</p>
+<p>​    2、定义常量必须初始化</p>
+<hr>
+<h5 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1、数组解构</span></span><br><span class="line"><span class="comment">// 传统</span></span><br><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>, b = <span class="number">2</span>, c = <span class="number">3</span></span><br><span class="line"><span class="built_in">console</span>.log(a, b, c)</span><br><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">let</span> [x, y, z] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="built_in">console</span>.log(x, y, z)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//2、对象解构</span></span><br><span class="line"><span class="keyword">let</span> user = &#123;<span class="attr">name</span>: <span class="string">&#x27;Helen&#x27;</span>, <span class="attr">age</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="comment">// 传统</span></span><br><span class="line"><span class="keyword">let</span> name1 = user.name</span><br><span class="line"><span class="keyword">let</span> age1 = user.age</span><br><span class="line"><span class="built_in">console</span>.log(name1, age1)</span><br><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">let</span> &#123; name, age &#125; =  user<span class="comment">//注意：结构的变量必须是user中的属性</span></span><br><span class="line"><span class="built_in">console</span>.log(name, age)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h5><p>模板字符串相当于加强版的字符串，用反引号 `,除了作为普通字符串，还可以用来定义多行字符串，还可以在字符串中加入变量和表达式。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1、多行字符串</span></span><br><span class="line"><span class="keyword">let</span> string1 =  <span class="string">`Hey,</span></span><br><span class="line"><span class="string">can you stop angry now?`</span></span><br><span class="line"><span class="built_in">console</span>.log(string1)</span><br><span class="line"><span class="comment">//输出格式：</span></span><br><span class="line"><span class="comment">// Hey,</span></span><br><span class="line"><span class="comment">// can you stop angry now?</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 2、字符串插入变量和表达式。变量名写在 $&#123;&#125; 中，$&#123;&#125; 中可以放入 JavaScript 表达式。</span></span><br><span class="line"><span class="keyword">let</span> name = <span class="string">&quot;Mike&quot;</span></span><br><span class="line"><span class="keyword">let</span> age = <span class="number">27</span></span><br><span class="line"><span class="keyword">let</span> info = <span class="string">`My Name is <span class="subst">$&#123;name&#125;</span>,I am <span class="subst">$&#123;age+<span class="number">1</span>&#125;</span> years old next year.`</span></span><br><span class="line"><span class="built_in">console</span>.log(info)</span><br><span class="line"><span class="comment">// 输出：My Name is Mike,I am 28 years old next year.</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 3、字符串中调用函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;have fun!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> string2 = <span class="string">`Game start,<span class="subst">$&#123;f()&#125;</span>`</span></span><br><span class="line"><span class="built_in">console</span>.log(string2);  </span><br><span class="line"><span class="comment">//输出： Game start,have fun!</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="声明对象简写"><a href="#声明对象简写" class="headerlink" title="声明对象简写"></a>声明对象简写</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> age = <span class="number">12</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;Amy&quot;</span></span><br><span class="line"><span class="comment">// 传统</span></span><br><span class="line"><span class="keyword">const</span> person1 = &#123;<span class="attr">age</span>: age, <span class="attr">name</span>: name&#125;</span><br><span class="line"><span class="built_in">console</span>.log(person1)</span><br><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">const</span> person2 = &#123;age, name&#125;</span><br><span class="line"><span class="built_in">console</span>.log(person2) <span class="comment">//&#123;age: 12, name: &quot;Amy&quot;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="定义方法简写"><a href="#定义方法简写" class="headerlink" title="定义方法简写"></a>定义方法简写</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 传统</span></span><br><span class="line"><span class="keyword">const</span> person1 = &#123;</span><br><span class="line">    sayHi:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;Hi&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">person1.sayHi();<span class="comment">//&quot;Hi&quot;</span></span><br><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">const</span> person2 = &#123;</span><br><span class="line">    <span class="function"><span class="title">sayHi</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;Hi&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">person2.sayHi()  <span class="comment">//&quot;Hi&quot;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="对象扩展运算符"><a href="#对象扩展运算符" class="headerlink" title="对象扩展运算符"></a>对象扩展运算符</h5><p>拓展运算符（…）用于取出参数对象所有可遍历属性然后拷贝到当前对象。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 1、拷贝对象</span></span><br><span class="line"><span class="keyword">let</span> person1 = &#123;<span class="attr">name</span>: <span class="string">&quot;Amy&quot;</span>, <span class="attr">age</span>: <span class="number">15</span>&#125;</span><br><span class="line"><span class="keyword">let</span> someone = &#123; ...person1 &#125;</span><br><span class="line"><span class="built_in">console</span>.log(someone)  <span class="comment">//&#123;name: &quot;Amy&quot;, age: 15&#125;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 2、合并对象</span></span><br><span class="line"><span class="keyword">let</span> age = &#123;<span class="attr">age</span>: <span class="number">15</span>&#125;</span><br><span class="line"><span class="keyword">let</span> name = &#123;<span class="attr">name</span>: <span class="string">&quot;Amy&quot;</span>&#125;</span><br><span class="line"><span class="keyword">let</span> person2 = &#123;...age, ...name&#125;</span><br><span class="line"><span class="built_in">console</span>.log(person2)  <span class="comment">//&#123;age: 15, name: &quot;Amy&quot;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h5><p>箭头函数提供了一种更加简洁的函数书写方式。基本语法是：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参数 &#x3D;&gt; 函数体</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 传统</span></span><br><span class="line"><span class="keyword">var</span> f1 = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(f1(<span class="number">1</span>))</span><br><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">var</span> f2 = <span class="function"><span class="params">a</span> =&gt;</span> a</span><br><span class="line"><span class="built_in">console</span>.log(f2(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 当箭头函数没有参数或者有多个参数，要用 () 括起来。</span></span><br><span class="line"><span class="comment">// 当箭头函数函数体有多行语句，用 &#123;&#125; 包裹起来，表示代码块，</span></span><br><span class="line"><span class="comment">// 当只有一行语句，并且需要返回结果时，可以省略 &#123;&#125; , 结果会自动返回。</span></span><br><span class="line"><span class="keyword">var</span> f3 = <span class="function">(<span class="params">a,b</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> result = a+b</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(f3(<span class="number">6</span>,<span class="number">2</span>))  <span class="comment">// 8</span></span><br><span class="line"><span class="comment">// 前面代码相当于：</span></span><br><span class="line"><span class="keyword">var</span> f4 = <span class="function">(<span class="params">a,b</span>) =&gt;</span> a+b</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>前端</tag>
+        <tag>ES6</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JPA实体类中主键自增的注解</title>
     <url>/2018/04/02/JPA%E5%AE%9E%E4%BD%93%E7%B1%BB%E4%B8%AD%E4%B8%BB%E9%94%AE%E8%87%AA%E5%A2%9E%E7%9A%84%E6%B3%A8%E8%A7%A3/</url>
     <content><![CDATA[<p>JPA的注解来定义实体的时候，使用@Id来注解主键属性即可。如果数据库主键是自增长的，需要在增加一个注解@GeneratedValue</p>
@@ -394,6 +394,60 @@
         <tag>JPA</tag>
         <tag>Java</tag>
         <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java中JsonSerializer用法</title>
+    <url>/2018/08/02/Java%E4%B8%ADJsonSerializer%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<p>前后端单位不统一时进行转换</p>
+<a id="more"></a>
+
+<h5 id="问题举例："><a href="#问题举例：" class="headerlink" title="问题举例："></a>问题举例：</h5><p>后端用的时间单位是Date，前端用的秒</p>
+<p>后端用的金额单位是分，前端用的是元</p>
+<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><h5 id="1-写一个负责转换的类，里面写好规则"><a href="#1-写一个负责转换的类，里面写好规则" class="headerlink" title="1. 写一个负责转换的类，里面写好规则"></a>1. 写一个负责转换的类，里面写好规则</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Date2LongSerialize</span> <span class="keyword">extends</span> <span class="title">JsonSerializer</span>&lt;<span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)</span> <span class="keyword">throws</span> IOException, JsonProcessingException </span>&#123;</span><br><span class="line">        jsonGenerator.writeNumber(date.getTime() / <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-在返回的参数里加上注解"><a href="#2-在返回的参数里加上注解" class="headerlink" title="2. 在返回的参数里加上注解"></a>2. 在返回的参数里加上注解</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PledgeDetailItemVO</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">2308418084162500432L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JsonSerialize(using = Date2LongSerialize.class)</span></span><br><span class="line">    <span class="keyword">private</span> Date addTime;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java中BigDecimal类型的加减乘除运算</title>
+    <url>/2018/10/22/Java%E4%B8%ADBigDecimal%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E8%BF%90%E7%AE%97/</url>
+    <content><![CDATA[<p>Java中BigDecimal类型的加减乘除运算</p>
+<a id="more"></a>
+
+<p>BigDecimal提供了精确的数值计算。对Bigdecimal类型值进行加减乘除绝对值的运算，其实就是Bigdecimal的类方法的一些调用。</p>
+<hr>
+<p>加法：add()</p>
+<p>减法：subtract()</p>
+<p>乘法：multiply()</p>
+<p>除法：divide()</p>
+<p>绝对值：abs()</p>
+<hr>
+<p>BigDecimal有多种构造函数，常用的有2种。建议使用String构造方式，不建议使用double构造方式。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 强制使用String的构造函数，double也有可能计算不太准确</span></span><br><span class="line"><span class="comment">// 原则是使用BigDecimal并且一定要用String来构造。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BigDecimal</span><span class="params">(String val)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BigDecimal</span><span class="params">(<span class="keyword">double</span> val)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h5 id="用法Demo："><a href="#用法Demo：" class="headerlink" title="用法Demo："></a>用法Demo：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">al valueSec = <span class="keyword">new</span> BigDecimal(<span class="number">1000000</span>);</span><br><span class="line">        BigDecimal valueThi = <span class="keyword">new</span> BigDecimal(-<span class="number">1000000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//尽量用字符串的形式初始化</span></span><br><span class="line">        BigDecimal stringFir = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;0.005&quot;</span>);</span><br><span class="line">        BigDecimal stringSec = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;1000000&quot;</span>);</span><br><span class="line">        BigDecimal stringThi = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;-1000000&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//加法</span></span><br><span class="line">        BigDecimal addVal = valueFir.add(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;加法用value结果：&quot;</span> + addVal);</span><br><span class="line">        BigDecimal addStr = stringFir.add(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;加法用string结果：&quot;</span> + addStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//减法</span></span><br><span class="line">        BigDecimal subtractVal = valueFir.subtract(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;减法value结果：&quot;</span> + subtractVal);</span><br><span class="line">        BigDecimal subtractStr = stringFir.subtract(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;减法用string结果：&quot;</span> + subtractStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//乘法</span></span><br><span class="line">        BigDecimal multiplyVal = valueFir.multiply(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;乘法用value结果：&quot;</span> + multiplyVal);</span><br><span class="line">        BigDecimal multiplyStr = stringFir.multiply(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;乘法用string结果：&quot;</span> + multiplyStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//绝对值</span></span><br><span class="line">        BigDecimal absVal = valueThi.abs();</span><br><span class="line">        System.out.println(<span class="string">&quot;绝对值用value结果：&quot;</span> + absVal);</span><br><span class="line">        BigDecimal absStr = stringThi.abs();</span><br><span class="line">        System.out.println(<span class="string">&quot;绝对值用string结果：&quot;</span> + absStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//除法</span></span><br><span class="line">        BigDecimal divideVal = valueSec.divide(valueFir, <span class="number">20</span>, BigDecimal.ROUND_HALF_UP);</span><br><span class="line">        System.out.println(<span class="string">&quot;除法用value结果：&quot;</span> + divideVal);</span><br><span class="line">        BigDecimal divideStr = stringSec.divide(stringFir, <span class="number">20</span>, BigDecimal.ROUND_HALF_UP);</span><br><span class="line">        System.out.println(<span class="string">&quot;除法用string结果：&quot;</span> + divideStr);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/BigDecimal%E8%BF%90%E7%AE%97%E7%BB%93%E6%9E%9C.png"></p>
+<hr>
+<blockquote>
+<blockquote>
+<p>1、<code>System.out.println()</code>中的数字默认是<code>double</code>类型的，<code>double</code>类型小数计算不精准</p>
+</blockquote>
+<p>2、使用<code>BigDecimal</code>类构造方法传入<code>double</code>类型时，计算的结果也是不精确的。</p>
+<p>因为不是所有的浮点数都能够被精确的表示成一个<code>double</code> 类型值，因此它会被表示成与它最接近的 <code>double</code> 类型的值。所以必须改用传入<code>String</code>的构造方法.</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -469,60 +523,6 @@
         <tag>Java</tag>
         <tag>笔记</tag>
         <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java中BigDecimal类型的加减乘除运算</title>
-    <url>/2018/10/22/Java%E4%B8%ADBigDecimal%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E8%BF%90%E7%AE%97/</url>
-    <content><![CDATA[<p>Java中BigDecimal类型的加减乘除运算</p>
-<a id="more"></a>
-
-<p>BigDecimal提供了精确的数值计算。对Bigdecimal类型值进行加减乘除绝对值的运算，其实就是Bigdecimal的类方法的一些调用。</p>
-<hr>
-<p>加法：add()</p>
-<p>减法：subtract()</p>
-<p>乘法：multiply()</p>
-<p>除法：divide()</p>
-<p>绝对值：abs()</p>
-<hr>
-<p>BigDecimal有多种构造函数，常用的有2种。建议使用String构造方式，不建议使用double构造方式。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 强制使用String的构造函数，double也有可能计算不太准确</span></span><br><span class="line"><span class="comment">// 原则是使用BigDecimal并且一定要用String来构造。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BigDecimal</span><span class="params">(String val)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BigDecimal</span><span class="params">(<span class="keyword">double</span> val)</span></span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h5 id="用法Demo："><a href="#用法Demo：" class="headerlink" title="用法Demo："></a>用法Demo：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">al valueSec = <span class="keyword">new</span> BigDecimal(<span class="number">1000000</span>);</span><br><span class="line">        BigDecimal valueThi = <span class="keyword">new</span> BigDecimal(-<span class="number">1000000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//尽量用字符串的形式初始化</span></span><br><span class="line">        BigDecimal stringFir = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;0.005&quot;</span>);</span><br><span class="line">        BigDecimal stringSec = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;1000000&quot;</span>);</span><br><span class="line">        BigDecimal stringThi = <span class="keyword">new</span> BigDecimal(<span class="string">&quot;-1000000&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//加法</span></span><br><span class="line">        BigDecimal addVal = valueFir.add(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;加法用value结果：&quot;</span> + addVal);</span><br><span class="line">        BigDecimal addStr = stringFir.add(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;加法用string结果：&quot;</span> + addStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//减法</span></span><br><span class="line">        BigDecimal subtractVal = valueFir.subtract(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;减法value结果：&quot;</span> + subtractVal);</span><br><span class="line">        BigDecimal subtractStr = stringFir.subtract(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;减法用string结果：&quot;</span> + subtractStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//乘法</span></span><br><span class="line">        BigDecimal multiplyVal = valueFir.multiply(valueSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;乘法用value结果：&quot;</span> + multiplyVal);</span><br><span class="line">        BigDecimal multiplyStr = stringFir.multiply(stringSec);</span><br><span class="line">        System.out.println(<span class="string">&quot;乘法用string结果：&quot;</span> + multiplyStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//绝对值</span></span><br><span class="line">        BigDecimal absVal = valueThi.abs();</span><br><span class="line">        System.out.println(<span class="string">&quot;绝对值用value结果：&quot;</span> + absVal);</span><br><span class="line">        BigDecimal absStr = stringThi.abs();</span><br><span class="line">        System.out.println(<span class="string">&quot;绝对值用string结果：&quot;</span> + absStr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//除法</span></span><br><span class="line">        BigDecimal divideVal = valueSec.divide(valueFir, <span class="number">20</span>, BigDecimal.ROUND_HALF_UP);</span><br><span class="line">        System.out.println(<span class="string">&quot;除法用value结果：&quot;</span> + divideVal);</span><br><span class="line">        BigDecimal divideStr = stringSec.divide(stringFir, <span class="number">20</span>, BigDecimal.ROUND_HALF_UP);</span><br><span class="line">        System.out.println(<span class="string">&quot;除法用string结果：&quot;</span> + divideStr);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/BigDecimal%E8%BF%90%E7%AE%97%E7%BB%93%E6%9E%9C.png"></p>
-<hr>
-<blockquote>
-<blockquote>
-<p>1、<code>System.out.println()</code>中的数字默认是<code>double</code>类型的，<code>double</code>类型小数计算不精准</p>
-</blockquote>
-<p>2、使用<code>BigDecimal</code>类构造方法传入<code>double</code>类型时，计算的结果也是不精确的。</p>
-<p>因为不是所有的浮点数都能够被精确的表示成一个<code>double</code> 类型值，因此它会被表示成与它最接近的 <code>double</code> 类型的值。所以必须改用传入<code>String</code>的构造方法.</p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java中JsonSerializer用法</title>
-    <url>/2018/08/02/Java%E4%B8%ADJsonSerializer%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<p>前后端单位不统一时进行转换</p>
-<a id="more"></a>
-
-<h5 id="问题举例："><a href="#问题举例：" class="headerlink" title="问题举例："></a>问题举例：</h5><p>后端用的时间单位是Date，前端用的秒</p>
-<p>后端用的金额单位是分，前端用的是元</p>
-<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><h5 id="1-写一个负责转换的类，里面写好规则"><a href="#1-写一个负责转换的类，里面写好规则" class="headerlink" title="1. 写一个负责转换的类，里面写好规则"></a>1. 写一个负责转换的类，里面写好规则</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Date2LongSerialize</span> <span class="keyword">extends</span> <span class="title">JsonSerializer</span>&lt;<span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)</span> <span class="keyword">throws</span> IOException, JsonProcessingException </span>&#123;</span><br><span class="line">        jsonGenerator.writeNumber(date.getTime() / <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-在返回的参数里加上注解"><a href="#2-在返回的参数里加上注解" class="headerlink" title="2. 在返回的参数里加上注解"></a>2. 在返回的参数里加上注解</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PledgeDetailItemVO</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">2308418084162500432L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JsonSerialize(using = Date2LongSerialize.class)</span></span><br><span class="line">    <span class="keyword">private</span> Date addTime;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>Java</tag>
-        <tag>笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -790,24 +790,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Springboot解决跨域问题</title>
-    <url>/2019/06/21/Springboot%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>Springboot解决跨域问题</p>
-<a id="more"></a>
-
-<h4 id="Springboot解决跨域问题"><a href="#Springboot解决跨域问题" class="headerlink" title="Springboot解决跨域问题"></a>Springboot解决跨域问题</h4><p>前后端分离的项目，如果前端项目与后端项目部署在两个不同的域下，会引起跨域问题的出现</p>
-<h6 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h6><p>在Controller类上加@CrossOrigin注解即可</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> fxmaoyuzzz</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*前端127.0.0.1:8888  后端127.0.0.1:8082</span></span><br><span class="line"><span class="comment">* 前后端因为来自不同的网域，所以在http的安全协议策略下不信任*/</span></span><br><span class="line"><span class="meta">@CrossOrigin</span>      <span class="comment">//解决前后端的跨域问题</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CatalogController</span> </span>&#123;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p><img src="/images/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98.png"></p>
-]]></content>
-      <tags>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SpringMVC相关知识点</title>
     <url>/2020/02/27/SpringMVC%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
     <content><![CDATA[<p>SpringMVC相关知识点备忘录</p>
@@ -881,6 +863,24 @@
       <tags>
         <tag>笔记</tag>
         <tag>SpringMVC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Springboot解决跨域问题</title>
+    <url>/2019/06/21/Springboot%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>Springboot解决跨域问题</p>
+<a id="more"></a>
+
+<h4 id="Springboot解决跨域问题"><a href="#Springboot解决跨域问题" class="headerlink" title="Springboot解决跨域问题"></a>Springboot解决跨域问题</h4><p>前后端分离的项目，如果前端项目与后端项目部署在两个不同的域下，会引起跨域问题的出现</p>
+<h6 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h6><p>在Controller类上加@CrossOrigin注解即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> fxmaoyuzzz</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*前端127.0.0.1:8888  后端127.0.0.1:8082</span></span><br><span class="line"><span class="comment">* 前后端因为来自不同的网域，所以在http的安全协议策略下不信任*/</span></span><br><span class="line"><span class="meta">@CrossOrigin</span>      <span class="comment">//解决前后端的跨域问题</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CatalogController</span> </span>&#123;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p><img src="/images/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98.png"></p>
+]]></content>
+      <tags>
+        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
@@ -992,6 +992,30 @@
       </tags>
   </entry>
   <entry>
+    <title>启动nginx时报错</title>
+    <url>/2019/06/22/nginx%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/</url>
+    <content><![CDATA[<p>nginx启动报错：nginx: [error] open() “/var/run/nginx/nginx.pid” failed (2: No such file or directory)</p>
+<a id="more"></a>
+
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h5 id="解决此错误的方法如下："><a href="#解决此错误的方法如下：" class="headerlink" title="解决此错误的方法如下："></a>解决此错误的方法如下：</h5><p>（1）进入 <strong>cd /usr/local/nginx/conf/</strong> 目录，编辑配置文件<strong>nginx.conf</strong> ；</p>
+<p>（2）在配置文件中有个注释的地方： <strong>#pid     logs/nginx.pid;</strong></p>
+<p>（3）将注释放开，并修改为：<strong>pid   /usr/local/nginx/logs/nginx.pid;</strong></p>
+<p>（4）在 <strong>/usr/local/nginx</strong> 目录下创建 <strong>logs 目录</strong>：<strong>mkdir /usr/local/nginx/logs</strong></p>
+<p>（5）之后再次启动nginx服务：<strong>cd /usr/local/nginx/sbin/</strong></p>
+<p>（6）启动成功 </p>
+<blockquote>
+<blockquote>
+<p>在此做个记录，以防以后再次遇到此问题。</p>
+</blockquote>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>Error</tag>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>IDEA中lombok的使用</title>
     <url>/2018/01/10/idea%E4%B8%ADlombok%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>IDEA中lombok插件的使用（可省略get/set方法）</p>
@@ -1024,55 +1048,6 @@
       </tags>
   </entry>
   <entry>
-    <title>启动nginx时报错</title>
-    <url>/2019/06/22/nginx%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/</url>
-    <content><![CDATA[<p>nginx启动报错：nginx: [error] open() “/var/run/nginx/nginx.pid” failed (2: No such file or directory)</p>
-<a id="more"></a>
-
-
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h5 id="解决此错误的方法如下："><a href="#解决此错误的方法如下：" class="headerlink" title="解决此错误的方法如下："></a>解决此错误的方法如下：</h5><p>（1）进入 <strong>cd /usr/local/nginx/conf/</strong> 目录，编辑配置文件<strong>nginx.conf</strong> ；</p>
-<p>（2）在配置文件中有个注释的地方： <strong>#pid     logs/nginx.pid;</strong></p>
-<p>（3）将注释放开，并修改为：<strong>pid   /usr/local/nginx/logs/nginx.pid;</strong></p>
-<p>（4）在 <strong>/usr/local/nginx</strong> 目录下创建 <strong>logs 目录</strong>：<strong>mkdir /usr/local/nginx/logs</strong></p>
-<p>（5）之后再次启动nginx服务：<strong>cd /usr/local/nginx/sbin/</strong></p>
-<p>（6）启动成功 </p>
-<blockquote>
-<blockquote>
-<p>在此做个记录，以防以后再次遇到此问题。</p>
-</blockquote>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>Error</tag>
-        <tag>nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>npm笔记</title>
-    <url>/2020/06/06/npm%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p>npm的使用及相关命令</p>
-<a id="more"></a>
-
-
-
-<h4 id="npm的使用"><a href="#npm的使用" class="headerlink" title="npm的使用"></a>npm的使用</h4><hr>
-<h5 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">建立一个空文件夹，在命令提示符进入该文件夹  执行命令初始化</span></span><br><span class="line">npm init</span><br><span class="line"><span class="meta">#</span><span class="bash">按照提示输入相关信息，如果是用默认值则直接回车即可。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">name: 项目名称</span></span><br><span class="line"><span class="meta">#</span><span class="bash">version: 项目版本号</span></span><br><span class="line"><span class="meta">#</span><span class="bash">description: 项目描述</span></span><br><span class="line"><span class="meta">#</span><span class="bash">keywords: &#123;Array&#125;关键词，便于用户搜索到我们的项目</span></span><br><span class="line"><span class="meta">#</span><span class="bash">最后会生成package.json文件，这个是包的配置文件，相当于maven的pom.xml</span></span><br><span class="line"><span class="meta">#</span><span class="bash">我们之后也可以根据需要进行修改。</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">如果想直接生成 package.json 文件，那么可以使用命令</span></span><br><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
-
-<h5 id="修改镜像"><a href="#修改镜像" class="headerlink" title="修改镜像"></a>修改镜像</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">经过下面的配置，以后所有的 npm install 都会经过淘宝的镜像地址下载</span></span><br><span class="line">npm config set registry https://registry.npm.taobao.org </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看npm配置信息</span></span><br><span class="line">npm config list</span><br></pre></td></tr></table></figure>
-
-<h5 id="npm-install-命令的使用"><a href="#npm-install-命令的使用" class="headerlink" title="npm install 命令的使用"></a>npm install 命令的使用</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">使用 npm install 安装依赖包的最新版，</span></span><br><span class="line"><span class="meta">#</span><span class="bash">模块安装的位置：项目目录\node_modules</span></span><br><span class="line"><span class="meta">#</span><span class="bash">安装会自动在项目目录下添加 package-lock.json文件，这个文件帮助锁定安装包的版本</span></span><br><span class="line"><span class="meta">#</span><span class="bash">同时package.json 文件中，依赖包会被添加到dependencies节点下，类似maven中的 &lt;dependencies&gt;</span></span><br><span class="line">npm install jquery</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">npm管理的项目在备份和传输的时候一般不携带node_modules文件夹</span></span><br><span class="line">npm install #根据package.json中的配置下载依赖，初始化项目</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">如果安装时想指定特定的版本</span></span><br><span class="line">npm install jquery@2.1.x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">devDependencies节点：开发时的依赖包，项目打包到生产环境的时候不包含的依赖</span></span><br><span class="line"><span class="meta">#</span><span class="bash">使用 -D参数将依赖添加到devDependencies节点</span></span><br><span class="line">npm install --save-dev eslint</span><br><span class="line"><span class="meta">#</span><span class="bash">或</span></span><br><span class="line">npm install -D eslint</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">全局安装</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Node.js全局安装的npm包和工具的位置：用户目录\AppData\Roaming\npm\node_modules</span></span><br><span class="line"><span class="meta">#</span><span class="bash">一些命令行工具常使用全局安装的方式</span></span><br><span class="line">npm install -g webpack</span><br></pre></td></tr></table></figure>
-
-<h5 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">更新包（更新到最新版本）</span></span><br><span class="line">npm update 包名</span><br><span class="line"><span class="meta">#</span><span class="bash">全局更新</span></span><br><span class="line">npm update -g 包名</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">卸载包</span></span><br><span class="line">npm uninstall 包名</span><br><span class="line"><span class="meta">#</span><span class="bash">全局卸载</span></span><br><span class="line">npm uninstall -g 包名</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>前端</tag>
-        <tag>npm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>thymeleaf添加LEGACYHTML5松校验出错</title>
     <url>/2019/06/22/thymeleaf%E6%B7%BB%E5%8A%A0LEGACYHTML5%E6%9D%BE%E6%A0%A1%E9%AA%8C%E5%87%BA%E9%94%99/</url>
     <content><![CDATA[<p>错误信息：[Cannot perform conversion to XML from legacy HTML:]</p>
@@ -1099,6 +1074,31 @@
         <tag>SpringBoot</tag>
         <tag>Error</tag>
         <tag>thymeleaf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>npm笔记</title>
+    <url>/2020/06/06/npm%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>npm的使用及相关命令</p>
+<a id="more"></a>
+
+
+
+<h4 id="npm的使用"><a href="#npm的使用" class="headerlink" title="npm的使用"></a>npm的使用</h4><hr>
+<h5 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">建立一个空文件夹，在命令提示符进入该文件夹  执行命令初始化</span></span><br><span class="line">npm init</span><br><span class="line"><span class="meta">#</span><span class="bash">按照提示输入相关信息，如果是用默认值则直接回车即可。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">name: 项目名称</span></span><br><span class="line"><span class="meta">#</span><span class="bash">version: 项目版本号</span></span><br><span class="line"><span class="meta">#</span><span class="bash">description: 项目描述</span></span><br><span class="line"><span class="meta">#</span><span class="bash">keywords: &#123;Array&#125;关键词，便于用户搜索到我们的项目</span></span><br><span class="line"><span class="meta">#</span><span class="bash">最后会生成package.json文件，这个是包的配置文件，相当于maven的pom.xml</span></span><br><span class="line"><span class="meta">#</span><span class="bash">我们之后也可以根据需要进行修改。</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">如果想直接生成 package.json 文件，那么可以使用命令</span></span><br><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+
+<h5 id="修改镜像"><a href="#修改镜像" class="headerlink" title="修改镜像"></a>修改镜像</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">经过下面的配置，以后所有的 npm install 都会经过淘宝的镜像地址下载</span></span><br><span class="line">npm config set registry https://registry.npm.taobao.org </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看npm配置信息</span></span><br><span class="line">npm config list</span><br></pre></td></tr></table></figure>
+
+<h5 id="npm-install-命令的使用"><a href="#npm-install-命令的使用" class="headerlink" title="npm install 命令的使用"></a>npm install 命令的使用</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">使用 npm install 安装依赖包的最新版，</span></span><br><span class="line"><span class="meta">#</span><span class="bash">模块安装的位置：项目目录\node_modules</span></span><br><span class="line"><span class="meta">#</span><span class="bash">安装会自动在项目目录下添加 package-lock.json文件，这个文件帮助锁定安装包的版本</span></span><br><span class="line"><span class="meta">#</span><span class="bash">同时package.json 文件中，依赖包会被添加到dependencies节点下，类似maven中的 &lt;dependencies&gt;</span></span><br><span class="line">npm install jquery</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">npm管理的项目在备份和传输的时候一般不携带node_modules文件夹</span></span><br><span class="line">npm install #根据package.json中的配置下载依赖，初始化项目</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">如果安装时想指定特定的版本</span></span><br><span class="line">npm install jquery@2.1.x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">devDependencies节点：开发时的依赖包，项目打包到生产环境的时候不包含的依赖</span></span><br><span class="line"><span class="meta">#</span><span class="bash">使用 -D参数将依赖添加到devDependencies节点</span></span><br><span class="line">npm install --save-dev eslint</span><br><span class="line"><span class="meta">#</span><span class="bash">或</span></span><br><span class="line">npm install -D eslint</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">全局安装</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Node.js全局安装的npm包和工具的位置：用户目录\AppData\Roaming\npm\node_modules</span></span><br><span class="line"><span class="meta">#</span><span class="bash">一些命令行工具常使用全局安装的方式</span></span><br><span class="line">npm install -g webpack</span><br></pre></td></tr></table></figure>
+
+<h5 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">更新包（更新到最新版本）</span></span><br><span class="line">npm update 包名</span><br><span class="line"><span class="meta">#</span><span class="bash">全局更新</span></span><br><span class="line">npm update -g 包名</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">卸载包</span></span><br><span class="line">npm uninstall 包名</span><br><span class="line"><span class="meta">#</span><span class="bash">全局卸载</span></span><br><span class="line">npm uninstall -g 包名</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>前端</tag>
+        <tag>npm</tag>
       </tags>
   </entry>
   <entry>
@@ -1163,6 +1163,30 @@
         <tag>笔记</tag>
         <tag>vagrant</tag>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用IDEA回滚至git指定版本</title>
+    <url>/2021/01/05/%E4%BD%BF%E7%94%A8IDEA%E5%9B%9E%E6%BB%9A%E8%87%B3git%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%AC/</url>
+    <content><![CDATA[<p>使用IDEA回滚至git指定版本操作步骤</p>
+<a id="more"></a>
+
+<hr>
+<h5 id="1、查看git要回退的版本，在要回退的版本上点击右键选择Reset-Current-Branch-to-Here"><a href="#1、查看git要回退的版本，在要回退的版本上点击右键选择Reset-Current-Branch-to-Here" class="headerlink" title="1、查看git要回退的版本，在要回退的版本上点击右键选择Reset Current Branch to Here"></a>1、查看git要回退的版本，在要回退的版本上点击右键选择Reset Current Branch to Here</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80.png"></p>
+<hr>
+<h5 id="2、在弹出的Git-Reset选择框中选择Hard，然后点击Reset"><a href="#2、在弹出的Git-Reset选择框中选择Hard，然后点击Reset" class="headerlink" title="2、在弹出的Git Reset选择框中选择Hard，然后点击Reset"></a>2、在弹出的Git Reset选择框中选择Hard，然后点击Reset</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%801.png"></p>
+<hr>
+<h5 id="3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败"><a href="#3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败" class="headerlink" title="3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败"></a>3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败</h5><hr>
+<h5 id="4、在项目上点击右键，选择Git-gt-gt-Repository-gt-gt-Reset-HEAD"><a href="#4、在项目上点击右键，选择Git-gt-gt-Repository-gt-gt-Reset-HEAD" class="headerlink" title="4、在项目上点击右键，选择Git &gt;&gt;  Repository &gt;&gt; Reset HEAD"></a>4、在项目上点击右键，选择Git &gt;&gt;  Repository &gt;&gt; Reset HEAD</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%802.png"></p>
+<hr>
+<h5 id="5、在弹出的Rest-Head框中填入最新的版本号（注意：此时Reset-Type-要选择Mixed）"><a href="#5、在弹出的Rest-Head框中填入最新的版本号（注意：此时Reset-Type-要选择Mixed）" class="headerlink" title="5、在弹出的Rest Head框中填入最新的版本号（注意：此时Reset Type 要选择Mixed）"></a>5、在弹出的Rest Head框中填入最新的版本号（注意：此时Reset Type 要选择Mixed）</h5><p>​        因为本地已经回退到想要回退的版本代码，此操作是用本地的代码去覆盖远端master上指定版本的代码</p>
+<p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%803.png"></p>
+<hr>
+<h5 id="6、重新push"><a href="#6、重新push" class="headerlink" title="6、重新push"></a>6、重新push</h5><hr>
+]]></content>
+      <tags>
+        <tag>笔记</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1243,52 +1267,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用IDEA回滚至git指定版本</title>
-    <url>/2021/01/05/%E4%BD%BF%E7%94%A8IDEA%E5%9B%9E%E6%BB%9A%E8%87%B3git%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%AC/</url>
-    <content><![CDATA[<p>使用IDEA回滚至git指定版本操作步骤</p>
-<a id="more"></a>
-
-<hr>
-<h5 id="1、查看git要回退的版本，在要回退的版本上点击右键选择Reset-Current-Branch-to-Here"><a href="#1、查看git要回退的版本，在要回退的版本上点击右键选择Reset-Current-Branch-to-Here" class="headerlink" title="1、查看git要回退的版本，在要回退的版本上点击右键选择Reset Current Branch to Here"></a>1、查看git要回退的版本，在要回退的版本上点击右键选择Reset Current Branch to Here</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80.png"></p>
-<hr>
-<h5 id="2、在弹出的Git-Reset选择框中选择Hard，然后点击Reset"><a href="#2、在弹出的Git-Reset选择框中选择Hard，然后点击Reset" class="headerlink" title="2、在弹出的Git Reset选择框中选择Hard，然后点击Reset"></a>2、在弹出的Git Reset选择框中选择Hard，然后点击Reset</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%801.png"></p>
-<hr>
-<h5 id="3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败"><a href="#3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败" class="headerlink" title="3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败"></a>3、此时版本已经回退到指定版本，但此时提交会有冲突，push会失败</h5><hr>
-<h5 id="4、在项目上点击右键，选择Git-gt-gt-Repository-gt-gt-Reset-HEAD"><a href="#4、在项目上点击右键，选择Git-gt-gt-Repository-gt-gt-Reset-HEAD" class="headerlink" title="4、在项目上点击右键，选择Git &gt;&gt;  Repository &gt;&gt; Reset HEAD"></a>4、在项目上点击右键，选择Git &gt;&gt;  Repository &gt;&gt; Reset HEAD</h5><p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%802.png"></p>
-<hr>
-<h5 id="5、在弹出的Rest-Head框中填入最新的版本号（注意：此时Reset-Type-要选择Mixed）"><a href="#5、在弹出的Rest-Head框中填入最新的版本号（注意：此时Reset-Type-要选择Mixed）" class="headerlink" title="5、在弹出的Rest Head框中填入最新的版本号（注意：此时Reset Type 要选择Mixed）"></a>5、在弹出的Rest Head框中填入最新的版本号（注意：此时Reset Type 要选择Mixed）</h5><p>​        因为本地已经回退到想要回退的版本代码，此操作是用本地的代码去覆盖远端master上指定版本的代码</p>
-<p><img src="/images/git/%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%803.png"></p>
-<hr>
-<h5 id="6、重新push"><a href="#6、重新push" class="headerlink" title="6、重新push"></a>6、重新push</h5><hr>
-]]></content>
-      <tags>
-        <tag>笔记</tag>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用Spring的Pageable实现分页查询</title>
-    <url>/2018/04/17/%E4%BD%BF%E7%94%A8Spring%E7%9A%84Pageable%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/</url>
-    <content><![CDATA[<p>使用Spring的Pageable实现分页查询</p>
-<a id="more"></a>
-
-<h5 id="1-导入包："><a href="#1-导入包：" class="headerlink" title="1.导入包："></a>1.导入包：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.data.domain.Pageable;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="2-测试类："><a href="#2-测试类：" class="headerlink" title="2.测试类："></a>2.测试类：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">whenQuerySeccess</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        mockMvc.perform(</span><br><span class="line">                get(<span class="string">&quot;/user&quot;</span>)</span><br><span class="line">                        <span class="comment">//分页查询参数，第三页，每页15个数据，按照年龄倒序排序</span></span><br><span class="line">                        .param(<span class="string">&quot;size&quot;</span>,<span class="string">&quot;15&quot;</span>)</span><br><span class="line">                        .param(<span class="string">&quot;page&quot;</span>,<span class="string">&quot;3&quot;</span>)</span><br><span class="line">                        .param(<span class="string">&quot;sort&quot;</span>,<span class="string">&quot;age,desc&quot;</span>)<span class="comment">//发送get请求，并带请求参数</span></span><br><span class="line"></span><br><span class="line">                .contentType(MediaType.APPLICATION_JSON_UTF8) <span class="comment">//编码格式为json的utf8</span></span><br><span class="line">        ).andExpect(status().isOk())  <span class="comment">//返回的状态码为200 OK</span></span><br><span class="line">                .andExpect(jsonPath(<span class="string">&quot;$.length()&quot;</span>).value(<span class="number">3</span>))  <span class="comment">//判断返回的json长度是否为3</span></span><br><span class="line">                .andReturn().getResponse().getContentAsString();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="3-controller类："><a href="#3-controller类：" class="headerlink" title="3.controller类："></a>3.controller类：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">query</span><span class="params">(Pageable pageable)</span></span>&#123;<span class="comment">//用spring自带的pageable对象来得到分页信息</span></span><br><span class="line"></span><br><span class="line">        System.out.println(pageable.getPageSize());<span class="comment">// 15</span></span><br><span class="line">        System.out.println(pageable.getPageNumber()); <span class="comment">// 3</span></span><br><span class="line">        System.out.println(pageable.getSort());<span class="comment">//age: DESC</span></span><br><span class="line"></span><br><span class="line">        List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            查询操作</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">return</span> users;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="4-还可以传入默认的Pageable属性-使用-PageableDefault注解"><a href="#4-还可以传入默认的Pageable属性-使用-PageableDefault注解" class="headerlink" title="4.还可以传入默认的Pageable属性(使用@PageableDefault注解)"></a>4.还可以传入默认的Pageable属性(使用@PageableDefault注解)</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">query</span><span class="params">(<span class="meta">@PageableDefault(page=2,size=17,sort=&quot;username,asc&quot;)</span>Pageable pageable)</span></span>&#123;<span class="comment">//用spring自带的pageable对象来得到分页信息</span></span><br><span class="line"></span><br><span class="line">        System.out.println(pageable.getPageSize());<span class="comment">// 17</span></span><br><span class="line">        System.out.println(pageable.getPageNumber()); <span class="comment">// 2</span></span><br><span class="line">        System.out.println(pageable.getSort());<span class="comment">// username: DESC</span></span><br><span class="line"></span><br><span class="line">        List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            查询操作</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">return</span> users;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>关于dubbo的介绍和监控中心启动</title>
     <url>/2018/04/14/%E5%85%B3%E4%BA%8Edubbo%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%9B%91%E6%8E%A7%E4%B8%AD%E5%BF%83%E5%90%AF%E5%8A%A8/</url>
     <content><![CDATA[<p>关于dubbo的介绍和监控中心启动</p>
@@ -1313,6 +1291,28 @@
       <tags>
         <tag>笔记</tag>
         <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用Spring的Pageable实现分页查询</title>
+    <url>/2018/04/17/%E4%BD%BF%E7%94%A8Spring%E7%9A%84Pageable%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/</url>
+    <content><![CDATA[<p>使用Spring的Pageable实现分页查询</p>
+<a id="more"></a>
+
+<h5 id="1-导入包："><a href="#1-导入包：" class="headerlink" title="1.导入包："></a>1.导入包：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.data.domain.Pageable;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="2-测试类："><a href="#2-测试类：" class="headerlink" title="2.测试类："></a>2.测试类：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">whenQuerySeccess</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        mockMvc.perform(</span><br><span class="line">                get(<span class="string">&quot;/user&quot;</span>)</span><br><span class="line">                        <span class="comment">//分页查询参数，第三页，每页15个数据，按照年龄倒序排序</span></span><br><span class="line">                        .param(<span class="string">&quot;size&quot;</span>,<span class="string">&quot;15&quot;</span>)</span><br><span class="line">                        .param(<span class="string">&quot;page&quot;</span>,<span class="string">&quot;3&quot;</span>)</span><br><span class="line">                        .param(<span class="string">&quot;sort&quot;</span>,<span class="string">&quot;age,desc&quot;</span>)<span class="comment">//发送get请求，并带请求参数</span></span><br><span class="line"></span><br><span class="line">                .contentType(MediaType.APPLICATION_JSON_UTF8) <span class="comment">//编码格式为json的utf8</span></span><br><span class="line">        ).andExpect(status().isOk())  <span class="comment">//返回的状态码为200 OK</span></span><br><span class="line">                .andExpect(jsonPath(<span class="string">&quot;$.length()&quot;</span>).value(<span class="number">3</span>))  <span class="comment">//判断返回的json长度是否为3</span></span><br><span class="line">                .andReturn().getResponse().getContentAsString();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="3-controller类："><a href="#3-controller类：" class="headerlink" title="3.controller类："></a>3.controller类：</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">query</span><span class="params">(Pageable pageable)</span></span>&#123;<span class="comment">//用spring自带的pageable对象来得到分页信息</span></span><br><span class="line"></span><br><span class="line">        System.out.println(pageable.getPageSize());<span class="comment">// 15</span></span><br><span class="line">        System.out.println(pageable.getPageNumber()); <span class="comment">// 3</span></span><br><span class="line">        System.out.println(pageable.getSort());<span class="comment">//age: DESC</span></span><br><span class="line"></span><br><span class="line">        List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            查询操作</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">return</span> users;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="4-还可以传入默认的Pageable属性-使用-PageableDefault注解"><a href="#4-还可以传入默认的Pageable属性-使用-PageableDefault注解" class="headerlink" title="4.还可以传入默认的Pageable属性(使用@PageableDefault注解)"></a>4.还可以传入默认的Pageable属性(使用@PageableDefault注解)</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">query</span><span class="params">(<span class="meta">@PageableDefault(page=2,size=17,sort=&quot;username,asc&quot;)</span>Pageable pageable)</span></span>&#123;<span class="comment">//用spring自带的pageable对象来得到分页信息</span></span><br><span class="line"></span><br><span class="line">        System.out.println(pageable.getPageSize());<span class="comment">// 17</span></span><br><span class="line">        System.out.println(pageable.getPageNumber()); <span class="comment">// 2</span></span><br><span class="line">        System.out.println(pageable.getSort());<span class="comment">// username: DESC</span></span><br><span class="line"></span><br><span class="line">        List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            查询操作</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">return</span> users;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
@@ -1388,39 +1388,32 @@
       </tags>
   </entry>
   <entry>
-    <title>开发文档</title>
-    <url>/2020/01/17/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h5 id="开发文档链接记录"><a href="#开发文档链接记录" class="headerlink" title="开发文档链接记录"></a>开发文档链接记录</h5><a id="more"></a>
+    <title>解析JSON内容异常(JSONException)</title>
+    <url>/2021/01/12/%E8%A7%A3%E6%9E%90JSON%E5%86%85%E5%AE%B9%E5%BC%82%E5%B8%B8(JSONException)/</url>
+    <content><![CDATA[<p>解析JSON内容异常(JSONException)</p>
+<p>error : {} net.sf.json.JSONException: JSONObject[“aliUserId”] not found.</p>
+<a id="more"></a>
 
-<p>thymeleaf：<a href="https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html">https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html</a></p>
-<p>微信公众号：<a href="https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html">https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html</a></p>
-<p>微信支付：<a href="https://pay.weixin.qq.com/wiki/doc/api/index.html">https://pay.weixin.qq.com/wiki/doc/api/index.html</a></p>
-<p>微信小程序：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/">https://developers.weixin.qq.com/miniprogram/dev/framework/</a></p>
-<p>支付宝APP支付：<a href="https://docs.open.alipay.com/204">https://docs.open.alipay.com/204</a></p>
-<p>支付宝手机网站支付：<a href="https://docs.open.alipay.com/203">https://docs.open.alipay.com/203</a></p>
-<p>支付宝电脑网站支付：<a href="https://docs.open.alipay.com/270">https://docs.open.alipay.com/270</a></p>
+<hr>
+<p>​        原因是请求参数没有这个元素</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">RestResponse data = thirdPartyMemberService.queryMemberCode(requestObject.getInt(<span class="string">&quot;brandId&quot;</span>), requestObject.getString(<span class="string">&quot;phoneNo&quot;</span>), requestObject.getString(<span class="string">&quot;aliUserId&quot;</span>), requestObject.getString(<span class="string">&quot;openId&quot;</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>​        JSON中没有这个key，更没有这个key所对应的值，因此需要加入为空判断，如果没有这个字段对应的key添加key和对应值。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!requestObject.has(<span class="string">&quot;phoneNo&quot;</span>))&#123;</span><br><span class="line">    requestObject.put(<span class="string">&quot;phoneNo&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (!requestObject.has(<span class="string">&quot;aliUserId&quot;</span>))&#123;</span><br><span class="line">    requestObject.put(<span class="string">&quot;aliUserId&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (!requestObject.has(<span class="string">&quot;openId&quot;</span>))&#123;</span><br><span class="line">    requestObject.put(<span class="string">&quot;openId&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">RestResponse data = thirdPartyMemberService.queryMemberCode(requestObject.getInt(<span class="string">&quot;brandId&quot;</span>), requestObject.getString(<span class="string">&quot;phoneNo&quot;</span>), requestObject.getString(<span class="string">&quot;aliUserId&quot;</span>), requestObject.getString(<span class="string">&quot;openId&quot;</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>​        这样请求参数中的非必填项可只填任意项</p>
+<hr>
+<p>全部都填写：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;access_token&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;ciphertext&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;phoneNo&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;openId&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;aliUserId&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;brandId&quot;</span>: </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只填某一项：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;access_token&quot;: &quot;150581bb5d0f4f25986267e52a3e263f&quot;,</span><br><span class="line">    &quot;ciphertext&quot;: &#123;</span><br><span class="line">        &quot;phoneNo&quot;: &quot;&quot;,</span><br><span class="line">        &quot;brandId&quot;: </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <tags>
-        <tag>文档</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网页版工具链接</title>
-    <url>/2020/03/02/%E7%BD%91%E9%A1%B5%E7%89%88%E5%B7%A5%E5%85%B7%E9%93%BE%E6%8E%A5/</url>
-    <content><![CDATA[<h5 id="网页版在线工具链接"><a href="#网页版在线工具链接" class="headerlink" title="网页版在线工具链接"></a>网页版在线工具链接</h5><a id="more"></a>
-
-
-<p>取色器：<a href="http://xiaohudie.net/RGB.html">http://xiaohudie.net/RGB.html</a></p>
-<p>PDF转换器：<a href="https://app.xunjiepdf.com/">https://app.xunjiepdf.com/</a></p>
-<p>git国内镜像：<a href="https://npm.taobao.org/mirrors/git-for-windows/">https://npm.taobao.org/mirrors/git-for-windows/</a></p>
-<p>阿里Icon：<a href="https://www.iconfont.cn/">https://www.iconfont.cn/</a></p>
-<p>网易开源镜像站：<a href="http://mirrors.163.com/">http://mirrors.163.com/</a></p>
-<p>URL在线编码解码工具：<a href="http://www.jsons.cn/urlencode/">http://www.jsons.cn/urlencode/</a></p>
-<p>BootStrap可视化工具：<a href="http://www.ibootstrap.cn/">http://www.ibootstrap.cn/</a></p>
-]]></content>
-      <tags>
-        <tag>备忘录</tag>
-        <tag>工具</tag>
+        <tag>Java</tag>
+        <tag>笔记</tag>
+        <tag>error</tag>
       </tags>
   </entry>
   <entry>
@@ -1461,24 +1454,39 @@
       </tags>
   </entry>
   <entry>
-    <title>解析JSON内容异常(JSONException)</title>
-    <url>/2021/01/12/%E8%A7%A3%E6%9E%90JSON%E5%86%85%E5%AE%B9%E5%BC%82%E5%B8%B8(JSONException)/</url>
-    <content><![CDATA[<p>解析JSON内容异常(JSONException)</p>
-<p>error : {} net.sf.json.JSONException: JSONObject[“aliUserId”] not found.</p>
-<a id="more"></a>
+    <title>网页版工具链接</title>
+    <url>/2020/03/02/%E7%BD%91%E9%A1%B5%E7%89%88%E5%B7%A5%E5%85%B7%E9%93%BE%E6%8E%A5/</url>
+    <content><![CDATA[<h5 id="网页版在线工具链接"><a href="#网页版在线工具链接" class="headerlink" title="网页版在线工具链接"></a>网页版在线工具链接</h5><a id="more"></a>
 
-<hr>
-<p>原因是请求参数没有这个元素</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">RestResponse data = thirdPartyMemberService.queryMemberCode(requestObject.getInt(<span class="string">&quot;brandId&quot;</span>), requestObject.getString(<span class="string">&quot;phoneNo&quot;</span>), requestObject.getString(<span class="string">&quot;aliUserId&quot;</span>), requestObject.getString(<span class="string">&quot;openId&quot;</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>JSON中没有这个key，更没有这个key所对应的值，因此需要加入为空判断，如果没有这个字段对应的key添加key和对应值。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!requestObject.has(<span class="string">&quot;phoneNo&quot;</span>))&#123;</span><br><span class="line">    requestObject.put(<span class="string">&quot;phoneNo&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (!requestObject.has(<span class="string">&quot;aliUserId&quot;</span>))&#123;</span><br><span class="line">    requestObject.put(<span class="string">&quot;aliUserId&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (!requestObject.has(<span class="string">&quot;openId&quot;</span>))&#123;</span><br><span class="line">    requestObject.put(<span class="string">&quot;openId&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">RestResponse data = thirdPartyMemberService.queryMemberCode(requestObject.getInt(<span class="string">&quot;brandId&quot;</span>), requestObject.getString(<span class="string">&quot;phoneNo&quot;</span>), requestObject.getString(<span class="string">&quot;aliUserId&quot;</span>), requestObject.getString(<span class="string">&quot;openId&quot;</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<p>取色器：<a href="http://xiaohudie.net/RGB.html">http://xiaohudie.net/RGB.html</a></p>
+<p>PDF转换器：<a href="https://app.xunjiepdf.com/">https://app.xunjiepdf.com/</a></p>
+<p>git国内镜像：<a href="https://npm.taobao.org/mirrors/git-for-windows/">https://npm.taobao.org/mirrors/git-for-windows/</a></p>
+<p>阿里Icon：<a href="https://www.iconfont.cn/">https://www.iconfont.cn/</a></p>
+<p>网易开源镜像站：<a href="http://mirrors.163.com/">http://mirrors.163.com/</a></p>
+<p>URL在线编码解码工具：<a href="http://www.jsons.cn/urlencode/">http://www.jsons.cn/urlencode/</a></p>
+<p>BootStrap可视化工具：<a href="http://www.ibootstrap.cn/">http://www.ibootstrap.cn/</a></p>
 ]]></content>
       <tags>
-        <tag>Java</tag>
-        <tag>笔记</tag>
-        <tag>error</tag>
+        <tag>备忘录</tag>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开发文档</title>
+    <url>/2020/01/17/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h5 id="开发文档链接记录"><a href="#开发文档链接记录" class="headerlink" title="开发文档链接记录"></a>开发文档链接记录</h5><a id="more"></a>
+
+<p>thymeleaf：<a href="https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html">https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html</a></p>
+<p>微信公众号：<a href="https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html">https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html</a></p>
+<p>微信支付：<a href="https://pay.weixin.qq.com/wiki/doc/api/index.html">https://pay.weixin.qq.com/wiki/doc/api/index.html</a></p>
+<p>微信小程序：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/">https://developers.weixin.qq.com/miniprogram/dev/framework/</a></p>
+<p>支付宝APP支付：<a href="https://docs.open.alipay.com/204">https://docs.open.alipay.com/204</a></p>
+<p>支付宝手机网站支付：<a href="https://docs.open.alipay.com/203">https://docs.open.alipay.com/203</a></p>
+<p>支付宝电脑网站支付：<a href="https://docs.open.alipay.com/270">https://docs.open.alipay.com/270</a></p>
+]]></content>
+      <tags>
+        <tag>文档</tag>
       </tags>
   </entry>
   <entry>
